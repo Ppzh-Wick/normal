@@ -1,0 +1,22 @@
+{
+  "repository": "https://github.com/DavidHDev/react-bits",
+  "ref": "main",
+  "retrieved": "2026-10-20",
+  "files": [
+    {
+      "file": "BorderGlow.jsx",
+      "url": "https://raw.githubusercontent.com/DavidHDev/react-bits/main/src/content/Components/BorderGlow/BorderGlow.jsx",
+      "sha256": "c3b1eec9099cf4c8ddd8ab9d910922b79c12ea1f243b60fa0666a2efa60caf73"
+    },
+    {
+      "file": "BorderGlow.css",
+      "url": "https://raw.githubusercontent.com/DavidHDev/react-bits/main/src/content/Components/BorderGlow/BorderGlow.css",
+      "sha256": "c6b645f1ff163046b55246a6a4f98b47d75868f4879ef445f0a83b5636acc6b4"
+    },
+    {
+      "file": "LICENSE.md",
+      "url": "https://raw.githubusercontent.com/DavidHDev/react-bits/main/LICENSE.md",
+      "sha256": "4bdd1fa59a6b7d5954bc3b213dbc34e455c635a94bbcecf9293553797d0fad02"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "repository": "https://github.com/DavidHDev/react-bits",
+  "ref": "main",
+  "retrieved": "2026-10-20",
+  "files": [
+    {
+      "file": "Grainient.jsx",
+      "url": "https://raw.githubusercontent.com/DavidHDev/react-bits/main/src/content/Backgrounds/Grainient/Grainient.jsx",
+      "sha256": "54e16ec1ea2beae8d50c5774626bc3d113293321095673017aea5a1960555905"
+    },
+    {
+      "file": "Grainient.css",
+      "url": "https://raw.githubusercontent.com/DavidHDev/react-bits/main/src/content/Backgrounds/Grainient/Grainient.css",
+      "sha256": "7d0f38ba834b1473c201a596199fe4a029723f28c27556a93f33edcf8a9b478d"
+    },
+    {
+      "file": "LICENSE.md",
+      "url": "https://raw.githubusercontent.com/DavidHDev/react-bits/main/LICENSE.md",
+      "sha256": "4bdd1fa59a6b7d5954bc3b213dbc34e455c635a94bbcecf9293553797d0fad02"
+    }
+  ]
+}

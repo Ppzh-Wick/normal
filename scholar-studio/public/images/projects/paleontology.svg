@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" role="img" aria-label="古生物与地史研究主题示意图">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#11191f"/><stop offset="1" stop-color="#24343a"/></linearGradient>
+    <radialGradient id="plate"><stop stop-color="#4c605d"/><stop offset="1" stop-color="#142026"/></radialGradient>
+    <pattern id="dots" width="13" height="13" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r=".8" fill="#d8d0b8" opacity=".13"/></pattern>
+  </defs>
+  <rect width="1000" height="650" fill="url(#bg)"/><rect width="1000" height="650" fill="url(#dots)"/>
+  <circle cx="530" cy="330" r="277" fill="url(#plate)" opacity=".9"/>
+  <circle cx="530" cy="330" r="274" fill="none" stroke="#aeb8ab" stroke-opacity=".23"/>
+  <circle cx="530" cy="330" r="239" fill="none" stroke="#aeb8ab" stroke-opacity=".13"/>
+  <path d="M741 329c0-139-99-228-222-228-143 0-250 106-250 238 0 127 98 221 216 221 108 0 186-78 186-181 0-88-65-152-145-152-73 0-126 55-126 121 0 54 39 93 87 93 39 0 65-28 65-60 0-26-18-43-39-43-16 0-28 11-28 25" fill="none" stroke="#d6c5a5" stroke-width="5" stroke-linecap="round" opacity=".94"/>
+  <path d="M738 328c-7 112-98 196-216 196-96 0-174-66-174-161 0-79 61-143 140-143 62 0 108 45 108 102 0 45-36 81-80 81-33 0-56-24-56-51" fill="none" stroke="#bdc9bf" stroke-width="1.7" opacity=".55"/>
+  <g stroke="#c4cfbd" stroke-opacity=".36" stroke-width="1.5">
+    <path d="M735 296 656 291"/><path d="M719 240 637 258"/><path d="M686 193 610 233"/><path d="M646 155 590 213"/><path d="M593 118 562 197"/><path d="M535 104 536 187"/><path d="M478 106 501 191"/><path d="M422 122 470 208"/><path d="M366 153 440 229"/><path d="M324 199 415 256"/><path d="M291 247 402 289"/><path d="M272 305 402 319"/><path d="M278 365 405 350"/><path d="M304 422 421 379"/><path d="M348 474 445 403"/><path d="M403 519 473 425"/><path d="M467 549 507 437"/><path d="M532 555 533 440"/><path d="M595 538 553 433"/><path d="M650 501 572 418"/>
+  </g>
+  <g fill="#e5dec9" font-family="Arial,sans-serif" letter-spacing="3"><text x="58" y="76" font-size="15" opacity=".74">FIELD / 03</text><text x="58" y="105" font-size="12" opacity=".47">PALEONTOLOGY</text><text x="784" y="584" font-size="14" opacity=".54">PLATE III</text></g>
+  <g fill="none" stroke="#c8d3c9" stroke-opacity=".33"><path d="M58 569h140m-140 0v-38"/><path d="M942 86H802m140 0v38"/></g>
+</svg>

@@ -1,0 +1,66 @@
+/* Keep the existing surfaces and layout; only framed controls/cards gain glow. */
+.site-header.border-glow-card { position: fixed; }
+.project-card.border-glow-card { overflow: visible; }
+.project-card.border-glow-card .project-art { border-radius: 31px 31px 0 0; }
+.scholar-name-index .border-glow-card { border-radius: 32px; }
+.closing-statement a.border-glow-card {
+  padding: 10px 16px;
+  border: 1px solid var(--grainient-rule);
+}
+.main-nav.border-glow-card > .border-glow-decoration { display: none; }
+
+/* Keep blur on its own clipped layer, so the new outer glow is not clipped. */
+.grainient-theme .site-header.border-glow-card,
+.grainient-theme .site-header.border-glow-card.is-scrolled {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.header-glass-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  clip-path: inset(0 round var(--border-radius));
+  background: rgb(204 251 241 / 12%);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  pointer-events: none;
+}
+.site-header.is-scrolled > .header-glass-layer {
+  background: rgb(16 22 30 / 72%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
+}
+.grainient-theme .hero-action.border-glow-card,
+.grainient-theme .hero-action.border-glow-card:is(:hover, :focus-within) {
+  clip-path: none;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+.hero-glass-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  clip-path: inset(0 round var(--border-radius));
+  background: linear-gradient(135deg, rgb(255 255 255 / 22%), rgb(255 255 255 / 4%)), rgb(240 253 250 / 12%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  backdrop-filter: blur(18px) saturate(135%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 60%), inset 0 -1px 0 rgb(255 255 255 / 12%);
+  pointer-events: none;
+}
+.hero-action:is(:hover, :focus-within) > .hero-glass-layer {
+  background-color: rgb(240 253 250 / 20%);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .hero-action > .hero-glass-layer { background-color: rgb(240 253 250 / 76%); }
+  .site-header > .header-glass-layer { background: rgb(204 251 241 / 96%); }
+  .site-header.is-scrolled > .header-glass-layer { background: rgb(16 22 30 / 96%); }
+}
+@media (max-width: 750px) {
+  .main-nav.border-glow-card { position: absolute; }
+  .main-nav.is-open.border-glow-card > .border-glow-decoration { display: block; }
+}

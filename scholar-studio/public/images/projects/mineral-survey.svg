@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" role="img" aria-label="矿产地质调查主题示意图">
+  <defs>
+    <linearGradient id="ground" x2="1" y2="1"><stop stop-color="#0c151b"/><stop offset=".52" stop-color="#233037"/><stop offset="1" stop-color="#4c392e"/></linearGradient>
+    <linearGradient id="ridge" x2="0" y2="1"><stop stop-color="#9d8066"/><stop offset="1" stop-color="#312d2b"/></linearGradient>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="#dde1d9" stroke-opacity=".075"/></pattern>
+    <filter id="glow"><feGaussianBlur stdDeviation="22"/></filter>
+  </defs>
+  <rect width="1000" height="650" fill="url(#ground)"/>
+  <rect width="1000" height="650" fill="url(#grid)"/>
+  <path d="M0 370 120 326 240 342 353 272 475 295 600 210 720 235 844 152 1000 198V650H0Z" fill="#2c3738"/>
+  <path d="M0 470 140 414 280 440 402 344 538 365 655 278 781 324 900 247 1000 259V650H0Z" fill="url(#ridge)" opacity=".72"/>
+  <path d="M0 566 155 502 319 516 461 431 594 470 744 374 897 414 1000 340V650H0Z" fill="#171e22" opacity=".92"/>
+  <g fill="none" stroke="#d5b78b" stroke-opacity=".25" stroke-width="1.3">
+    <path d="M-50 330C182 276 220 380 390 276S738 180 1060 136"/><path d="M-60 356C177 296 233 405 413 299S754 201 1060 159"/><path d="M-55 386C191 320 250 430 438 322S780 231 1072 189"/><path d="M-54 415C201 348 266 456 468 349S798 257 1066 214"/><path d="M-46 445C216 374 294 476 491 379S818 282 1061 246"/><path d="M-32 478C225 402 309 506 516 411S843 313 1072 280"/><path d="M-28 515C244 438 329 534 542 448S861 350 1084 318"/><path d="M-24 551C260 470 344 560 563 483S877 388 1082 352"/>
+  </g>
+  <path d="M116 541 730 175" fill="none" stroke="#d4b387" stroke-width="1.3" stroke-dasharray="6 8" opacity=".75"/>
+  <circle cx="715" cy="184" r="66" fill="#d6a373" opacity=".11" filter="url(#glow)"/>
+  <circle cx="715" cy="184" r="38" fill="none" stroke="#e2c39b" stroke-opacity=".55"/>
+  <circle cx="715" cy="184" r="11" fill="#e5c49a"/>
+  <path d="M715 113v35m0 72v35m-70-71h35m70 0h35" stroke="#e5c49a" stroke-opacity=".75"/>
+  <g fill="#e7d8c1" font-family="Arial,sans-serif" letter-spacing="4"><text x="60" y="78" font-size="15" opacity=".7">FIELD / 01</text><text x="60" y="108" font-size="12" opacity=".42">MINERAL EXPLORATION</text></g>
+  <g stroke="#e7d8c1" stroke-opacity=".4"><path d="M60 585h160"/><path d="M60 585v-28"/><path d="M940 585h-160"/><path d="M940 585v-28"/></g>
+</svg>

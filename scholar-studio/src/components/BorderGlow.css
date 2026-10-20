@@ -1,0 +1,106 @@
+/*! React Bits BorderGlow adaptation — see ../../licenses/React-Bits-BorderGlow-LICENSE.md. */
+.border-glow-card {
+  --edge-proximity: 0;
+  --cursor-angle: 45deg;
+  --color-sensitivity: calc(var(--edge-sensitivity) + 20);
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--border-radius);
+}
+.border-glow-card:not([data-preserve-surface]) {
+  border: 1px solid rgb(255 255 255 / 15%);
+  background: var(--card-bg);
+}
+.border-glow-card > .border-glow-decoration {
+  position: absolute;
+  inset: -1px;
+  display: block;
+  border-radius: inherit;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 250ms ease-out;
+}
+.border-glow-ring {
+  z-index: 2;
+  padding: 1.5px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+}
+.border-glow-ring::before,
+.border-glow-tint {
+  background:
+    var(--gradient-one), var(--gradient-two), var(--gradient-three),
+    var(--gradient-four), var(--gradient-five), var(--gradient-six),
+    var(--gradient-seven), var(--gradient-base);
+}
+.border-glow-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  mask-image: conic-gradient(
+    from var(--cursor-angle) at center,
+    #000 calc(var(--cone-spread) * 1%),
+    transparent calc((var(--cone-spread) + 15) * 1%),
+    transparent calc((100 - var(--cone-spread) - 15) * 1%),
+    #000 calc((100 - var(--cone-spread)) * 1%)
+  );
+}
+.border-glow-card > .border-glow-tint {
+  inset: 0;
+  z-index: -1;
+  mask-image:
+    linear-gradient(#000 0 0),
+    radial-gradient(ellipse at 50% 50%, #000 40%, transparent 65%),
+    radial-gradient(ellipse at 66% 66%, #000 5%, transparent 40%),
+    radial-gradient(ellipse at 33% 33%, #000 5%, transparent 40%),
+    radial-gradient(ellipse at 66% 33%, #000 5%, transparent 40%),
+    radial-gradient(ellipse at 33% 66%, #000 5%, transparent 40%),
+    conic-gradient(from var(--cursor-angle) at center, transparent 5%, #000 15%, #000 85%, transparent 95%);
+  mask-composite: subtract, add, add, add, add, add;
+  opacity: calc(var(--fill-opacity) * (var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+  mix-blend-mode: soft-light;
+}
+.border-glow-card > .border-glow-aura {
+  inset: calc(var(--glow-padding) * -1);
+  z-index: 3;
+  mask-image: conic-gradient(from var(--cursor-angle) at center, #000 2.5%, transparent 10%, transparent 90%, #000 97.5%);
+  opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+  mix-blend-mode: plus-lighter;
+}
+.border-glow-aura::before {
+  content: "";
+  position: absolute;
+  inset: var(--glow-padding);
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px var(--glow-color),
+    inset 0 0 1px 0 var(--glow-color-60),
+    inset 0 0 3px 0 var(--glow-color-50),
+    inset 0 0 6px 0 var(--glow-color-40),
+    inset 0 0 15px 0 var(--glow-color-30),
+    inset 0 0 25px 2px var(--glow-color-20),
+    inset 0 0 50px 2px var(--glow-color-10),
+    0 0 1px 0 var(--glow-color-60),
+    0 0 3px 0 var(--glow-color-50),
+    0 0 6px 0 var(--glow-color-40),
+    0 0 15px 0 var(--glow-color-30),
+    0 0 25px 2px var(--glow-color-20),
+    0 0 50px 2px var(--glow-color-10);
+}
+.border-glow-card[data-glow-light] > .border-glow-decoration {
+  mix-blend-mode: normal;
+}
+.border-glow-card:not(:hover):not([data-glow-sweep]):not([data-glow-focus]) > .border-glow-decoration,
+.border-glow-card[data-glow-disabled] > .border-glow-decoration {
+  opacity: 0;
+}
+.border-glow-card[data-glow-focus] > :is(.border-glow-ring, .border-glow-aura) {
+  opacity: 1;
+}
+.border-glow-card[data-glow-disabled] > .border-glow-decoration { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .border-glow-card > .border-glow-decoration { transition: none; }
+}

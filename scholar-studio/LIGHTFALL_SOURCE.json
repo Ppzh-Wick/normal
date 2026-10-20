@@ -1,0 +1,23 @@
+{
+  "repository": "https://github.com/DavidHDev/react-bits",
+  "ref": "main",
+  "retrieved": "2026-10-20",
+  "note": "GitHub commits API rate limited; original source snapshots identified by SHA-256.",
+  "files": [
+    {
+      "file": "Lightfall.jsx",
+      "url": "https://raw.githubusercontent.com/DavidHDev/react-bits/main/src/content/Backgrounds/Lightfall/Lightfall.jsx",
+      "sha256": "f704fc0200dd78d7706714f2e1dc5e3940e7afb7abe755441e5c0e87266f9c23"
+    },
+    {
+      "file": "Lightfall.css",
+      "url": "https://raw.githubusercontent.com/DavidHDev/react-bits/main/src/content/Backgrounds/Lightfall/Lightfall.css",
+      "sha256": "4e8779dce36b9df8a8c510aee8ae7bbb2ef22bda32d004feb47a53c04bd0c928"
+    },
+    {
+      "file": "LICENSE.md",
+      "url": "https://raw.githubusercontent.com/DavidHDev/react-bits/main/LICENSE.md",
+      "sha256": "4bdd1fa59a6b7d5954bc3b213dbc34e455c635a94bbcecf9293553797d0fad02"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" role="img" aria-label="四川大地构造研究主题示意图">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0d1c23"/><stop offset="1" stop-color="#1b3b41"/></linearGradient>
+    <pattern id="paper" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#b6c9c8" stroke-opacity=".06"/></pattern>
+  </defs>
+  <rect width="1000" height="650" fill="url(#bg)"/><rect width="1000" height="650" fill="url(#paper)"/>
+  <path d="M0 492c134-75 201-72 307-180 74-76 136-166 257-152 80 9 91 118 177 112 88-6 152-92 259-72v450H0Z" fill="#14272c"/>
+  <path d="M0 543c142-79 226-87 320-176 88-84 145-157 244-155 81 2 115 113 189 106 82-8 155-84 247-58v390H0Z" fill="#305056" opacity=".75"/>
+  <path d="M0 600c162-91 224-87 331-173 99-80 153-142 251-143 87-1 128 110 201 99 83-13 147-76 217-55v322H0Z" fill="#607b76" opacity=".42"/>
+  <g fill="none" stroke="#b7c7bb" stroke-width="1.5" opacity=".47">
+    <path d="M-67 437c138-65 206-62 314-165S409 76 553 83c108 5 109 127 193 120s171-116 309-93"/>
+    <path d="M-45 461c142-68 213-68 321-174S438 100 552 108c102 7 110 124 193 119s171-110 300-83"/>
+    <path d="M-37 483c142-69 228-69 325-168S451 131 558 134c97 3 106 119 188 119s171-98 304-69"/>
+    <path d="M-25 511c145-75 233-78 335-172s156-176 256-178c95-2 106 115 185 119s171-91 297-61"/>
+    <path d="M-16 539c150-76 240-84 346-176s158-170 252-171c87-1 107 115 181 117s166-86 290-60"/>
+    <path d="M-12 565c154-78 247-87 353-176s159-164 250-165c85-1 106 112 182 112s162-79 275-49"/>
+    <path d="M-14 592c154-78 250-91 360-178s165-159 254-159c84 0 106 111 181 111s158-75 264-42"/>
+  </g>
+  <path d="M225 605 735 85" stroke="#e3c49a" stroke-width="2.1" stroke-dasharray="11 9" opacity=".88"/>
+  <g fill="#e3c49a"><circle cx="327" cy="502" r="5"/><circle cx="504" cy="322" r="5"/><circle cx="671" cy="150" r="5"/></g>
+  <g stroke="#e3c49a" opacity=".7"><circle cx="504" cy="322" r="42" fill="none"/><path d="M504 269v24m0 58v24m-53-53h24m58 0h24"/></g>
+  <g fill="#d6e0d9" font-family="Arial,sans-serif" letter-spacing="3"><text x="58" y="76" font-size="15" opacity=".77">FIELD / 02</text><text x="58" y="105" font-size="12" opacity=".48">TECTONIC STUDY</text><text x="756" y="585" font-size="14" opacity=".64">1:1,000,000</text></g>
+</svg>
