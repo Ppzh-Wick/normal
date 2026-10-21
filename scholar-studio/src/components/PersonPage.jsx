@@ -4,10 +4,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { people, portrait } from '../data/people';
 import { isPlainClick, personHref } from '../utils/personRoutes';
 import './PersonPage.css';
+import useSectionNavigation from '../hooks/useSectionNavigation';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function usePersonMotion(rootRef, enabled) {
+function usePersonMotion(rootRef, enabled, playOpening) {
   useLayoutEffect(() => {
     if (!enabled) return undefined;
     const root = rootRef.current;
@@ -15,18 +16,18 @@ function usePersonMotion(rootRef, enabled) {
     media.add('(prefers-reduced-motion: no-preference)', () => {
       const q = gsap.utils.selector(root);
       const opening = gsap.timeline({ defaults: { ease: 'power4.out' } });
-      opening.from(q('.person-name span'), { yPercent: 115, scaleY: .76, duration: 1.45 }, 0)
-        .from(q('.person-portrait-frame'), { clipPath: 'inset(100% 0 0 0)', y: 28, duration: 1.6 }, .12)
-        .from(q('.person-hero-copy > p, .person-hero-copy > button'), { y: 24, opacity: 0, stagger: .1, duration: 1.1 }, .35)
-        .from(q('.person-hero-foot'), { y: 30, opacity: 0, duration: 1.2 }, .6);
+      if (playOpening) opening.from(q('.person-name span'), { yPercent: 100, duration: 1.15 }, 0)
+        .from(q('.person-portrait-frame'), { y: 24, scale: .97, opacity: 0, duration: 1.2 }, .08)
+        .from(q('.person-hero-copy > p, .person-hero-copy > button'), { y: 24, opacity: 0, stagger: .07, duration: .9 }, .2)
+        .from(q('.person-hero-foot'), { y: 24, opacity: 0, duration: 1 }, .4);
       const skipOpening = () => opening.progress(1);
-      root.addEventListener('pointerdown', skipOpening, true);
+      root.addEventListener('click', skipOpening, true);
       root.addEventListener('keydown', skipOpening, true);
       const reveals = [];
       q('[data-person-reveal]').forEach(section => {
         const targets = section.querySelectorAll('.person-reveal-item');
         const reveal = gsap.from(targets, {
-          y: 64, clipPath: 'inset(100% 0 0 0)', duration: 1.35, stagger: .14, ease: 'power4.out',
+          y: 44, opacity: 0, duration: 1.1, stagger: .1, ease: 'power3.out',
           scrollTrigger: { trigger: section, start: 'top 88%', once: true, onLeave: self => self.animation?.progress(1) },
         });
         reveals.push({ section, reveal });
@@ -36,22 +37,21 @@ function usePersonMotion(rootRef, enabled) {
       });
       root.addEventListener('focusin', showFocused);
       return () => {
-        root.removeEventListener('pointerdown', skipOpening, true);
+        root.removeEventListener('click', skipOpening, true);
         root.removeEventListener('keydown', skipOpening, true);
         root.removeEventListener('focusin', showFocused);
       };
     }, root);
     return () => media.revert();
-  }, [rootRef, enabled]);
+  }, [rootRef, enabled, playOpening]);
 }
 
-export default function PersonPage({ person, onBack, onOpenPerson }) {
+export default function PersonPage({ person, onBack, onOpenPerson, motionEnabled = true, playOpening = true }) {
   const rootRef = useRef(null);
-  usePersonMotion(rootRef, Boolean(person));
+  usePersonMotion(rootRef, Boolean(person) && motionEnabled, playOpening);
+  const scrollToSection = useSectionNavigation(rootRef, motionEnabled);
   const jump = id => {
-    const section = rootRef.current.querySelector(`#${id}`);
-    section?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
-    section?.querySelector('h2')?.focus({ preventScroll: true });
+    scrollToSection(id);
   };
   if (!person) return <main className="person-page person-missing" ref={rootRef}>
     <p>学脉相承 · 人物档案</p><h1 tabIndex={-1}>这份档案暂未收录。</h1>

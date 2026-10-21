@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#180c0f" />
     <script>
+      // Set before the app mounts so browser refresh cannot override our route position.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       // Prioritize the small title subset only when opening the home page.
       if (!location.hash.startsWith('#/people')) {
         const preload = document.createElement('link');

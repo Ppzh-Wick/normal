@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const EASE = 'power4.out';
+const EASE = 'power3.out';
 const CLEAR = 'transform,opacity,clipPath,willChange';
 
 /**
@@ -48,7 +48,7 @@ export default function usePortfolioMotion(rootRef, active = true) {
         const targets = new Set();
         const timeline = gsap.timeline({
           paused: true,
-          defaults: { duration: 1.4, ease: EASE },
+          defaults: { duration: 1.05, ease: EASE },
           onComplete: () => {
             keys.forEach((item) => completed.current.add(item));
             gsap.set([...targets], { clearProps: CLEAR });
@@ -63,7 +63,9 @@ export default function usePortfolioMotion(rootRef, active = true) {
         build(from, timeline);
         const play = () => {
           if (timeline.progress() === 1) return;
-          const lead = after && after.progress() < 1 ? Math.max(0, .52 - after.time()) : 0;
+          // Once a reveal has started, returning from a person keeps it settled.
+          keys.forEach((item) => completed.current.add(item));
+          const lead = after && after.progress() < 1 ? Math.max(0, .32 - after.time()) : 0;
           timeline.delay(lead).play();
         };
         const finish = () => timeline.progress(1);
@@ -85,10 +87,12 @@ export default function usePortfolioMotion(rootRef, active = true) {
       const hero = q('.hero')[0];
       const openingAllowed = !completed.current.has('opening')
         && (!location.hash || location.hash === '#home')
-        && window.scrollY < hero.offsetHeight * .35;
+        && hero && window.scrollY < hero.offsetHeight * .35;
       const curtain = q('.hero-opening')[0];
 
       if (openingAllowed) {
+        // Do not replay an interrupted opening on a route return or breakpoint change.
+        completed.current.add('opening');
         root.dataset.opening = 'playing';
         gsap.set(curtain, { display: 'block' });
         let opening;
@@ -114,20 +118,21 @@ export default function usePortfolioMotion(rootRef, active = true) {
           },
         });
         opening
-          .from(q('.opening-rule'), { scaleX: 0, duration: .85, ease: 'power3.inOut' }, 0)
-          .from(q('.opening-signature span'), { yPercent: 110, duration: .8 }, 0)
-          .to(q('.opening-signature span'), { yPercent: -115, duration: .65, ease: 'power3.in' }, .65)
-          .to(q('.opening-rule'), { opacity: 0, duration: .5 }, .75)
-          .to(q('.opening-panel--top'), { yPercent: -101, duration: 1.4, ease: 'power4.inOut' }, .45)
-          .to(q('.opening-panel--bottom'), { yPercent: 101, duration: 1.4, ease: 'power4.inOut' }, .45)
-          .from(q('.hero-silk-visual'), { scale: 1.06, duration: 2.4 }, .45)
-          .from(q('.site-header'), { yPercent: -110, duration: 1.2 }, .95)
+          .addLabel('unveil', .24)
+          .from(q('.opening-rule'), { scaleX: 0, duration: .55, ease: 'power2.inOut' }, 0)
+          .from(q('.opening-signature span'), { yPercent: 105, duration: .5 }, 0)
+          .to(q('.opening-signature span'), { yPercent: -105, duration: .45, ease: 'power2.in' }, .45)
+          .to(q('.opening-rule'), { opacity: 0, duration: .35 }, .5)
+          .to(q('.opening-panel--top'), { yPercent: -101, duration: 1.15, ease: 'power3.inOut' }, 'unveil')
+          .to(q('.opening-panel--bottom'), { yPercent: 101, duration: 1.15, ease: 'power3.inOut' }, 'unveil')
+          .from(q('.hero-silk-visual'), { scale: 1.025, duration: 1.75 }, 'unveil')
+          .from(q('.site-header'), { y: -24, opacity: 0, duration: .75 }, .68)
           .from(q('.hero-title-word'), {
-            yPercent: 115, scaleY: .82, duration: 1.6, stagger: .12,
-          }, 1.05)
-          .from(q('.hero-eyebrow'), { y: 24, clipPath: 'inset(0 0 100% 0)', duration: 1.2 }, 1.1)
-          .from(q('.hero-description'), { y: 25, opacity: 0, duration: 1.2 }, 1.5)
-          .from(q('.hero-action-entry'), { y: 35, opacity: 0, duration: 1.4 }, 1.6);
+            yPercent: 108, scaleY: .96, duration: 1.15, stagger: .06,
+          }, .72)
+          .from(q('.hero-eyebrow'), { y: 16, opacity: 0, duration: .8 }, .8)
+          .from(q('.hero-description'), { y: 18, opacity: 0, duration: .9 }, 1.02)
+          .from(q('.hero-action-entry'), { y: 20, opacity: 0, duration: .85 }, 1.12);
         window.addEventListener('wheel', skip, { passive: true });
         window.addEventListener('touchmove', skip, { passive: true });
         // Complete after a pointer click has been dispatched. Moving a target
@@ -144,27 +149,27 @@ export default function usePortfolioMotion(rootRef, active = true) {
       q('section > .page-container > .section-heading').forEach((heading) => {
         const id = heading.closest('section').id;
         headings.set(id, entrance(`${id}-title`, heading, (from) => {
-          from(heading.querySelector('.section-heading-rule'), { scaleX: 0, duration: 1.6 }, 0);
-          from(heading.querySelectorAll('.motion-char'), {
-            yPercent: 130, x: desktop ? 55 : 22, rotation: 5, skewY: 7, scaleY: .62,
-            duration: 1.55, stagger: .075,
-          }, .05);
-          from(heading.querySelector('.section-kicker'), { x: -34, clipPath: 'inset(0 100% 0 0)', duration: 1.35 }, .18);
-          from(heading.querySelector('.section-heading-main > p'), { y: 45, clipPath: 'inset(0 0 100% 0)', duration: 1.35 }, .4);
+          // The h2 is a stationary mask; the complete line moves as one piece.
+          from(heading.querySelector('.motion-title-mask'), {
+            yPercent: 106, scaleY: .97, duration: 1.12,
+          }, 0);
+          from(heading.querySelector('.section-heading-rule'), { scaleX: 0, duration: .9 }, .05);
+          from(heading.querySelector('.section-kicker'), { y: 14, opacity: 0, duration: .75 }, .12);
+          from(heading.querySelector('.section-heading-main > p'), { y: 22, opacity: 0, duration: .85 }, .24);
         }));
       });
 
       entrance('people-stage', q('.people-explorer')[0], (from) => {
-        from(q('.people-toolbar'), { y: 32, opacity: 0, duration: 1.1 }, 0);
+        from(q('.people-toolbar'), { y: 18, opacity: 0, duration: .8 }, 0);
         from(q('.people-wall-entry'), {
-          y: desktop ? 90 : 40, clipPath: 'inset(32% 0 32% 0)',
-          duration: 1.8, ease: 'power3.inOut',
+          y: desktop ? 36 : 22, scale: .985, opacity: 0,
+          duration: 1.25, ease: EASE,
         }, .15);
-        from(q('.people-wall-caption'), { y: 26, opacity: 0, duration: 1.2 }, .8);
+        from(q('.people-wall-caption'), { y: 16, opacity: 0, duration: .8 }, .42);
       }, headings.get('scholars'));
 
       entrance('people-index', q('.people-directory')[0], (from) => {
-        from(q('.people-directory > a'), { y: 30, opacity: 0, stagger: .045, duration: 1 }, 0);
+        from(q('.people-directory > a'), { y: 16, opacity: 0, stagger: .025, duration: .7 }, 0);
       });
 
       const cardGroups = [
@@ -177,26 +182,35 @@ export default function usePortfolioMotion(rootRef, active = true) {
         const rows = desktop ? [remaining] : remaining.map((card) => [card]);
         rows.filter((row) => row.length).forEach((row) => entrance(row.map((card) => `${id}-card-${cards.indexOf(card)}`), desktop ? q(gridSelector)[0] : row[0], (from) => {
           from(row, {
-            y: desktop ? 120 : 65, rotation: desktop ? 2.5 : 1, scale: .94,
-            clipPath: 'inset(100% 0% 0% 0% round 32px)',
-            duration: 1.65, stagger: .2,
+            y: desktop ? 42 : 26, scale: .975, opacity: 0,
+            duration: 1.1, stagger: .09,
           }, 0);
           const pictures = row.flatMap((card) => [...card.querySelectorAll('.project-image-reveal')]);
-          if (pictures.length) from(pictures, { scale: 1.2, duration: 2, stagger: .2 }, .12);
+          if (pictures.length) from(pictures, { scale: 1.065, duration: 1.35, stagger: .09 }, .04);
         }, headings.get(id)));
       });
 
       entrance('closing', q('.closing-statement')[0], (from) => {
-        from(q('.closing-line'), { yPercent: 115, x: 40, skewY: 5, scaleY: .72, duration: 1.6, stagger: .16 }, 0);
-        from(q('.closing-statement > span, .closing-statement > a'), { y: 30, opacity: 0, duration: 1.2, stagger: .25 }, .5);
+        from(q('.closing-line'), { yPercent: 105, duration: 1.1, stagger: .1 }, 0);
+        from(q('.closing-statement > span, .closing-statement > a'), { y: 16, opacity: 0, duration: .8, stagger: .12 }, .26);
       });
+
+      // Parent copy retreat is independent of the opening's child transforms.
+      // Native scrolling remains untouched; no pin, snap or wheel interception.
+      if (desktop && hero) {
+        const heroCopy = q('.hero-copy')[0];
+        if (heroCopy) gsap.fromTo(heroCopy, { y: 0, scale: 1, opacity: 1 }, {
+          y: -36, scale: .985, opacity: .68, ease: 'none',
+          scrollTrigger: { trigger: hero, start: 'top top-=56', end: 'bottom 28%', scrub: .55 },
+        });
+      }
 
       // Image wrappers scrub independently; leave the photo wall's camera and tiles alone.
       if (desktop) {
         q('.project-art').forEach((art) => {
-          gsap.fromTo(art.querySelector('.project-image-parallax'), { yPercent: -5 }, {
-            yPercent: 5, ease: 'none',
-            scrollTrigger: { trigger: art, start: 'top bottom', end: 'bottom top', scrub: 1.2 },
+          gsap.fromTo(art.querySelector('.project-image-parallax'), { yPercent: -2.5 }, {
+            yPercent: 2.5, ease: 'none',
+            scrollTrigger: { trigger: art, start: 'top bottom', end: 'bottom top', scrub: .65 },
           });
         });
       }

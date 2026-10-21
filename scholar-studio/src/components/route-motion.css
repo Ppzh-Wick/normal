@@ -1,0 +1,15 @@
+.route-stage { min-height: 100svh; background: #171114; overflow-x: clip; overflow-anchor: none; }
+.route-view { position: relative; min-width: 0; }
+.route-flow { display: flow-root; }
+.route-view--frozen {
+  position: fixed;
+  inset: 0;
+  overflow: clip;
+  contain: paint;
+  background: #171114;
+  will-change: transform, opacity;
+}
+.route-view[data-route-level="under"] { z-index: 300; }
+.route-view[data-route-level="over"] { z-index: 301; }
+.route-view[data-route-outgoing="true"] { pointer-events: none; }
+html { scrollbar-gutter: stable; }

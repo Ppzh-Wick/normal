@@ -10,6 +10,7 @@ import './grainient-theme.css';
 import './border-glow-theme.css';
 import './motion.css';
 import usePortfolioMotion from './hooks/usePortfolioMotion';
+import useSectionNavigation from './hooks/useSectionNavigation';
 import ScholarSite from './components/ScholarSite';
 import './hero-silk.css';
 import './research-theme.css';
@@ -129,6 +130,7 @@ function SectionHeading({ number, eyebrow, title, id, description }) {
 function App({ active = true, onOpenPerson, initialGallery }) {
   const siteRef = useRef(null);
   usePortfolioMotion(siteRef, active);
+  useSectionNavigation(siteRef, active);
   const peopleRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
