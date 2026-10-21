@@ -155,17 +155,17 @@ export default function usePortfolioMotion(rootRef) {
         }));
       });
 
-      entrance('scholar-stage', q('.scholar-showcase')[0], (from) => {
-        from(q('.scholar-feature-entry'), { y: 45, clipPath: 'inset(0 100% 0 0)', duration: 1.5 }, 0);
-        from(q('.scholar-carousel-stage'), {
-          y: desktop ? 105 : 55, scale: .9, clipPath: 'inset(0 42% 0 42%)',
-          duration: 1.9, ease: 'power3.inOut',
-        }, .2);
-        from(q('.scholar-carousel-controls'), { y: 26, opacity: 0, duration: 1.2 }, .85);
+      entrance('people-stage', q('.people-explorer')[0], (from) => {
+        from(q('.people-toolbar'), { y: 32, opacity: 0, duration: 1.1 }, 0);
+        from(q('.people-wall-entry'), {
+          y: desktop ? 90 : 40, clipPath: 'inset(32% 0 32% 0)',
+          duration: 1.8, ease: 'power3.inOut',
+        }, .15);
+        from(q('.people-wall-caption'), { y: 26, opacity: 0, duration: 1.2 }, .8);
       }, headings.get('scholars'));
 
-      entrance('scholar-index', q('.scholar-name-index')[0], (from) => {
-        from(q('.scholar-name-index > button'), { y: 36, scaleY: .7, opacity: 0, stagger: .065, duration: 1.15 }, 0);
+      entrance('people-index', q('.people-directory')[0], (from) => {
+        from(q('.people-directory > button'), { y: 30, opacity: 0, stagger: .045, duration: 1 }, 0);
       });
 
       entrance('scholar-archive', q('.scholar-archive')[0], (from) => {
@@ -202,7 +202,7 @@ export default function usePortfolioMotion(rootRef) {
         from(q('.closing-statement > span, .closing-statement > a'), { y: 30, opacity: 0, duration: 1.2, stagger: .25 }, .5);
       });
 
-      // Image wrappers scrub independently; leave the carousel's camera and tiles alone.
+      // Image wrappers scrub independently; leave the photo wall's camera and tiles alone.
       if (desktop) {
         gsap.fromTo(q('.hero-image-parallax'), { yPercent: -3 }, {
           yPercent: 9, ease: 'none',
@@ -230,6 +230,23 @@ export default function usePortfolioMotion(rootRef) {
       };
     }, root);
 
+    // A selected biography or an expanded life story can change section height.
+    // Refresh only after that layout change, never from a scroll or animation tick.
+    let refreshFrame = 0;
+    const measuredHeights = new Map();
+    const profileObserver = new ResizeObserver(entries => {
+      let changed = false;
+      entries.forEach(entry => {
+        const height = Math.round(entry.contentRect.height);
+        if (measuredHeights.has(entry.target) && height !== measuredHeights.get(entry.target)) changed = true;
+        measuredHeights.set(entry.target, height);
+      });
+      if (!changed) return;
+      cancelAnimationFrame(refreshFrame);
+      refreshFrame = requestAnimationFrame(() => { if (!disposed) ScrollTrigger.refresh(); });
+    });
+    root.querySelectorAll('.scholar-archive, .people-explorer').forEach(element => profileObserver.observe(element));
+
     // System fonts are already available here. Only repeat the expensive
     // layout measurement if fonts really are still loading.
     if (document.fonts?.status === 'loading') {
@@ -237,6 +254,8 @@ export default function usePortfolioMotion(rootRef) {
     }
     return () => {
       disposed = true;
+      profileObserver.disconnect();
+      cancelAnimationFrame(refreshFrame);
       media.revert();
       delete root.dataset.opening;
     };

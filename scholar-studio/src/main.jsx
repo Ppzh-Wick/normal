@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { scholars } from './data/scholars';
 import './styles.css';
 import './hero.css';
-import CircularCarousel from './components/CircularCarousel';
+import PeopleExplorer from './components/PeopleExplorer';
 import DeferredBackground from './components/DeferredBackground';
 import BorderGlow from './components/BorderGlow';
 import './scholar-carousel.css';
@@ -27,13 +26,6 @@ const borderGlow = {
   preserveSurface: true,
   fillOpacity: 0.12,
 };
-
-const carouselItems = scholars.map((scholar) => ({
-  src: asset(`images/portraits/${scholar.id}.jpg`),
-  title: scholar.name,
-  subtitle: scholar.field,
-  alt: `${scholar.name}的历史肖像`,
-}));
 
 const projects = [
   {
@@ -124,17 +116,24 @@ function SectionHeading({ number, eyebrow, title, id, description }) {
 function App() {
   const siteRef = useRef(null);
   usePortfolioMotion(siteRef);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const carouselRef = useRef(null);
-  const [autoRotate, setAutoRotate] = useState(false);
+  const peopleRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [grainientVisible, setGrainientVisible] = useState(true);
-  const activeScholar = scholars[activeIndex];
+
+  useEffect(() => {
+    // React mounts after the browser's initial anchor lookup.
+    const id = location.hash.slice(1);
+    if (!['home', 'scholars', 'projects', 'strengths', 'scholar-profile'].includes(id)) return undefined;
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   useEffect(() => {
     // One shared backdrop for the light sections; stop it when the scholar
-    // section covers the viewport so only Lightfall needs to keep rendering.
+    // section covers the viewport so only the photo wall needs to keep moving.
     const visibility = new Map();
     const sections = document.querySelectorAll('#home, #projects, #strengths, .site-footer');
     const observer = new IntersectionObserver((entries) => {
@@ -178,17 +177,7 @@ function App() {
     };
   }, []);
 
-  const chooseScholar = (index, scroll = false) => {
-    setAutoRotate(false);
-    setActiveIndex(index);
-    carouselRef.current?.focusIndex(index);
-    if (scroll) document.getElementById('scholars')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const openProjectScholar = (id) => {
-    const index = scholars.findIndex((item) => item.id === id);
-    if (index >= 0) chooseScholar(index, true);
-  };
+  const openProjectScholar = id => peopleRef.current?.openProfile(id);
 
   return (
     <div className="site-shell grainient-theme" ref={siteRef}>
@@ -213,7 +202,7 @@ function App() {
           </a>
           <BorderGlow {...borderGlow} as="nav" disabled={!menuOpen} lightSurface={!scrolled} id="main-nav" className={`main-nav ${menuOpen ? 'is-open' : ''}`} aria-label="主导航">
             <a href="#home" onClick={() => setMenuOpen(false)}>首页</a>
-            <a href="#scholars" onClick={() => setMenuOpen(false)}>八大学者</a>
+            <a href="#scholars" onClick={() => setMenuOpen(false)}>人物长廊</a>
             <a href="#projects" onClick={() => setMenuOpen(false)}>精选项目</a>
             <a href="#strengths" onClick={() => setMenuOpen(false)}>学者优势</a>
           </BorderGlow>
@@ -258,7 +247,7 @@ function App() {
             </figure>
             <div className="hero-bottom">
               <div className="hero-copy">
-                <p className="hero-eyebrow">成都理工大学 · 八大学者</p>
+                <p className="hero-eyebrow">成都理工大学 · 八大学者与五大奠基人</p>
                 <h1 id="hero-title" aria-label="探索，从未止步。">
                   <span className="hero-title-mask" aria-hidden="true"><span className="hero-title-word">探索，</span></span>
                   <span className="hero-title-mask" aria-hidden="true"><span className="hero-title-word">从未止步。</span></span>
@@ -267,7 +256,7 @@ function App() {
               <div className="hero-action-entry">
               <BorderGlow {...borderGlow} lightSurface className="hero-action">
                 <span className="hero-glass-layer" aria-hidden="true" />
-                <p>八位学者，一所大学的起点。<span>走近他们的研究与人生。</span></p>
+                <p>十三位先贤，留下不息的学脉。<span>走近他们的研究与人生。</span></p>
                 <BorderGlow {...borderGlow} as="a" className="hero-cta" href="#scholars">开始探索</BorderGlow>
               </BorderGlow>
               </div>
@@ -275,114 +264,10 @@ function App() {
           </div>
         </section>
 
-        <section className="scholars-section section-pad" id="scholars" aria-labelledby="scholars-title" data-grainient-ignore>
-          <div className="scholars-ambient" aria-hidden="true">
-            <DeferredBackground
-              variant="lightfall"
-              colors={['#3b82f6']}
-              backgroundColor="#94a3b8"
-              speed={0.4}
-              streakCount={2}
-              streakWidth={0.7}
-              twinkle={0.25}
-              backgroundGlow={0.12}
-              headGlow={0.6}
-              bloom={0.55}
-              mouseInteraction
-              holdToWarp
-              intro
-              streakLength={1.2}
-              density={0.7}
-              zoom={2.9}
-              mouseRadius={0.55}
-              dpr={1}
-            />
-          </div>
+        <section className="scholars-section people-section section-pad" id="scholars" aria-labelledby="scholars-title" data-grainient-ignore>
           <div className="page-container">
-            <SectionHeading number="01 / 04" eyebrow="PEOPLE &amp; LEGACY" id="scholars-title" title="八大学者." description="从第一代讲台到今日的学术版图，他们的名字与学校的起点相连。转动人物长廊，走近八位学者的研究与人生。" />
-            <div className="scholar-showcase">
-              <div className="scholar-feature-entry">
-              <div className="scholar-feature" key={activeScholar.id}>
-                <div className="scholar-feature-identity">
-                  <div className="scholar-feature-kicker"><span>建校初期八大教授</span><span>{String(activeIndex + 1).padStart(2, '0')} / 08</span></div>
-                  <div className="scholar-feature-title">
-                    <h3>{activeScholar.name}</h3>
-                    <p className="scholar-feature-years">{activeScholar.years || '生卒年待核实'}</p>
-                  </div>
-                  <p className="scholar-feature-roman">{activeScholar.roman}</p>
-                </div>
-                <div className="scholar-feature-intro">
-                  <p className="scholar-feature-tagline">{activeScholar.tagline}</p>
-                  <p className="scholar-feature-field">{activeScholar.field}</p>
-                </div>
-                <BorderGlow {...borderGlow} as="a" className="scholar-read-link" href="#scholar-profile" onClick={() => setAutoRotate(false)}>阅读人物档案 <ArrowIcon diagonal /></BorderGlow>
-              </div>
-              </div>
-              <div className="scholar-carousel-column">
-                <div className="scholar-carousel-stage" data-lightfall-ignore onPointerDownCapture={() => setAutoRotate(false)} onKeyDownCapture={() => setAutoRotate(false)}>
-                  <CircularCarousel
-                    ref={carouselRef}
-                    items={carouselItems}
-                    preset="cylinder"
-                    intro="none"
-                    cardWidth={460}
-                    aspectRatio={1.2}
-                    gap={40}
-                    curve={1}
-                    tilt={-3}
-                    perspective={12000}
-                    autoplay={autoRotate ? 'drift' : 'off'}
-                    pauseOnHover={false}
-                    speed={8}
-                    momentum={0.35}
-                    parallax={0.18}
-                    stretch={0.18}
-                    fadeColor="#0b1219"
-                    depthFade={0.65}
-                    innerShade={0.4}
-                    cornerRadius={8}
-                    onChange={setActiveIndex}
-                  />
-                </div>
-                <div className="scholar-carousel-controls">
-                  <p id="scholar-carousel-help">拖动旋转 · 点击肖像聚焦<span>键盘 ← → 切换人物</span></p>
-                  <div className="scholar-carousel-actions">
-                    <BorderGlow {...borderGlow} as="button" className="rotation-toggle" type="button" aria-pressed={autoRotate} onClick={() => setAutoRotate((value) => !value)}>{autoRotate ? '暂停旋转' : '自动旋转'}</BorderGlow>
-                    <BorderGlow {...borderGlow} as="button" className="carousel-arrow" type="button" aria-label="上一位学者" onClick={() => { setAutoRotate(false); carouselRef.current?.stepBy(-1); }}><span aria-hidden="true">←</span></BorderGlow>
-                    <BorderGlow {...borderGlow} as="button" className="carousel-arrow" type="button" aria-label="下一位学者" onClick={() => { setAutoRotate(false); carouselRef.current?.stepBy(1); }}><span aria-hidden="true">→</span></BorderGlow>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="scholar-name-index" role="group" aria-label="按姓名选择学者">
-              {scholars.map((scholar, index) => (
-                <BorderGlow {...borderGlow} as="button" type="button" key={scholar.id} className={activeIndex === index ? 'is-active' : ''} aria-pressed={activeIndex === index} aria-controls="scholar-profile" onClick={() => chooseScholar(index)}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>{scholar.name}
-                </BorderGlow>
-              ))}
-            </div>
-            <article className="scholar-archive" id="scholar-profile" aria-labelledby="scholar-profile-title" onFocusCapture={() => setAutoRotate(false)}>
-              <div className="scholar-archive-intro">
-                <div className="archive-kicker">人物档案 / {String(activeIndex + 1).padStart(2, '0')}</div>
-                <div className="archive-title-mask"><h3 id="scholar-profile-title">{activeScholar.name}<span>的研究与人生</span></h3></div>
-                <p className="archive-summary">{activeScholar.summary}</p>
-                <dl className="archive-data">
-                  <div><dt>研究领域</dt><dd>{activeScholar.field}</dd></div>
-                  <div><dt>代表工作</dt><dd>{activeScholar.highlights[0].title}</dd></div>
-                  <div><dt>本页史料</dt><dd>{String(activeScholar.sources.length).padStart(2, '0')} 条来源</dd></div>
-                </dl>
-                <a className="archive-source" href={activeScholar.sources[0].url} target="_blank" rel="noreferrer noopener">查看原始史料 <ArrowIcon diagonal /></a>
-              </div>
-              <div className="scholar-archive-achievements">
-                <div className="archive-achievements-heading"><h4>过往成就</h4><span>SELECTED CONTRIBUTIONS</span></div>
-                {activeScholar.contributions.map((item, index) => (
-                  <div className="archive-achievement" key={item.title}>
-                    <span>{String(index + 1).padStart(2, '0')}</span>
-                    <div><h5>{item.title}</h5><p>{item.text}</p></div>
-                  </div>
-                ))}
-              </div>
-            </article>
+            <SectionHeading number="01 / 04" eyebrow="PEOPLE &amp; LEGACY" id="scholars-title" title="学脉，从这里延伸." description="八大学者与五大奠基人。他们留下的学问、学科与育人精神，至今仍在这所大学生长。" />
+            <PeopleExplorer ref={peopleRef} />
           </div>
         </section>
 
@@ -428,7 +313,7 @@ function App() {
 
       <footer className="site-footer">
         <div className="page-container footer-inner">
-          <div><strong>学脉相承</strong><span>成都理工大学建校初期八大教授人物专题 · 设计原型</span></div>
+          <div><strong>学脉相承</strong><span>成都理工大学八大学者与五大奠基人人物专题 · 设计原型</span></div>
           <p>人物内容依据学校官方宣传册及公开人物史料整理；项目图像为专题示意，不代表历史现场。本页为设计展示原型，非学校官方发布网站。<br />首屏摄影：<a href="https://unsplash.com/photos/icebergs-floating-in-a-glacial-lagoon-with-mountains-behind-9v9uIJKEhDY" target="_blank" rel="noreferrer">Danny Rienecker / Unsplash</a>，冰岛冰川景观。</p>
           <span>© 2026 SCHOLAR ARCHIVE</span>
         </div>

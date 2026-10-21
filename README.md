@@ -1,6 +1,6 @@
 # 学脉相承
 
-成都理工大学八大学者人物专题，React + Vite 工程。
+成都理工大学八大学者与五大奠基人人物专题，React + Vite 工程。
 
 - 公开访问地址：https://ppzh-wick.github.io/normal/
 - `scholar-studio/`：开发源码、原始资产、测试与维护文档。

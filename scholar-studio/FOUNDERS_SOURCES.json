@@ -1,0 +1,104 @@
+{
+  "verifiedDate": "2026-10-21",
+  "groupLabel": "建校初期五大学科奠基人",
+  "membershipSource": "inputs/成都理工大学-官方宣传册.pdf",
+  "physicalPage": 9,
+  "printedPages": "09-10",
+  "verification": "Visually checked all five named portraits against the complete brochure spread; official webpage captions checked for downloaded alternative portraits.",
+  "portraits": [
+    {
+      "id": "liu-baojun",
+      "name": "刘宝珺",
+      "input": "liu-baojun-original.jpg",
+      "sourcePage": "https://www.cdut.edu.cn/info/1344/7318.htm",
+      "imageUrl": "https://www.cdut.edu.cn/__local/6/00/0D/B93168E854D20236622527E418E_FD9831A2_16906.jpg",
+      "localImage": "src/scholar-studio-vite/public/images/portraits/liu-baojun.jpg",
+      "inputCopy": "inputs/phase-two-founders/liu-baojun-original.jpg",
+      "width": 200,
+      "height": 276,
+      "bytes": 92422,
+      "sha256": "17755a369fad4555ce76686f5cb2196e52fffd4d31eae351e7c239dde9e39eca",
+      "processing": "Original dimensions; JPG files copied unchanged; PNG/JP2 only converted to JPEG. No face generation, retouching, cropping, or upscaling."
+    },
+    {
+      "id": "zeng-yunfu",
+      "name": "曾允孚",
+      "input": "zeng-yunfu-original.png",
+      "sourcePage": "https://cjdzyjy.cdut.edu.cn/info/1056/2138.htm",
+      "imageUrl": "https://cjdzyjy.cdut.edu.cn/__local/1/B1/36/8AB28E96E7C83FDEC8BE6869BCD_1E4B5FBE_2214D.png",
+      "localImage": "src/scholar-studio-vite/public/images/portraits/zeng-yunfu.jpg",
+      "inputCopy": "inputs/phase-two-founders/zeng-yunfu-original.png",
+      "width": 164,
+      "height": 212,
+      "bytes": 8002,
+      "sha256": "68572ce343d05f78734c1fd70f350b3833d0796c3fbfc163615477969e0a8bcf",
+      "processing": "Original dimensions; JPG files copied unchanged; PNG/JP2 only converted to JPEG. No face generation, retouching, cropping, or upscaling."
+    },
+    {
+      "id": "zhang-zhuoyuan",
+      "name": "张倬元",
+      "input": "Im208.jp2",
+      "sourcePage": "https://www.cdut.edu.cn/__local/5/A4/EC/6A374FB2B6D5E59BE636581520D_23F23F7F_C709C9.pdf",
+      "pdfPhysicalPage": 9,
+      "pdfPrintedPages": "09-10",
+      "pdfImageObject": "Im208",
+      "sourceLimitation": "Original embedded portrait is 94 x 135 pixels. No enlargement or face reconstruction applied.",
+      "localImage": "src/scholar-studio-vite/public/images/portraits/zhang-zhuoyuan.jpg",
+      "inputCopy": "inputs/phase-two-founders/Im208.jp2",
+      "width": 94,
+      "height": 135,
+      "bytes": 2681,
+      "sha256": "a08fc3df1a3eec0766bc90a389d8bd89f8fcce0f676ece8395f98ea193acb3e1",
+      "processing": "Original dimensions; JPG files copied unchanged; PNG/JP2 only converted to JPEG. No face generation, retouching, cropping, or upscaling."
+    },
+    {
+      "id": "luo-zhetan",
+      "name": "罗蛰潭",
+      "input": "luo-zhetan-original.png",
+      "sourcePage": "https://energy.cdut.edu.cn/info/1249/4927.htm",
+      "imageUrl": "https://energy.cdut.edu.cn/__local/0/D1/66/CDE1195ACF3BC6AC05E78B61E6F_D807A185_B8759.png?e=.png",
+      "localImage": "src/scholar-studio-vite/public/images/portraits/luo-zhetan.jpg",
+      "inputCopy": "inputs/phase-two-founders/luo-zhetan-original.png",
+      "width": 689,
+      "height": 941,
+      "bytes": 96583,
+      "sha256": "b07ab25250dce15a8e4acabebcf8ed48d5188da1931732d8f5cc5b714ac3ee48",
+      "processing": "Original dimensions; JPG files copied unchanged; PNG/JP2 only converted to JPEG. No face generation, retouching, cropping, or upscaling."
+    },
+    {
+      "id": "jin-jingfu",
+      "name": "金景福",
+      "input": "Im213.jpg",
+      "sourcePage": "https://www.cdut.edu.cn/__local/5/A4/EC/6A374FB2B6D5E59BE636581520D_23F23F7F_C709C9.pdf",
+      "pdfPhysicalPage": 9,
+      "pdfPrintedPages": "09-10",
+      "pdfImageObject": "Im213",
+      "sourceLimitation": "Original embedded portrait is 95 x 134 pixels. No enlargement or face reconstruction applied.",
+      "localImage": "src/scholar-studio-vite/public/images/portraits/jin-jingfu.jpg",
+      "inputCopy": "inputs/phase-two-founders/Im213.jpg",
+      "width": 95,
+      "height": 134,
+      "bytes": 2961,
+      "sha256": "269a45a25c7018d7e21be99ee1c896e4bd67c2639c90c1b852f8aa15a64c9038",
+      "processing": "Original dimensions; JPG files copied unchanged; PNG/JP2 only converted to JPEG. No face generation, retouching, cropping, or upscaling."
+    }
+  ],
+  "contentNotes": [
+    "Concise biographies only; full supplied historical materials are pending.",
+    "Complete life dates verified only for Zhang Zhuoyuan in this pass; years remain empty for the other four.",
+    "Membership and names do not overlap the existing eight professors.",
+    "Existing official brochure and eight scholar files were not modified."
+  ],
+  "rights": "Published by Chengdu University of Technology / its schools; no open-content licence asserted. Keep source attribution.",
+  "fetchLimitations": [
+    "School founder category and several main-site profiles returned HTTP 412; two portraits use native brochure images."
+  ],
+  "validation": {
+    "schemaValid": true,
+    "founderCount": 5,
+    "combinedUniquePeople": 13,
+    "allImagesPresent": true,
+    "totalNewPortraitBytes": 202649,
+    "allFivePortraitsVisuallyReviewed": true
+  }
+}

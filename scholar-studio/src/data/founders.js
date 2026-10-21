@@ -1,0 +1,168 @@
+// 人物分组及简要史实依据学校官方资料。展陈标题为原创文案。
+// 尚未核实完整生卒年的条目保留空值，后续以正式提供的校史资料补充。
+const brochureSource = {
+  title: '五大学科奠基人 · 学校官方宣传册',
+  url: 'https://www.cdut.edu.cn/__local/5/A4/EC/6A374FB2B6D5E59BE636581520D_23F23F7F_C709C9.pdf',
+  publisher: '成都理工大学（印刷页 09—10）',
+};
+
+export const founders = [
+  {
+    id: 'liu-baojun',
+    name: '刘宝珺',
+    roman: 'LIU BAOJUN',
+    group: 'founders',
+    groupLabel: '五大学科奠基人',
+    years: '',
+    field: '沉积地质 · 岩相古地理',
+    image: 'images/portraits/liu-baojun.jpg',
+    tagline: '读懂沉积，开拓学科。',
+    summary: '中国沉积地质学奠基人之一，1957年至1982年在成都地质学院任教，为学校沉积地质研究与人才培养留下重要基础。',
+    biography: '刘宝珺是中国科学院院士、中国沉积地质学奠基人之一。1956年毕业于北京地质学院研究生班，次年来到成都地质学院任教。\n他将沉积学与成矿研究结合，探索沉积环境、地质事件与矿产形成之间的联系，推动了学校沉积地质学科的发展。',
+    highlights: [
+      { title: '沉积地质学', detail: '中国沉积地质学奠基人之一' },
+      { title: '1957 年来校', detail: '长期从事教学与研究' },
+      { title: '1991 年', detail: '当选中国科学院学部委员' },
+    ],
+    contributions: [
+      { title: '奠定沉积地质学科基础', text: '在学校从事沉积地质教学与研究，是学校沉积地质学科发展的重要奠基者。' },
+      { title: '探索沉积与成矿的联系', text: '把沉积研究与物理化学等方法结合，研究沉积过程与矿产形成。' },
+      { title: '推进岩相古地理研究', text: '开展我国南方岩相古地理及沉积、层控矿产研究。' },
+    ],
+    timeline: [
+      { year: '1956', title: '完成研究生学业', text: '毕业于北京地质学院研究生班。' },
+      { year: '1957', title: '来校任教', text: '开始在成都地质学院从事教学与科研，任教至1982年。' },
+      { year: '1991', title: '当选学部委员', text: '当选中国科学院学部委员（院士）。' },
+    ],
+    sources: [
+      { title: '刘宝珺 · 建校初期五大学科奠基人', url: 'https://www.cdut.edu.cn/info/1344/7318.htm' },
+      brochureSource,
+    ],
+  },
+  {
+    id: 'zeng-yunfu',
+    name: '曾允孚',
+    roman: 'ZENG YUNFU',
+    group: 'founders',
+    groupLabel: '五大学科奠基人',
+    years: '',
+    field: '沉积岩石学 · 盆地分析',
+    image: 'images/portraits/zeng-yunfu.jpg',
+    tagline: '从岩层深处，建立求知的起点。',
+    summary: '1956年来校任教，1985年创建学校沉积地质研究所并担任首任所长，拓展沉积研究与人才培养的平台。',
+    biography: '曾允孚1950年毕业于重庆大学地质系，1956年来校任教。1985年创建学校沉积地质研究所，并担任首任所长。\n他开展矿床沉积学、储层沉积学与盆地分析研究，参与编写《沉积岩石学》等教材，把实地考察与学科教育联系起来。',
+    highlights: [
+      { title: '1956 年来校', detail: '参与早期教学与研究' },
+      { title: '沉积地质研究所', detail: '1985 年创建，任首任所长' },
+      { title: '《沉积岩石学》', detail: '参与专业教材编写' },
+    ],
+    contributions: [
+      { title: '创建沉积地质研究所', text: '1985年建立学校沉积地质研究所，为学科研究与人才培养提供专门平台。' },
+      { title: '拓展沉积研究方向', text: '开拓矿床沉积学、储层沉积学及盆地分析等方向。' },
+      { title: '把研究写进教材', text: '参与编写《沉积岩石学》等教材，将野外研究经验用于教学。' },
+    ],
+    timeline: [
+      { year: '1950', title: '完成地质学学业', text: '毕业于重庆大学地质系。' },
+      { year: '1956', title: '来校任教', text: '参与学校地学教学与科研建设。' },
+      { year: '1985', title: '创建研究所', text: '创建学校沉积地质研究所，担任首任所长。' },
+    ],
+    sources: [
+      brochureSource,
+      { title: '沉积地质研究院 · 学科发展资料', url: 'https://cjdzyjy.cdut.edu.cn/info/1056/2138.htm' },
+    ],
+  },
+  {
+    id: 'zhang-zhuoyuan',
+    name: '张倬元',
+    roman: 'ZHANG ZHUOYUAN',
+    group: 'founders',
+    groupLabel: '五大学科奠基人',
+    years: '1926 — 2022',
+    field: '工程地质 · 地质灾害防治',
+    image: 'images/portraits/zhang-zhuoyuan.jpg',
+    tagline: '以地质之理，守山河之安。',
+    summary: '工程地质学家、成都地质学院原院长。推进工程地质学科、教材与科研平台建设，把山川现场的问题带入研究与课堂。',
+    biography: '张倬元1957年调入学校，1983年至1988年任成都地质学院院长。长期研究岩体边坡与地质灾害，倡导从地质过程理解工程问题。\n他组织编写《工程地质分析原理》，推动重点学科建设，持续关注地质灾害防治与地质环境保护科研平台的发展。',
+    highlights: [
+      { title: '工程地质学科', detail: '推动学科与科研平台建设' },
+      { title: '《工程地质分析原理》', detail: '组织编写专业教材' },
+      { title: '1983—1988 年', detail: '任成都地质学院院长' },
+    ],
+    contributions: [
+      { title: '发展工程地质研究方法', text: '围绕岩体边坡稳定性及地质灾害，研究地质过程与工程安全之间的关系。' },
+      { title: '建设专业教材体系', text: '组织编写《工程地质分析原理》，将研究与工程实践用于人才培养。' },
+      { title: '推动学校重点学科建设', text: '带头申报石油地质、工程地质重点学科，关心学校相关科研平台的发展。' },
+    ],
+    timeline: [
+      { year: '1957', title: '调入学校', text: '投入水文地质、工程地质教学与研究。' },
+      { year: '1983', title: '担任院长', text: '1983年至1988年任成都地质学院院长。' },
+      { year: '2022', title: '逝世', text: '其学术思想与教学成果继续影响工程地质研究。' },
+    ],
+    sources: [
+      { title: '《攀登志》张倬元人物传记', url: 'https://www.cdut.edu.cn/info/1061/20811.htm' },
+      brochureSource,
+    ],
+  },
+  {
+    id: 'luo-zhetan',
+    name: '罗蛰潭',
+    roman: 'LUO ZHETAN',
+    group: 'founders',
+    groupLabel: '五大学科奠基人',
+    years: '',
+    field: '油气开发 · 储层地质',
+    image: 'images/portraits/luo-zhetan.jpg',
+    tagline: '把报国之志，写进能源事业。',
+    summary: '参与学校早期石油与天然气专业建设，推进油气藏地质及开发工程科研平台建设，为学校能源学科发展奠基。',
+    biography: '罗蛰潭长期研究油气采收率及储层地质。1957年来校任教，参与早期石油与天然气地质与勘探系筹办，曾任成都地质学院副院长。\n他关注油田生产中的实际问题，开展提高采收率等研究，并推动油气藏地质及开发工程国家重点实验室的筹建。',
+    highlights: [
+      { title: '石油与天然气专业', detail: '参与早期专业筹办' },
+      { title: '油气藏研究平台', detail: '推动重点实验室筹建' },
+      { title: '1957 年来校', detail: '投入能源学科建设' },
+    ],
+    contributions: [
+      { title: '参与能源专业建设', text: '参与学校早期石油与天然气地质与勘探系的筹办。' },
+      { title: '研究油气开发问题', text: '长期开展油气采收率、油层物理及储层地质研究，服务油田生产。' },
+      { title: '推动科研平台建设', text: '与同事共同努力，推进油气藏地质及开发工程国家重点实验室筹建。' },
+    ],
+    timeline: [
+      { year: '1942', title: '毕业于中央大学', text: '完成中央大学地质系学业。' },
+      { year: '1957', title: '来校任教', text: '参与学校早期石油与天然气专业建设。' },
+      { year: '1989', title: '推动实验室申报', text: '学校与西南石油学院联合申请油气藏地质及开发工程国家重点实验室。' },
+    ],
+    sources: [
+      { title: '能源学院 · 学科精神传承资料', url: 'https://energy.cdut.edu.cn/info/1249/4927.htm' },
+      brochureSource,
+    ],
+  },
+  {
+    id: 'jin-jingfu',
+    name: '金景福',
+    roman: 'JIN JINGFU',
+    group: 'founders',
+    groupLabel: '五大学科奠基人',
+    years: '',
+    field: '铀矿地质 · 成矿规律',
+    image: 'images/portraits/jin-jingfu.jpg',
+    tagline: '探寻铀矿规律，传承求索精神。',
+    summary: '1965年率“三系”迁入成都地质学院，参与学校相关学科建设，长期研究铀矿成因、成矿规律与找矿方法。',
+    biography: '金景福是铀矿地质学家。1965年率“三系”迁入成都地质学院，曾任学校学术委员会主任。\n他长期开展铀矿床成矿理论、成矿预测与找矿勘探研究，主编《铀矿床学》《放射性矿床学》等著作，曾获李四光地质科学奖。',
+    highlights: [
+      { title: '1965 年', detail: '率“三系”迁入学校' },
+      { title: '铀矿地质研究', detail: '研究成矿规律与找矿方法' },
+      { title: '《铀矿床学》', detail: '主编专业著作' },
+    ],
+    contributions: [
+      { title: '参与学校学科建设', text: '率“三系”迁入学校，持续参与教学、研究与学术建设。' },
+      { title: '研究铀矿成矿规律', text: '探索铀矿成因、时空分布、成矿预测和找矿方法。' },
+      { title: '积累专业教学与研究成果', text: '主编《铀矿床学》《放射性矿床学》等著作，为专业学习和研究提供资料。' },
+    ],
+    timeline: [
+      { year: '1965', title: '率“三系”迁入学校', text: '来到成都地质学院，参与相关学科建设。' },
+    ],
+    sources: [
+      brochureSource,
+      { title: '首届金景福奖学金暨地球化学人才奖学金论坛', url: 'https://news.cdut.edu.cn/info/1004/7574.htm' },
+    ],
+  },
+];

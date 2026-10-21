@@ -1,0 +1,64 @@
+{
+  "repository": "https://github.com/DavidHDev/react-bits",
+  "commit": "e12c22192ac7b4b452c5e2feb9b586d74765d696",
+  "files": [
+    {
+      "repositoryPath": "src/content/Components/DriftWall/DriftWall.jsx",
+      "url": "https://github.com/DavidHDev/react-bits/blob/e12c22192ac7b4b452c5e2feb9b586d74765d696/src/content/Components/DriftWall/DriftWall.jsx",
+      "localPath": "inputs\\react-bits-drift-wall\\DriftWall.jsx",
+      "gitBlobSha": "c6baff262618dda86832bf45e96ae75f9b35ef1d",
+      "sha256": "d6b186fbff08d8ad555ee705feebdeba2f1ff8882e22eb37b5c548ae821e7254"
+    },
+    {
+      "repositoryPath": "src/content/Components/DriftWall/DriftWall.css",
+      "url": "https://github.com/DavidHDev/react-bits/blob/e12c22192ac7b4b452c5e2feb9b586d74765d696/src/content/Components/DriftWall/DriftWall.css",
+      "localPath": "inputs\\react-bits-drift-wall\\DriftWall.css",
+      "gitBlobSha": "51b850b478b0171f2073d24354e1bf8025c75280",
+      "sha256": "022c15ad24586e42f4fbe1dd1f059eeb0d558fd568972749768654c74e1e957d"
+    },
+    {
+      "repositoryPath": "public/r/DriftWall-JS-CSS.json",
+      "url": "https://github.com/DavidHDev/react-bits/blob/e12c22192ac7b4b452c5e2feb9b586d74765d696/public/r/DriftWall-JS-CSS.json",
+      "localPath": "inputs\\react-bits-drift-wall\\DriftWall-JS-CSS.json",
+      "gitBlobSha": "58165be62069173a686659303e3cacc9fad0025d",
+      "sha256": "d88e7baedd313668b2997f1ba7b5ee57beb69d4ebcaf63a3d64d822cf74d0828"
+    },
+    {
+      "repositoryPath": "LICENSE.md",
+      "url": "https://github.com/DavidHDev/react-bits/blob/e12c22192ac7b4b452c5e2feb9b586d74765d696/LICENSE.md",
+      "localPath": "inputs\\react-bits-drift-wall\\LICENSE.md",
+      "gitBlobSha": "4069ce9d0ef1a712c93d6ce48ade5d5667e0f5ee",
+      "sha256": "4bdd1fa59a6b7d5954bc3b213dbc34e455c635a94bbcecf9293553797d0fad02"
+    }
+  ],
+  "license": "MIT + Commons Clause License Condition v1.0; Copyright (c) 2026 David Haz",
+  "adaptations": [
+    "Imports React for classic JSX compilation; no new dependencies.",
+    "Preserves official plane geometry, alternating column speeds, pointer parallax, lift, dim and edge masks.",
+    "Adds onSelect(item, index), paused, showTitles, imageFit, imagePosition, ariaLabel, keyboardNavigation.",
+    "Adds optional item id, subtitle, objectPosition, imageFit fields; contain portrait fitting and permanent names default on.",
+    "Only starts RAF while visible, document visible, not manually paused and not reduced motion; preserves offsets across pause/resume and cleans observers/listeners/RAF.",
+    "Reduced motion exposes a static, internally scrollable image grid without continuous RAF.",
+    "Visual loop copies are aria-hidden pointer hit targets. A unique keyboard roster is available by default, shown on focus; keyboardNavigation=false delegates access to parent roster.",
+    "Clamps requested columns to nonempty item count; fixes stale hover state in inter-tile gaps.",
+    "Exposes data-running and data-motion for visual verification.",
+    "Official hovered-column pause remains even if pauseOnHover=false; mouseleave resumes that column. pauseOnHover controls whole wall.",
+    "Clear stale hover and detached focus when items or motion mode change.",
+    "Set plane height to 1.6 times viewport height to cover all loop phases with unequal column lengths.",
+    "Remove use client directive from Vite adaptation; original archive unchanged."
+  ],
+  "checks": {
+    "jsxParse": "esbuild transformSync loader jsx passed",
+    "browser": "Integrated browser checks: portrait pointer click, group filters, profile keyboard access, play/pause, offscreen stop, 1920/1280/390 widths."
+  },
+  "adaptedFiles": [
+    {
+      "path": "src\\scholar-studio-vite\\src\\components\\DriftWall.jsx",
+      "sha256": "4e7f7a907cfb0501e8213cb29409d971d735be0a8058e2bef59abedc5ddc1da3"
+    },
+    {
+      "path": "src\\scholar-studio-vite\\src\\components\\DriftWall.css",
+      "sha256": "530c04b53659324dc52eed00dc6782e8d4dea56ac127c30f0ac1db7fa75be6a0"
+    }
+  ]
+}
