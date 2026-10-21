@@ -4,14 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000" />
-    <link rel="preload" as="image" type="image/webp"
-      imagesrcset="./images/hero-glacier-800.webp 800w, ./images/hero-glacier-1600.webp 1600w, ./images/hero-glacier-1920.webp 1920w, ./images/hero-glacier-2560.webp 2560w"
-      imagesizes="(max-width: 600px) 100vw, (max-width: 1800px) calc(100vw - 72px), 1700px"
-      fetchpriority="high" />
+    <script>
+      // A direct person link needs its portrait first, not the home glacier.
+      if (!location.hash.startsWith('#/people')) {
+        const preload = document.createElement('link');
+        preload.rel = 'preload';
+        preload.as = 'image';
+        preload.type = 'image/webp';
+        preload.imageSrcset = './images/hero-glacier-800.webp 800w, ./images/hero-glacier-1600.webp 1600w, ./images/hero-glacier-1920.webp 1920w, ./images/hero-glacier-2560.webp 2560w';
+        preload.imageSizes = '(max-width: 600px) 100vw, (max-width: 1800px) calc(100vw - 72px), 1700px';
+        preload.fetchPriority = 'high';
+        document.head.append(preload);
+      }
+    </script>
     <meta name="description" content="成都理工大学八大学者与五大奠基人人物专题，呈现他们的研究方向、代表成果与学术传承。" />
     <title>八大学者与五大奠基人 · 成都理工大学校史人物专题</title>
-    <script type="module" crossorigin src="./assets/index-CEXZ_azA.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-C3y4ivKg.css">
+    <script type="module" crossorigin src="./assets/index-QZw4fKcY.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-B7zrp41n.css">
   </head>
   <body>
     <div id="root"></div>

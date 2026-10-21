@@ -10,6 +10,7 @@ import './grainient-theme.css';
 import './border-glow-theme.css';
 import './motion.css';
 import usePortfolioMotion from './hooks/usePortfolioMotion';
+import ScholarSite from './components/ScholarSite';
 
 const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
 
@@ -113,25 +114,17 @@ function SectionHeading({ number, eyebrow, title, id, description }) {
   );
 }
 
-function App() {
+function App({ active = true, onOpenPerson, initialGallery }) {
   const siteRef = useRef(null);
-  usePortfolioMotion(siteRef);
+  usePortfolioMotion(siteRef, active);
   const peopleRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [grainientVisible, setGrainientVisible] = useState(true);
+  const [peoplePaused, setPeoplePaused] = useState(initialGallery?.paused || false);
 
   useEffect(() => {
-    // React mounts after the browser's initial anchor lookup.
-    const id = location.hash.slice(1);
-    if (!['home', 'scholars', 'projects', 'strengths', 'scholar-profile'].includes(id)) return undefined;
-    const frame = requestAnimationFrame(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'instant', block: 'start' });
-    });
-    return () => cancelAnimationFrame(frame);
-  }, []);
-
-  useEffect(() => {
+    if (!active) return undefined;
     // One shared backdrop for the light sections; stop it when the scholar
     // section covers the viewport so only the photo wall needs to keep moving.
     const visibility = new Map();
@@ -142,14 +135,15 @@ function App() {
     }, { threshold: [0, 0.001] });
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
+  }, [active]);
 
   useEffect(() => {
+    if (!active) return undefined;
     const hero = document.getElementById('home');
     if (!hero) return;
     let threshold = 0;
     let frame = 0;
-    let previous = false;
+    let previous;
     const update = () => {
       frame = 0;
       const next = window.scrollY >= threshold;
@@ -175,7 +169,7 @@ function App() {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', measure);
     };
-  }, []);
+  }, [active]);
 
   const openProjectScholar = id => peopleRef.current?.openProfile(id);
 
@@ -190,7 +184,7 @@ function App() {
           silk={0.35}
           grainAmount={0.08}
           dpr={1}
-          paused={!grainientVisible}
+          paused={!active || !grainientVisible}
         />
       </div>
       <a className="skip-link" href="#main">跳到正文</a>
@@ -265,9 +259,18 @@ function App() {
         </section>
 
         <section className="scholars-section people-section section-pad" id="scholars" aria-labelledby="scholars-title" data-grainient-ignore>
+          <div className="people-lightfall" aria-hidden="true">
+            <DeferredBackground variant="lightfall"
+              colors={['#aed8e6', '#7eabcb']} backgroundColor="#384c60"
+              speed={0.22} streakCount={2} streakWidth={0.55} streakLength={1.35}
+              density={0.55} zoom={2.9} twinkle={0.12} backgroundGlow={0.07}
+              headGlow={0.35} bloom={0.28} opacity={0.7}
+              mouseInteraction={false} holdToWarp={false} intro={false}
+              paused={!active || peoplePaused} dpr={1} maxFps={30} maxPixels={1_000_000} />
+          </div>
           <div className="page-container">
             <SectionHeading number="01 / 04" eyebrow="PEOPLE &amp; LEGACY" id="scholars-title" title="学脉，从这里延伸." description="八大学者与五大奠基人。他们留下的学问、学科与育人精神，至今仍在这所大学生长。" />
-            <PeopleExplorer ref={peopleRef} />
+            <PeopleExplorer ref={peopleRef} active={active} onPauseChange={setPeoplePaused} onOpenPerson={onOpenPerson} initialGallery={initialGallery} />
           </div>
         </section>
 
@@ -283,7 +286,7 @@ function App() {
                     <div className="project-meta"><span>{project.category}</span><span>{project.number} / 03</span></div>
                     <h3>{project.title}</h3>
                     <p>{project.description}</p>
-                    <div className="project-bottom"><span>关联学者 / {project.scholar}</span><BorderGlow {...borderGlow} as="button" lightSurface type="button" onClick={() => openProjectScholar(project.scholarId)} aria-label={`查看${project.scholar}的人物档案`}><ArrowIcon diagonal /></BorderGlow></div>
+                    <div className="project-bottom"><span>关联学者 / {project.scholar}</span><BorderGlow {...borderGlow} as="button" id={`project-person-${project.number}`} lightSurface type="button" onClick={() => openProjectScholar(project.scholarId)} aria-label={`查看${project.scholar}的人物档案`}><ArrowIcon diagonal /></BorderGlow></div>
                   </div>
                 </BorderGlow>
                 </div>
@@ -322,4 +325,4 @@ function App() {
   );
 }
 
-createRoot(document.getElementById('root')).render(<App />);
+createRoot(document.getElementById('root')).render(<ScholarSite Home={App} />);

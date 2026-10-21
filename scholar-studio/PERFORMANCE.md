@@ -51,6 +51,8 @@
 
 ## 参考
 
+v22（2026-10-21）更新：人物展示改为四行密度的 DriftWall 与低亮度 Lightfall，后者限制100万像素/30fps。1920×1080时画布1292×773，998716像素。暂停按钮同时控制两者。使用真实组件的独立浏览器验证页完成WebGL丢失、恢复、暂停和继续测试，控制台无警告/错误；修复恢复后旧effect清理再次loseContext导致背景失效的问题。上文为v19历史基线，圆环轮播已由v21的照片墙替换。
+
 - [Intersection Observer：阈值与边界相交](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
 - [GSAP ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/)
 - [Vite 原生配置加载](https://vite.dev/config/)

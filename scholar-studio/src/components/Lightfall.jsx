@@ -377,6 +377,13 @@ const Lightfall = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
+    if (!container || !canvas) return undefined;
+    let renderState = '';
+    const reportState = value => {
+      if (renderState === value) return;
+      renderState = value;
+      container.dataset.renderState = value;
+    };
     const gl = canvas?.getContext('webgl2', {
       alpha: true,
       premultipliedAlpha: true,
@@ -385,19 +392,30 @@ const Lightfall = ({
       stencil: false,
       powerPreference: 'default'
     });
-    if (!container || !canvas || !gl) return undefined;
+    if (!gl) { reportState('unsupported'); return undefined; }
 
     const floatTargets = !!gl.getExtension('EXT_color_buffer_float');
     const streakProgram = link(gl, STREAKS);
     const downProgram = link(gl, DOWNSAMPLE);
     const blurProgram = link(gl, BLUR);
     const compositeProgram = link(gl, COMPOSITE);
-    if (!streakProgram || !downProgram || !blurProgram || !compositeProgram) return undefined;
+    if (!streakProgram || !downProgram || !blurProgram || !compositeProgram) {
+      reportState('unsupported');
+      return undefined;
+    }
 
+    let rebuilding = false;
     const onContextLost = event => {
       event.preventDefault();
+      stop();
     };
-    const onContextRestored = () => setGeneration(value => value + 1);
+    const onContextRestored = () => {
+      // The old effect owns invalid GPU resources. Keep it stopped until the
+      // replacement effect recreates them, without losing this fresh context.
+      rebuilding = true;
+      stop();
+      setGeneration(value => value + 1);
+    };
     canvas.addEventListener('webglcontextlost', onContextLost);
     canvas.addEventListener('webglcontextrestored', onContextRestored);
 
@@ -596,7 +614,7 @@ const Lightfall = ({
 
     const frame = now => {
       raf = 0;
-      if (!visible || document.hidden || settingsRef.current.paused) { stop(); return; }
+      if (rebuilding || gl.isContextLost() || !visible || document.hidden || settingsRef.current.paused) { stop(); return; }
       if (!frameGate.ready(now)) { raf = requestAnimationFrame(frame); return; }
       const s = settingsRef.current;
       const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
@@ -636,11 +654,18 @@ const Lightfall = ({
 
       const settling = state.intro < 1 || state.warp > 0.001 || Math.abs((engaged ? 1 : 0) - state.touch) > 0.002;
       if ((running && s.speed !== 0) || settling) raf = requestAnimationFrame(frame);
-      else last = 0;
+      else {
+        last = 0;
+        reportState(reduce ? 'reduced' : 'paused');
+      }
     };
 
     const wake = () => {
-      if (!raf && visible && !document.hidden && !settingsRef.current.paused) raf = requestAnimationFrame(frame);
+      if (rebuilding || gl.isContextLost() || !visible || document.hidden || settingsRef.current.paused) { stop(); return; }
+      if (!raf) {
+        reportState(reduce ? 'reduced' : 'running');
+        raf = requestAnimationFrame(frame);
+      }
     };
 
     function stop() {
@@ -651,9 +676,11 @@ const Lightfall = ({
       pendingPointer = null;
       pointer.inside = false;
       pointer.held = false;
+      reportState(rebuilding || gl.isContextLost() ? 'context-lost' : 'paused');
     }
 
     const resize = () => {
+      if (rebuilding || gl.isContextLost()) { stop(); return; }
       const s = settingsRef.current;
       const width = Math.max(1, container.clientWidth);
       const height = Math.max(1, container.clientHeight);
@@ -779,14 +806,18 @@ const Lightfall = ({
       document.removeEventListener('visibilitychange', onVisibility);
       window.removeEventListener('blur', onPointerLeave);
       motionPreference.removeEventListener('change', onMotionChange);
-      [scene, ...levels.flat()].forEach(target => {
-        if (target.texture) gl.deleteTexture(target.texture);
-        gl.deleteFramebuffer(target.framebuffer);
-      });
-      [streakProgram, downProgram, blurProgram, compositeProgram].forEach(item => gl.deleteProgram(item.program));
-      gl.deleteBuffer(buffer);
-      gl.deleteVertexArray(vao);
-      if (!gl.isContextLost()) gl.getExtension('WEBGL_lose_context')?.loseContext();
+      // Loss already disposed of the previous resources. During restoration,
+      // leave the new context alive for the next effect's setup.
+      if (!rebuilding && !gl.isContextLost()) {
+        [scene, ...levels.flat()].forEach(target => {
+          if (target.texture) gl.deleteTexture(target.texture);
+          gl.deleteFramebuffer(target.framebuffer);
+        });
+        [streakProgram, downProgram, blurProgram, compositeProgram].forEach(item => gl.deleteProgram(item.program));
+        gl.deleteBuffer(buffer);
+        gl.deleteVertexArray(vao);
+        gl.getExtension('WEBGL_lose_context')?.loseContext();
+      }
     };
   }, [generation]);
 

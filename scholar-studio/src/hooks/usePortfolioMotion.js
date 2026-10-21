@@ -11,12 +11,12 @@ const CLEAR = 'transform,opacity,clipPath,willChange';
  * One scoped lifecycle. Content is visible without JS animation setup.
  * Completed entrances do not restart on resize; no scroll replacement or pinning.
  */
-export default function usePortfolioMotion(rootRef) {
+export default function usePortfolioMotion(rootRef, active = true) {
   const completed = useRef(new Set());
 
   useLayoutEffect(() => {
     const root = rootRef.current;
-    if (!root) return undefined;
+    if (!root || !active) return undefined;
     const media = gsap.matchMedia();
     let disposed = false;
 
@@ -165,17 +165,7 @@ export default function usePortfolioMotion(rootRef) {
       }, headings.get('scholars'));
 
       entrance('people-index', q('.people-directory')[0], (from) => {
-        from(q('.people-directory > button'), { y: 30, opacity: 0, stagger: .045, duration: 1 }, 0);
-      });
-
-      entrance('scholar-archive', q('.scholar-archive')[0], (from) => {
-        from(q('.scholar-archive-intro h3'), { yPercent: 115, x: 35, skewY: 5, scaleY: .7, duration: 1.55 }, 0);
-        from(q('.archive-kicker, .archive-summary, .archive-data > div, .archive-source'), {
-          y: 38, clipPath: 'inset(0 0 100% 0)', duration: 1.25, stagger: .09,
-        }, .3);
-        from(q('.archive-achievements-heading, .archive-achievement'), {
-          x: desktop ? 75 : 28, clipPath: 'inset(0 100% 0 0)', duration: 1.45, stagger: .14,
-        }, .45);
+        from(q('.people-directory > a'), { y: 30, opacity: 0, stagger: .045, duration: 1 }, 0);
       });
 
       const cardGroups = [
@@ -230,7 +220,7 @@ export default function usePortfolioMotion(rootRef) {
       };
     }, root);
 
-    // A selected biography or an expanded life story can change section height.
+    // Group changes can alter the directory height.
     // Refresh only after that layout change, never from a scroll or animation tick.
     let refreshFrame = 0;
     const measuredHeights = new Map();
@@ -245,7 +235,7 @@ export default function usePortfolioMotion(rootRef) {
       cancelAnimationFrame(refreshFrame);
       refreshFrame = requestAnimationFrame(() => { if (!disposed) ScrollTrigger.refresh(); });
     });
-    root.querySelectorAll('.scholar-archive, .people-explorer').forEach(element => profileObserver.observe(element));
+    root.querySelectorAll('.people-explorer').forEach(element => profileObserver.observe(element));
 
     // System fonts are already available here. Only repeat the expensive
     // layout measurement if fonts really are still loading.
@@ -259,5 +249,5 @@ export default function usePortfolioMotion(rootRef) {
       media.revert();
       delete root.dataset.opening;
     };
-  }, [rootRef]);
+  }, [rootRef, active]);
 }
