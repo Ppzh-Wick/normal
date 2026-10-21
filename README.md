@@ -21,7 +21,7 @@ npm run dev
 `npm test` 运行测试，`npm run build` 生成 dist，`npm run preview` 预览构建。
 维护说明见 [工程 README](scholar-studio/README.md)、[性能记录](scholar-studio/PERFORMANCE.md) 和 [内容来源](scholar-studio/CONTENT_SOURCES.md)。
 
-## 当前设计分支 · v26
+## 此前设计检查点 · v26
 
 `design/plum-silk-hero` 基于 v24 检查点 `559b5dc`。首屏为克制的石榴红 Silk 与暖白中文标题，保留左下排版、玻璃按钮及十三人人物专题。Silk speed 2.4，首屏可见时持续流动，离屏自动暂停。说明见 [首屏维护记录](scholar-studio/HERO_SILK.md)。本地预览 http://127.0.0.1:4185/?v=26.1#home 。仅本地保存，未推送或发布，主分支检查点及旧预览保留。
 
@@ -33,6 +33,13 @@ npm run dev
 
 ## 发布
 
+本地工作区另有v27人物墙样张：暖红黑底、无框黑白肖像、图下姓名及暖色Lightfall。预览 http://127.0.0.1:4185/?v=27#scholars 服务scholar-studio/dist。该样张尚未提交；根目录静态产物仍是红色首屏检查点4ca4037。继续暂停GitHub发布。
+
 完成构建后，将 scholar-studio/dist 的内容同步到仓库根目录，保留 .nojekyll、源码和 archive。
 GitHub Pages 使用 main 分支根目录；经用户要求恢复发布并推送后，等待 Pages 部署成功，再打开公开网址验收。
 不要将 node_modules 或本地缓存上传，不要用源码入口覆盖根目录的生产入口。
+
+## 当前设计检查点 · v28
+
+酒红 Silk 首屏、十三人无框人物墙与香槟金 Lightfall 已完成，人物专题路由和返回状态保留。13人在世状态核验见 [PEOPLE_STATUS.md](scholar-studio/PEOPLE_STATUS.md)。本轮将源码与36个静态构建文件一并保存。构建和10项测试通过。默认预览 http://127.0.0.1:4185/?v=28#home 。仅本地 Git 保存，继续暂停 GitHub 同步。前文v27未提交状态为历史记录。
+

@@ -108,7 +108,7 @@ function SectionHeading({ number, eyebrow, title, id, description }) {
   return (
     <div className="section-heading">
       <span className="section-heading-rule" aria-hidden="true" />
-      <div className="section-kicker"><span>{number}</span><i />{eyebrow}</div>
+      {(number || eyebrow) && <div className="section-kicker"><span>{number}</span><i />{eyebrow}</div>}
       <div className="section-heading-main">
         <h2 id={id} aria-label={title}>
           <span className="motion-title-mask" aria-hidden="true">
@@ -255,15 +255,15 @@ function App({ active = true, onOpenPerson, initialGallery }) {
         <section className="scholars-section people-section section-pad" id="scholars" aria-labelledby="scholars-title" data-grainient-ignore>
           <div className="people-lightfall" aria-hidden="true">
             <DeferredBackground variant="lightfall"
-              colors={['#aed8e6', '#7eabcb']} backgroundColor="#384c60"
-              speed={0.22} streakCount={2} streakWidth={0.55} streakLength={1.35}
-              density={0.55} zoom={2.9} twinkle={0.12} backgroundGlow={0.07}
-              headGlow={0.35} bloom={0.28} opacity={0.7}
+              colors={['#d8b882', '#ae8459']} backgroundColor="#171114"
+              speed={0.26} streakCount={2} streakWidth={0.6} streakLength={1.35}
+              density={0.4} zoom={2.9} twinkle={0.08} backgroundGlow={0.06}
+              headGlow={0.45} bloom={0.24} opacity={0.9}
               mouseInteraction={false} holdToWarp={false} intro={false}
               paused={!active || peoplePaused} dpr={1} maxFps={30} maxPixels={1_000_000} />
           </div>
           <div className="page-container">
-            <SectionHeading number="01 / 04" eyebrow="PEOPLE &amp; LEGACY" id="scholars-title" title="学脉，从这里延伸." description="八大学者与五大奠基人。他们留下的学问、学科与育人精神，至今仍在这所大学生长。" />
+            <SectionHeading id="scholars-title" title="十三位先贤。" description="八大学者与五大奠基人。他们留下的学问、学科与育人精神，至今仍在这所大学生长。" />
             <PeopleExplorer ref={peopleRef} active={active} onPauseChange={setPeoplePaused} onOpenPerson={onOpenPerson} initialGallery={initialGallery} />
           </div>
         </section>

@@ -1,5 +1,7 @@
 # 内容与素材来源
 
+- v28 人物在世状态核验（2026-10-21）：当前八大学者与五大奠基人共13人均有已故证据，按“健在者用彩照”的要求本轮保留黑白展示。近期刘宝珺讣告及逐人证据见 [PEOPLE_STATUS.md](PEOPLE_STATUS.md)。照片原件未改。Lightfall调为香槟金，原有来源与许可保留。
+
 - v17 卡片与控件边框：改编自 [React Bits BorderGlow](https://www.reactbits.dev/components/border-glow)，作者 David Haz。2026-10-20 下载[官方 JSX](https://github.com/DavidHDev/react-bits/blob/main/src/content/Components/BorderGlow/BorderGlow.jsx)、CSS 和仓库许可。下载记录及 SHA-256 在 `BORDER_GLOW_SOURCE.json`；完整许可为 `licenses/React-Bits-BorderGlow-LICENSE.md`，dist 同时附带。保留官方归一化边缘距离、指针角度、网格渐变和阴影颜色计算，适配原生元素、既有浅色/玻璃表面、键盘焦点及动画清理。没有增加远程运行依赖。
 
 - v15 首页及非学者区域背景：改编自 [React Bits Grainient](https://www.reactbits.dev/backgrounds/grainient)，作者 David Haz。2026-10-20 下载[官方 JavaScript 源码](https://github.com/DavidHDev/react-bits/blob/main/src/content/Backgrounds/Grainient/Grainient.jsx)及 CSS，采用用户指定的四种蓝青颜色和参数。下载文件哈希见 `GRAINIENT_SOURCE.json`；完整许可为 `licenses/React-Bits-Grainient-LICENSE.md`，静态构建同时附带。保留原 WebGL2 着色器，增加 React 导入、可见区域暂停、前景交互过滤和动态效果偏好监听。

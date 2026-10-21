@@ -20,7 +20,7 @@ const PeopleExplorer = forwardRef(function PeopleExplorer({ onPauseChange, onOpe
   const visiblePeople = useMemo(() => people.filter(person => group === 'all' || person.group === group), [group]);
   const items = useMemo(() => visiblePeople.map(person => ({
     id: person.id, image: portrait(person), title: person.name,
-    subtitle: person.groupTitle, alt: `${person.name}的历史肖像`,
+    alt: `${person.name}的历史肖像`,
     objectPosition: '50% 50%',
   })), [visiblePeople]);
 
@@ -43,7 +43,7 @@ const PeopleExplorer = forwardRef(function PeopleExplorer({ onPauseChange, onOpe
     const observer = new ResizeObserver(([entry]) => {
       const width = entry.contentRect.width;
       if (!width) return;
-      setColumns(width < 600 ? 2 : width < 1000 ? 3 : 5);
+      setColumns(width < 600 ? 2 : width < 900 ? 3 : width < 1100 ? 4 : width < 1320 ? 5 : width < 1600 ? 6 : 7);
     });
     if (wallRef.current) observer.observe(wallRef.current);
     return () => observer.disconnect();
@@ -70,11 +70,11 @@ const PeopleExplorer = forwardRef(function PeopleExplorer({ onPauseChange, onOpe
         <div className="people-wall-entry">
           <div className="people-wall-stage" id="people-wall" ref={wallRef}>
             <DriftWall
-              items={items} columns={columns} tileWidth={columns === 2 ? 145 : columns === 3 ? 230 : 260} tileHeight={columns === 2 ? 120 : 144} gap={18}
-              tilt={16} turn={-14} perspective={1200} depth={120} speed={42}
-              direction="up" variance={0.45} parallax={0.6} lift={64}
-              fade={0.35} dim={0.86} overlayColor="#204b96" radius={12}
-              roll={0} pauseOnHover={false} grayscale={false} paused={!active || paused}
+              items={items} columns={columns} tileWidth={columns === 2 ? 145 : columns === 3 ? 205 : columns === 4 ? 220 : 200} tileHeight={columns === 2 ? 168 : 204} gap={24}
+              tilt={8} turn={-8} perspective={1600} depth={160} planeScale={1} speed={26}
+              direction="up" variance={0.3} parallax={0.3} lift={18}
+              fade={0.12} dim={0.94} overlayColor="#180c0f" radius={0}
+              roll={0} pauseOnHover={false} grayscale paused={!active || paused}
               imageFit="contain" showTitles keyboardNavigation={false}
               onSelect={item => readPerson(item.id)}
               ariaLabel="十三位校史人物流动照片墙"

@@ -34,6 +34,7 @@ const DriftWall = ({
   roll = 0,
   perspective = 1200,
   depth = 120,
+  planeScale = 1.18,
   speed = 42,
   direction = 'up',
   variance = 0.45,
@@ -118,7 +119,8 @@ const DriftWall = ({
   useLayoutEffect(() => {
     if (!containerRef.current) return;
     const ro = new ResizeObserver(([entry]) => {
-      setContainerHeight(entry.contentRect.height || 600);
+      // A hidden home route has no height; keep its last geometry and flow phase.
+      if (entry.contentRect.height > 0) setContainerHeight(entry.contentRect.height);
     });
     ro.observe(containerRef.current);
     return () => ro.disconnect();
@@ -165,11 +167,11 @@ const DriftWall = ({
       const plane = planeRef.current;
       if (!plane) return;
       plane.style.transform =
-        `translate(-50%, -50%) scale(1.18) ` +
+        `translate(-50%, -50%) scale(${planeScale}) ` +
         `rotateX(${tilt + py}deg) rotateY(${turn + px}deg) rotateZ(${roll}deg) ` +
         `translateZ(${-depth}px)`;
     },
-    [tilt, turn, roll, depth]
+    [tilt, turn, roll, depth, planeScale]
   );
 
   useEffect(() => {
