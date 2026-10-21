@@ -311,7 +311,6 @@ function App({ active = true, onOpenPerson, initialGallery }) {
       <footer className="site-footer">
         <div className="page-container footer-inner">
           <div><strong>学脉相承</strong><span>成都理工大学八大学者与五大奠基人人物专题 · 设计原型</span></div>
-          <p>人物内容依据学校官方宣传册及公开人物史料整理；项目图像为专题示意，不代表历史现场。本页为设计展示原型，非学校官方发布网站。<br />动态背景：<a href="https://reactbits.dev/backgrounds/silk" target="_blank" rel="noreferrer">React Bits · Silk</a> / <a href={researchPreset.url} target="_blank" rel="noreferrer">{researchPreset.component}</a>，经调色与性能适配。</p>
           <span>© 2026 SCHOLAR ARCHIVE</span>
         </div>
       </footer>
