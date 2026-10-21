@@ -12,6 +12,11 @@ import './motion.css';
 import usePortfolioMotion from './hooks/usePortfolioMotion';
 import ScholarSite from './components/ScholarSite';
 import './hero-silk.css';
+import './research-theme.css';
+import { getResearchBackground, researchBackgrounds } from './data/researchBackgrounds';
+
+const researchBackground = getResearchBackground(window.location.search);
+const researchPreset = researchBackgrounds[researchBackground];
 
 const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
 
@@ -186,16 +191,11 @@ function App({ active = true, onOpenPerson, initialGallery }) {
   const openProjectScholar = id => peopleRef.current?.openProfile(id);
 
   return (
-    <div className="site-shell grainient-theme silk-hero-theme" ref={siteRef}>
+    <div className="site-shell grainient-theme silk-hero-theme research-theme" data-research-background={researchBackground} ref={siteRef}>
       <div className="site-ambient" aria-hidden="true" data-active={grainientVisible}>
         <DeferredBackground
-          variant="grainient"
-          colors={['#bac7ca', '#00afe2', '#2dd4bf', '#ccfbf1']}
-          angle={20}
-          flow={0.9}
-          silk={0.35}
-          grainAmount={0.08}
-          dpr={1}
+          variant={researchBackground}
+          {...researchPreset.props}
           paused={!active || !grainientVisible}
         />
       </div>
@@ -270,17 +270,16 @@ function App({ active = true, onOpenPerson, initialGallery }) {
 
         <section className="projects-section section-pad" id="projects" aria-labelledby="projects-title">
           <div className="page-container">
-            <SectionHeading number="02 / 04" eyebrow="SELECTED RESEARCH" id="projects-title" title="精选项目." description="把分散在史料中的研究成果整理为三个可阅读的专题。图像为当代信息可视化示意，文字依据公开史料。" />
+            <SectionHeading id="projects-title" title="精选项目" description="把分散在史料中的研究成果，整理为三个可阅读的专题。" />
             <div className="project-grid">
               {projects.map((project) => (
                 <div className="project-entry" key={project.number}>
-                <BorderGlow {...borderGlow} as="article" lightSurface className="project-card">
-                  <div className="project-art"><div className="project-image-parallax"><div className="project-image-reveal"><img src={asset(project.image)} alt={`${project.title}主题示意图`} loading="lazy" /></div></div><span className="project-art-index">RESEARCH FILE / {project.number}</span></div>
+                <BorderGlow {...heroBorderGlow} borderRadius={0} as="article" className="project-card">
+                  <div className="project-art"><div className="project-image-parallax"><div className="project-image-reveal"><img src={asset(project.image)} alt={`${project.title}主题示意图`} loading="lazy" /></div></div></div>
                   <div className="project-body">
-                    <div className="project-meta"><span>{project.category}</span><span>{project.number} / 03</span></div>
                     <h3>{project.title}</h3>
                     <p>{project.description}</p>
-                    <div className="project-bottom"><span>关联学者 / {project.scholar}</span><BorderGlow {...borderGlow} as="button" id={`project-person-${project.number}`} lightSurface type="button" onClick={() => openProjectScholar(project.scholarId)} aria-label={`查看${project.scholar}的人物档案`}><ArrowIcon diagonal /></BorderGlow></div>
+                    <div className="project-bottom"><span>关联学者 / {project.scholar}</span><BorderGlow {...heroBorderGlow} as="button" id={`project-person-${project.number}`} type="button" onClick={() => openProjectScholar(project.scholarId)} aria-label={`查看${project.scholar}的人物档案`}><ArrowIcon diagonal /></BorderGlow></div>
                   </div>
                 </BorderGlow>
                 </div>
@@ -291,19 +290,18 @@ function App({ active = true, onOpenPerson, initialGallery }) {
 
         <section className="strengths-section section-pad" id="strengths" aria-labelledby="strengths-title">
           <div className="page-container">
-            <SectionHeading number="03 / 04" eyebrow="WAYS OF WORKING" id="strengths-title" title="学者优势." description="他们的建树不止于某一项成果。现场、学科、著述与育人，构成了一所地学大学最初的工作方法。" />
+            <SectionHeading id="strengths-title" title="学者优势" description="他们的建树不止于某一项成果。现场、学科、著述与育人，构成了一所地学大学最初的工作方法。" />
             <div className="strength-grid">
               {strengths.map((item) => (
                 <div className="strength-entry" key={item.number}>
-                <BorderGlow {...borderGlow} as="article" lightSurface className="strength-card">
-                  <div className="strength-top"><span>{item.number} / 04</span><span className="strength-cross" aria-hidden="true">＋</span></div>
-                  <div className="strength-copy"><span className="strength-en">{item.english}</span><h3>{item.title}</h3><p>{item.text}</p></div>
+                <BorderGlow {...heroBorderGlow} borderRadius={0} as="article" className="strength-card">
+                  <div className="strength-copy"><h3>{item.title}</h3><p>{item.text}</p></div>
                   <div className="strength-evidence">关联 / {item.evidence}</div>
                 </BorderGlow>
                 </div>
               ))}
             </div>
-            <div className="closing-statement"><span>学脉相承 · 仍在继续</span><p><span className="closing-line-mask"><span className="closing-line">研究一方土地，</span></span><span className="closing-line-mask"><span className="closing-line">也在开拓一代人的视野。</span></span></p><BorderGlow {...borderGlow} as="a" lightSurface href="#home">回到首页 ↑</BorderGlow></div>
+            <div className="closing-statement"><span>学脉相承 · 仍在继续</span><p><span className="closing-line-mask"><span className="closing-line">研究一方土地，</span></span><span className="closing-line-mask"><span className="closing-line">也在开拓一代人的视野。</span></span></p><BorderGlow {...heroBorderGlow} as="a" href="#home">回到首页 ↑</BorderGlow></div>
           </div>
         </section>
       </main>
@@ -311,7 +309,7 @@ function App({ active = true, onOpenPerson, initialGallery }) {
       <footer className="site-footer">
         <div className="page-container footer-inner">
           <div><strong>学脉相承</strong><span>成都理工大学八大学者与五大奠基人人物专题 · 设计原型</span></div>
-          <p>人物内容依据学校官方宣传册及公开人物史料整理；项目图像为专题示意，不代表历史现场。本页为设计展示原型，非学校官方发布网站。<br />首屏动态背景：<a href="https://reactbits.dev/backgrounds/silk" target="_blank" rel="noreferrer">React Bits · Silk</a>，经调色与性能适配。</p>
+          <p>人物内容依据学校官方宣传册及公开人物史料整理；项目图像为专题示意，不代表历史现场。本页为设计展示原型，非学校官方发布网站。<br />动态背景：<a href="https://reactbits.dev/backgrounds/silk" target="_blank" rel="noreferrer">React Bits · Silk</a> / <a href={researchPreset.url} target="_blank" rel="noreferrer">{researchPreset.component}</a>，经调色与性能适配。</p>
           <span>© 2026 SCHOLAR ARCHIVE</span>
         </div>
       </footer>

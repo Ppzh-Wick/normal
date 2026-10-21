@@ -1,0 +1,44 @@
+[
+  {
+    "file": "Threads.jsx",
+    "source": "https://github.com/DavidHDev/react-bits/blob/main/src/content/Backgrounds/Threads/Threads.jsx",
+    "sha": "c380c57a0f07d656bdd6be312f2149ea8d61ac8c",
+    "fetchedVia": "GitHub connector",
+    "accessed": "2026-10-21"
+  },
+  {
+    "file": "Threads.css",
+    "source": "https://github.com/DavidHDev/react-bits/blob/main/src/content/Backgrounds/Threads/Threads.css",
+    "sha": "404fdbe6a3190000f472475a164e1da3c7829f18",
+    "fetchedVia": "GitHub connector",
+    "accessed": "2026-10-21"
+  },
+  {
+    "file": "Aurora.jsx",
+    "source": "https://github.com/DavidHDev/react-bits/blob/main/src/content/Backgrounds/Aurora/Aurora.jsx",
+    "sha": "2bee0f5d90f92bebaf081a6b7a3e5456f6d872c5",
+    "fetchedVia": "GitHub connector",
+    "accessed": "2026-10-21"
+  },
+  {
+    "file": "Aurora.css",
+    "source": "https://github.com/DavidHDev/react-bits/blob/main/src/content/Backgrounds/Aurora/Aurora.css",
+    "sha": "0598f42b7a3274984cbf244a48d6230450c05092",
+    "fetchedVia": "GitHub connector",
+    "accessed": "2026-10-21"
+  },
+  {
+    "file": "LICENSE.md",
+    "source": "https://github.com/DavidHDev/react-bits/blob/main/LICENSE.md",
+    "sha": "4069ce9d0ef1a712c93d6ce48ade5d5667e0f5ee",
+    "fetchedVia": "GitHub connector",
+    "accessed": "2026-10-21"
+  },
+  {
+    "file": "DarkVeil.jsx / DarkVeil.css",
+    "source": "https://raw.githubusercontent.com/DavidHDev/react-bits/e12c22192ac7b4b452c5e2feb9b586d74765d696/public/r/DarkVeil-JS-CSS.json",
+    "sha256": "a446eee388f7c0a5ff83b313e99fa4300fa72d33dfd13594f328bb82b7d73733",
+    "accessed": "2026-10-21",
+    "adaptation": "原v23样张源文件，新增预算与纹理重建修复"
+  }
+]

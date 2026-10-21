@@ -1,5 +1,7 @@
 # 内容与素材来源
 
+- v29 项目区备用背景：官方 React Bits Threads、Aurora、Dark Veil，作者 David Haz。来源、哈希、配色与本地性能适配见 [RESEARCH_BACKGROUNDS.md](RESEARCH_BACKGROUNDS.md) 和 RESEARCH_BACKGROUNDS_SOURCE.json；完整 MIT + Commons Clause 许可随 public/licenses/React-Bits-Backgrounds-LICENSE.md 分发。原照片和项目示意图未替换。
+
 - v28 人物在世状态核验（2026-10-21）：当前八大学者与五大奠基人共13人均有已故证据，按“健在者用彩照”的要求本轮保留黑白展示。近期刘宝珺讣告及逐人证据见 [PEOPLE_STATUS.md](PEOPLE_STATUS.md)。照片原件未改。Lightfall调为香槟金，原有来源与许可保留。
 
 - v17 卡片与控件边框：改编自 [React Bits BorderGlow](https://www.reactbits.dev/components/border-glow)，作者 David Haz。2026-10-20 下载[官方 JSX](https://github.com/DavidHDev/react-bits/blob/main/src/content/Components/BorderGlow/BorderGlow.jsx)、CSS 和仓库许可。下载记录及 SHA-256 在 `BORDER_GLOW_SOURCE.json`；完整许可为 `licenses/React-Bits-BorderGlow-LICENSE.md`，dist 同时附带。保留官方归一化边缘距离、指针角度、网格渐变和阴影颜色计算，适配原生元素、既有浅色/玻璃表面、键盘焦点及动画清理。没有增加远程运行依赖。

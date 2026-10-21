@@ -3,6 +3,10 @@ import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 const Grainient = lazy(() => import('./Grainient'));
 const Lightfall = lazy(() => import('./Lightfall'));
 const Silk = lazy(() => import('./Silk'));
+const Threads = lazy(() => import('./Threads'));
+const Aurora = lazy(() => import('./Aurora'));
+const DarkVeil = lazy(() => import('./DarkVeil'));
+const backgrounds = { grainient: Grainient, lightfall: Lightfall, silk: Silk, threads: Threads, aurora: Aurora, darkveil: DarkVeil };
 
 // Decorative chunk failures must not take down navigation or the scholar data.
 class BackgroundBoundary extends React.Component {
@@ -44,7 +48,7 @@ export default function DeferredBackground({ variant, ...props }) {
       if (idle) window.cancelIdleCallback(idle);
     };
   }, [variant, props.paused]);
-  const Background = variant === 'silk' ? Silk : variant === 'lightfall' ? Lightfall : Grainient;
+  const Background = backgrounds[variant] || Grainient;
   return (
     <div ref={host} className="deferred-background">
       {ready && <BackgroundBoundary><Suspense fallback={null}><Background {...props} /></Suspense></BackgroundBoundary>}

@@ -83,3 +83,7 @@ npm run preview   # 预览构建结果
 ## 2026-10-21 · v28 香槟金 Lightfall
 
 第二屏光瀑改为更清晰的暖香槟金，继续搭配暖红黑底，保留酒红丝绸首屏、人物墙布局和原动态性能预算。当前13人均有已故证据，没有符合“健在者用彩照”的条目，因此保留黑白展示；逐人核验见 scholar-studio/PEOPLE_STATUS.md。构建、10项测试及1440桌面浏览器检查通过。默认预览 http://127.0.0.1:4185/?v=28#home ，打开先显示首屏。本轮修改尚未提交，继续暂停GitHub同步。
+
+## v29 下方项目区背景样张
+
+当前工程在cd50338之后新增三种React Bits背景：默认Threads铜金脉络，备用Aurora酒红曙光、DarkVeil烟铜幕光。仅选中方案懒加载；首屏和人物墙保持已确认版本。配置见src/data/researchBackgrounds.js，来源及维护见RESEARCH_BACKGROUNDS.md。默认本地入口 http://127.0.0.1:4185/?v=29#home ，备用通过ambient=aurora或ambient=darkveil参数切换。新样张尚未提交，根目录发布产物仍为v28，继续暂停GitHub同步。
