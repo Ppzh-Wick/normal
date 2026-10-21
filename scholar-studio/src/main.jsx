@@ -332,6 +332,7 @@ function App() {
                     tilt={-3}
                     perspective={12000}
                     autoplay={autoRotate ? 'drift' : 'off'}
+                    pauseOnHover={false}
                     speed={8}
                     momentum={0.35}
                     parallax={0.18}
@@ -360,7 +361,7 @@ function App() {
                 </BorderGlow>
               ))}
             </div>
-            <article className="scholar-archive" id="scholar-profile" aria-labelledby="scholar-profile-title" onFocusCapture={() => setAutoRotate(false)} onPointerEnter={() => setAutoRotate(false)}>
+            <article className="scholar-archive" id="scholar-profile" aria-labelledby="scholar-profile-title" onFocusCapture={() => setAutoRotate(false)}>
               <div className="scholar-archive-intro">
                 <div className="archive-kicker">人物档案 / {String(activeIndex + 1).padStart(2, '0')}</div>
                 <div className="archive-title-mask"><h3 id="scholar-profile-title">{activeScholar.name}<span>的研究与人生</span></h3></div>
