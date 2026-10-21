@@ -29,6 +29,12 @@ const borderGlow = {
   fillOpacity: 0.12,
 };
 
+const heroBorderGlow = {
+  ...borderGlow,
+  glowColor: '14 32 74',
+  colors: ['#a75960', '#c9a394', '#ead8ce'],
+};
+
 const projects = [
   {
     number: '01',
@@ -200,14 +206,14 @@ function App({ active = true, onOpenPerson, initialGallery }) {
           <a className="brand" href="#home" aria-label="返回首页" onClick={() => setMenuOpen(false)}>
             <span className="brand-text"><strong>学脉相承</strong><small>CDUT · SCHOLAR ARCHIVE</small></span>
           </a>
-          <BorderGlow {...borderGlow} as="nav" disabled={!menuOpen} lightSurface={!scrolled} id="main-nav" className={`main-nav ${menuOpen ? 'is-open' : ''}`} aria-label="主导航">
+          <BorderGlow {...(scrolled ? borderGlow : heroBorderGlow)} as="nav" disabled={!menuOpen} lightSurface={!scrolled} id="main-nav" className={`main-nav ${menuOpen ? 'is-open' : ''}`} aria-label="主导航">
             <a href="#home" onClick={() => setMenuOpen(false)}>首页</a>
             <a href="#scholars" onClick={() => setMenuOpen(false)}>人物长廊</a>
             <a href="#projects" onClick={() => setMenuOpen(false)}>精选项目</a>
             <a href="#strengths" onClick={() => setMenuOpen(false)}>学者优势</a>
           </BorderGlow>
-          <div className="header-end"><span>始于 1956</span><BorderGlow {...borderGlow} lightSurface={!scrolled} as="a" href="#scholars">人物档案</BorderGlow></div>
-          <BorderGlow {...borderGlow} lightSurface={!scrolled} as="button" className="menu-toggle" type="button" aria-label={menuOpen ? '关闭导航' : '打开导航'} aria-expanded={menuOpen} aria-controls="main-nav" onClick={() => setMenuOpen((value) => !value)}>{menuOpen ? '关闭' : '菜单'}</BorderGlow>
+          <div className="header-end"><span>始于 1956</span><BorderGlow {...(scrolled ? borderGlow : heroBorderGlow)} lightSurface={!scrolled} as="a" href="#scholars">人物档案</BorderGlow></div>
+          <BorderGlow {...(scrolled ? borderGlow : heroBorderGlow)} lightSurface={!scrolled} as="button" className="menu-toggle" type="button" aria-label={menuOpen ? '关闭导航' : '打开导航'} aria-expanded={menuOpen} aria-controls="main-nav" onClick={() => setMenuOpen((value) => !value)}>{menuOpen ? '关闭' : '菜单'}</BorderGlow>
         </div>
       </BorderGlow>
 
@@ -215,10 +221,10 @@ function App({ active = true, onOpenPerson, initialGallery }) {
         <section className="hero hero-silk" id="home" aria-labelledby="hero-title">
           <div className="hero-silk-visual" aria-hidden="true">
             <DeferredBackground variant="silk"
-              color="#725078" sheenColor="#e2d3e8"
-              speed={0.65} scale={1.2} rotation={0.25}
-              noiseIntensity={0.3} sheen={0.7} depth={0.62}
-              glow={0.03} ripple={1.1} wave={0.8} variation={0}
+              color="#853039" sheenColor="#c9a394"
+              speed={2.4} scale={1.2} rotation={0.25}
+              noiseIntensity={0.3} sheen={0.42} depth={0.62}
+              glow={0.01} ripple={1.1} wave={0.8} variation={0}
               mouseInteraction={false} clickRipple={false} intro={false}
               paused={!active || !heroVisible}
               dpr={1} maxFps={30} maxPixels={1_000_000} />
