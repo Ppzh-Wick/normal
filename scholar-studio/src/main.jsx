@@ -5,6 +5,7 @@ import './hero.css';
 import PeopleExplorer from './components/PeopleExplorer';
 import DeferredBackground from './components/DeferredBackground';
 import BorderGlow from './components/BorderGlow';
+import ExhibitSpotlight from './components/ExhibitSpotlight';
 import './scholar-carousel.css';
 import './grainient-theme.css';
 import './border-glow-theme.css';
@@ -274,16 +275,16 @@ function App({ active = true, onOpenPerson, initialGallery }) {
           <div className="page-container">
             <SectionHeading id="projects-title" title="精选项目" description="把分散在史料中的研究成果，整理为三个可阅读的专题。" />
             <div className="project-grid">
-              {projects.map((project) => (
-                <div className="project-entry" key={project.number}>
-                <BorderGlow {...heroBorderGlow} borderRadius={0} as="article" className="project-card">
-                  <div className="project-art"><div className="project-image-parallax"><div className="project-image-reveal"><img src={asset(project.image)} alt={`${project.title}主题示意图`} loading="lazy" /></div></div></div>
+              {projects.map((project, index) => (
+                <div className={`project-entry${index === 0 ? ' project-entry--featured' : ''}`} key={project.number}>
+                <article className="project-card">
+                  <ExhibitSpotlight className="project-art"><div className="project-image-parallax"><div className="project-image-reveal"><img src={asset(project.image)} alt={`${project.title}主题示意图`} loading="lazy" /></div></div></ExhibitSpotlight>
                   <div className="project-body">
                     <h3>{project.title}</h3>
                     <p>{project.description}</p>
-                    <div className="project-bottom"><span>关联学者 / {project.scholar}</span><BorderGlow {...heroBorderGlow} as="button" id={`project-person-${project.number}`} type="button" onClick={() => openProjectScholar(project.scholarId)} aria-label={`查看${project.scholar}的人物档案`}><ArrowIcon diagonal /></BorderGlow></div>
+                    <div className="project-bottom"><span>{project.scholar}</span><button id={`project-person-${project.number}`} type="button" onClick={() => openProjectScholar(project.scholarId)} aria-label={`查看${project.scholar}的人物档案`}>阅读人物<ArrowIcon diagonal /></button></div>
                   </div>
-                </BorderGlow>
+                </article>
                 </div>
               ))}
             </div>
@@ -296,10 +297,10 @@ function App({ active = true, onOpenPerson, initialGallery }) {
             <div className="strength-grid">
               {strengths.map((item) => (
                 <div className="strength-entry" key={item.number}>
-                <BorderGlow {...heroBorderGlow} borderRadius={0} as="article" className="strength-card">
-                  <div className="strength-copy"><h3>{item.title}</h3><p>{item.text}</p></div>
-                  <div className="strength-evidence">关联 / {item.evidence}</div>
-                </BorderGlow>
+                <ExhibitSpotlight as="article" className="strength-card">
+                  <h3>{item.title}</h3>
+                  <div className="strength-copy"><p>{item.text}</p><div className="strength-evidence">{item.evidence}</div></div>
+                </ExhibitSpotlight>
                 </div>
               ))}
             </div>

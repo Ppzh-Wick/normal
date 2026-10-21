@@ -89,3 +89,9 @@ npm run preview   # 预览构建结果
 ## v29 下方项目区背景样张
 
 当前工程在cd50338之后新增三种React Bits背景：默认Threads铜金脉络，备用Aurora酒红曙光、DarkVeil烟铜幕光。仅选中方案懒加载；首屏和人物墙保持已确认版本。配置见src/data/researchBackgrounds.js，来源及维护见RESEARCH_BACKGROUNDS.md。默认本地入口 http://127.0.0.1:4185/?v=29#home ，备用通过ambient=aurora或ambient=darkveil参数切换。新样张尚未提交，根目录发布产物仍为v28，继续暂停GitHub同步。
+
+## v32 项目与优势展陈
+
+将精选项目和学者优势的厚重实心卡片改为开放式图文与横向文字展陈，加入React Bits SpotlightCard的暖铜掠光适配，不新增依赖。项目按钮、人物页返回焦点及滚动恢复保留。开发说明见EXHIBITION_CARDS.md；preview默认#home。构建及16项原有测试通过，浏览器检查1440/768/390布局与人物往返。
+
+GitHub同步已在v29选择Threads后恢复；此前版本中的暂停描述为历史状态。

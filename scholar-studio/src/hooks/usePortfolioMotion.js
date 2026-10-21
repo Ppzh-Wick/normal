@@ -173,14 +173,15 @@ export default function usePortfolioMotion(rootRef, active = true) {
       });
 
       const cardGroups = [
-        ['projects', '.project-grid', '.project-entry'],
-        ['strengths', '.strength-grid', '.strength-entry'],
+        ['projects', '.project-entry'],
+        ['strengths', '.strength-entry'],
       ];
-      cardGroups.forEach(([id, gridSelector, cardSelector]) => {
+      cardGroups.forEach(([id, cardSelector]) => {
         const cards = q(cardSelector);
         const remaining = cards.filter((card, index) => !completed.current.has(`${id}-card-${index}`));
-        const rows = desktop ? [remaining] : remaining.map((card) => [card]);
-        rows.filter((row) => row.length).forEach((row) => entrance(row.map((card) => `${id}-card-${cards.indexOf(card)}`), desktop ? q(gridSelector)[0] : row[0], (from) => {
+        // Open exhibition layouts span several screens; each item reveals on arrival.
+        const rows = remaining.map((card) => [card]);
+        rows.forEach((row) => entrance(row.map((card) => `${id}-card-${cards.indexOf(card)}`), row[0], (from) => {
           from(row, {
             y: desktop ? 42 : 26, scale: .975, opacity: 0,
             duration: 1.1, stagger: .09,
