@@ -79,23 +79,6 @@
   border-color: #f0e4f6;
   transform: none;
 }
-.silk-pause {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  min-height: 44px;
-  padding: 0 12px;
-  border: 0;
-  border-radius: 24px;
-  background: transparent;
-  color: #d9cce3;
-  font: 400 12px / 1 "Scholar Sans", sans-serif;
-  cursor: pointer;
-  transition: background-color 220ms ease, color 220ms ease;
-}
-.silk-pause:is(:hover, :focus-visible) { color: #fff; background: rgb(255 255 255 / 13%); }
-.silk-pause-icon { width: 9px; height: 10px; border-inline: 2px solid currentColor; }
-.silk-play-icon { width: 9px; height: 10px; background: currentColor; clip-path: polygon(10% 0, 100% 50%, 10% 100%); }
 .silk-hero-theme .hero-silk :is(a, button):focus-visible,
 .silk-hero-theme .site-header:not(.is-scrolled) :is(a, button):focus-visible {
   outline: 2px solid #f0e4f6;
@@ -144,5 +127,5 @@
   .hero-silk .hero-description { margin-top: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-silk :is(.silk-hero-cta, .silk-pause) { transition: none; }
+  .hero-silk .silk-hero-cta { transition: none; }
 }

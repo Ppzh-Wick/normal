@@ -123,7 +123,6 @@ function App({ active = true, onOpenPerson, initialGallery }) {
   const [scrolled, setScrolled] = useState(false);
   const [grainientVisible, setGrainientVisible] = useState(false);
   const [heroVisible, setHeroVisible] = useState(true);
-  const [heroPaused, setHeroPaused] = useState(false);
   const [peoplePaused, setPeoplePaused] = useState(initialGallery?.paused || false);
 
   useEffect(() => {
@@ -221,7 +220,7 @@ function App({ active = true, onOpenPerson, initialGallery }) {
               noiseIntensity={0.3} sheen={0.7} depth={0.62}
               glow={0.03} ripple={1.1} wave={0.8} variation={0}
               mouseInteraction={false} clickRipple={false} intro={false}
-              paused={!active || !heroVisible || heroPaused}
+              paused={!active || !heroVisible}
               dpr={1} maxFps={30} maxPixels={1_000_000} />
           </div>
           <div className="hero-opening" aria-hidden="true">
@@ -242,10 +241,6 @@ function App({ active = true, onOpenPerson, initialGallery }) {
               </div>
               <div className="hero-action-entry">
                 <a className="hero-cta silk-hero-cta" href="#scholars">开始探索<ArrowIcon /></a>
-                <button className="silk-pause" type="button" aria-pressed={heroPaused} onClick={() => setHeroPaused(value => !value)}>
-                  <span className={heroPaused ? 'silk-play-icon' : 'silk-pause-icon'} aria-hidden="true" />
-                  {heroPaused ? '继续背景' : '暂停背景'}
-                </button>
               </div>
             </div>
           </div>
