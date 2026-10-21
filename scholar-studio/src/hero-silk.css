@@ -1,0 +1,148 @@
+/* v25: a full-bleed plum Silk study. This art direction is scoped to the hero. */
+@font-face {
+  font-family: "Scholar Sans";
+  src: url("/fonts/noto-sans-sc-hero-variable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+.silk-hero-theme .hero-silk {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  height: 100svh;
+  min-height: 680px;
+  background: #100c16;
+  color: #f6f3f8;
+  font-family: "Scholar Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+.hero-silk-visual { position: absolute; inset: 0; z-index: -2; }
+.hero-silk::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(13 8 20 / 40%) 0%, transparent 26%, transparent 42%, rgb(13 8 20 / 62%) 100%);
+}
+.hero-silk .hero-content {
+  position: relative;
+  justify-content: flex-end;
+  width: min(1700px, calc(100% - 112px));
+  padding: 124px 0 66px;
+}
+.hero-silk .hero-bottom { margin: 0; padding: 0; gap: 48px; align-items: flex-end; }
+.silk-hero-theme .hero-silk .hero-eyebrow {
+  margin: 0 0 24px;
+  font-size: clamp(16px, 1.35vw, 23px);
+  line-height: 1.5;
+  font-weight: 480;
+  letter-spacing: .01em;
+  color: #e8ddec;
+}
+.hero-silk h1 {
+  margin: 0;
+  font: 730 clamp(64px, 6.8vw, 116px) / 1.13 "Scholar Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  letter-spacing: -.055em;
+  white-space: nowrap;
+  text-wrap: initial;
+}
+.hero-silk .hero-description {
+  margin: 27px 0 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: #d8ccde;
+}
+.hero-description span { margin-left: .55em; }
+.hero-silk .hero-action-entry { display: flex; align-items: flex-end; flex-direction: column; gap: 12px; padding-bottom: 2px; }
+.silk-hero-theme .silk-hero-cta {
+  display: inline-flex;
+  gap: 38px;
+  min-height: 66px;
+  padding: 0 27px;
+  font: 500 17px / 1 "Scholar Sans", sans-serif;
+  border: 1px solid rgb(255 255 255 / 42%);
+  border-radius: 40px;
+  color: #faf6ff;
+  background: rgb(238 220 255 / 12%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 16%);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  transition: color 220ms ease, background-color 220ms ease, border-color 220ms ease;
+}
+.silk-hero-cta svg { width: 23px; height: 23px; }
+.silk-hero-theme .silk-hero-cta:is(:hover, :focus-visible) {
+  color: #291a36;
+  background: #f0e4f6;
+  border-color: #f0e4f6;
+  transform: none;
+}
+.silk-pause {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 24px;
+  background: transparent;
+  color: #d9cce3;
+  font: 400 12px / 1 "Scholar Sans", sans-serif;
+  cursor: pointer;
+  transition: background-color 220ms ease, color 220ms ease;
+}
+.silk-pause:is(:hover, :focus-visible) { color: #fff; background: rgb(255 255 255 / 13%); }
+.silk-pause-icon { width: 9px; height: 10px; border-inline: 2px solid currentColor; }
+.silk-play-icon { width: 9px; height: 10px; background: currentColor; clip-path: polygon(10% 0, 100% 50%, 10% 100%); }
+.silk-hero-theme .hero-silk :is(a, button):focus-visible,
+.silk-hero-theme .site-header:not(.is-scrolled) :is(a, button):focus-visible {
+  outline: 2px solid #f0e4f6;
+  outline-offset: 5px;
+}
+.silk-hero-theme .site-header { font-family: "Scholar Sans", "PingFang SC", "Microsoft YaHei", sans-serif; }
+.silk-hero-theme .site-header:not(.is-scrolled) .header-inner { width: min(1700px, calc(100% - 112px)); }
+.silk-hero-theme .brand-text strong { font-family: inherit; font-weight: 650; letter-spacing: .035em; }
+.silk-hero-theme .site-header:not(.is-scrolled) { color: #f6f3f8; background: transparent; }
+.silk-hero-theme .site-header:not(.is-scrolled) > .header-glass-layer { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.silk-hero-theme .site-header:not(.is-scrolled) :is(.main-nav, .brand-text small, .header-end span, .menu-toggle) { color: #e1d5e9; }
+.silk-hero-theme .site-header:not(.is-scrolled) :is(.brand, .main-nav a):is(:hover, :focus-visible) { color: #fff; }
+.silk-hero-theme .site-header:not(.is-scrolled) .header-end a { border-color: rgb(255 255 255 / 35%); }
+.silk-hero-theme .header-end a { min-height: 44px; display: inline-flex; align-items: center; }
+.silk-hero-theme .site-header:not(.is-scrolled) :is(.header-end a, .menu-toggle):is(:hover, :focus-visible) { color: #20132b; background: #f0e4f6; border-color: #f0e4f6; }
+.silk-hero-theme .site-header .menu-toggle { min-width: 44px; min-height: 44px; }
+.hero-silk .opening-panel { background: #120c1b; }
+.hero-silk .opening-rule { background: rgb(226 204 243 / 40%); }
+.hero-silk .opening-signature { color: #e8ddec; font-weight: 500; }
+
+@media (max-width: 1100px) {
+  .silk-hero-theme .site-header:not(.is-scrolled) .header-inner { width: calc(100% - 72px); }
+  .hero-silk .hero-content { width: calc(100% - 72px); padding-bottom: 46px; }
+  .hero-silk .hero-bottom { flex-direction: column; align-items: flex-start; gap: 30px; }
+  .hero-silk .hero-action-entry { flex-direction: row; align-items: center; gap: 22px; }
+  .hero-silk h1 { font-size: clamp(56px, 8.2vw, 88px); }
+  .hero-silk .hero-description span { display: block; margin-left: 0; }
+}
+@media (max-width: 750px) {
+  .silk-hero-theme .site-header:not(.is-scrolled) .header-inner { width: calc(100% - 40px); }
+  .hero-silk .hero-content { width: calc(100% - 40px); padding: 96px 0 35px; }
+  .silk-hero-theme .hero-silk { min-height: 650px; }
+  .hero-silk h1 { font-size: clamp(43px, 10.3vw, 74px); letter-spacing: -.045em; white-space: normal; }
+  .hero-silk .hero-title-mask { display: block; width: fit-content; }
+  .silk-hero-theme .hero-silk .hero-eyebrow { font-size: 13px; letter-spacing: 0; margin-bottom: 18px; }
+  .hero-silk .hero-description { margin-top: 22px; font-size: 14px; }
+  .hero-silk .hero-bottom { gap: 25px; }
+  .hero-silk .hero-action-entry { width: 100%; justify-content: space-between; gap: 8px; }
+  .silk-hero-theme .silk-hero-cta { min-height: 56px; padding-inline: 22px; gap: 25px; font-size: 15px; }
+  .silk-hero-theme .site-header:not(.is-scrolled) .main-nav.is-open { background: rgb(24 15 32 / 97%); border: 1px solid rgb(255 255 255 / 18%); }
+}
+@media (max-height: 760px) and (min-width: 1101px) {
+  .silk-hero-theme .hero-silk { min-height: 600px; }
+  .hero-silk .hero-content { padding-bottom: 42px; }
+  .hero-silk h1 { font-size: clamp(62px, 6.2vw, 105px); }
+  .hero-silk .hero-description { margin-top: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-silk :is(.silk-hero-cta, .silk-pause) { transition: none; }
+}

@@ -2,6 +2,7 @@ import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 
 const Grainient = lazy(() => import('./Grainient'));
 const Lightfall = lazy(() => import('./Lightfall'));
+const Silk = lazy(() => import('./Silk'));
 
 // Decorative chunk failures must not take down navigation or the scholar data.
 class BackgroundBoundary extends React.Component {
@@ -16,12 +17,11 @@ export default function DeferredBackground({ variant, ...props }) {
   const host = useRef(null);
   const [ready, setReady] = useState(false);
   useEffect(() => {
+    if (props.paused) return undefined;
     let disposed = false;
     let idle = 0;
     let timer = 0;
-    let deadline = 0;
     const enable = () => {
-      window.clearTimeout(deadline);
       if (!disposed) setReady(true);
     };
     const schedule = () => {
@@ -30,14 +30,9 @@ export default function DeferredBackground({ variant, ...props }) {
       else timer = window.setTimeout(enable, 80);
     };
     if (variant === 'grainient') {
-      // The preload starts in HTML; let the hero decode before competing for
-      // the main thread with shaders. A timeout keeps decoration resilient.
-      const photo = document.querySelector('.hero-glacier');
-      if (photo?.decode) photo.decode().catch(() => {}).then(schedule);
-      else schedule();
-      deadline = window.setTimeout(enable, 1500);
+      schedule();
     }
-    const observer = variant === 'lightfall' ? new IntersectionObserver(([entry]) => {
+    const observer = variant !== 'grainient' ? new IntersectionObserver(([entry]) => {
       // Edge-adjacent rectangles may be "intersecting" with zero visible pixels.
       if (entry.isIntersecting && entry.intersectionRect.height > 0) { schedule(); observer.disconnect(); }
     }, { threshold: [0, 0.001] }) : null;
@@ -46,11 +41,10 @@ export default function DeferredBackground({ variant, ...props }) {
       disposed = true;
       observer?.disconnect();
       window.clearTimeout(timer);
-      window.clearTimeout(deadline);
       if (idle) window.cancelIdleCallback(idle);
     };
-  }, [variant]);
-  const Background = variant === 'lightfall' ? Lightfall : Grainient;
+  }, [variant, props.paused]);
+  const Background = variant === 'silk' ? Silk : variant === 'lightfall' ? Lightfall : Grainient;
   return (
     <div ref={host} className="deferred-background">
       {ready && <BackgroundBoundary><Suspense fallback={null}><Background {...props} /></Suspense></BackgroundBoundary>}

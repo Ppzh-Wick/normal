@@ -102,7 +102,7 @@ export default function usePortfolioMotion(rootRef, active = true) {
           root.removeEventListener('click', skip, true);
           root.removeEventListener('keydown', skipKey, true);
         };
-        const openingTargets = q('.site-header, .hero-visual, .hero-image-reveal, .hero-title-word, .hero-eyebrow, .hero-action-entry');
+        const openingTargets = q('.site-header, .hero-silk-visual, .hero-title-word, .hero-eyebrow, .hero-description, .hero-action-entry');
         opening = gsap.timeline({
           defaults: { ease: EASE },
           onComplete: () => {
@@ -120,15 +120,14 @@ export default function usePortfolioMotion(rootRef, active = true) {
           .to(q('.opening-rule'), { opacity: 0, duration: .5 }, .75)
           .to(q('.opening-panel--top'), { yPercent: -101, duration: 1.4, ease: 'power4.inOut' }, .45)
           .to(q('.opening-panel--bottom'), { yPercent: 101, duration: 1.4, ease: 'power4.inOut' }, .45)
-          .from(q('.hero-visual'), { clipPath: 'inset(48% 4% 48% 4%)', duration: 1.9, ease: 'power3.inOut' }, .45)
-          .from(q('.hero-image-reveal'), { scale: 1.22, yPercent: 8, duration: 2.65 }, .55)
+          .from(q('.hero-silk-visual'), { scale: 1.06, duration: 2.4 }, .45)
           .from(q('.site-header'), { yPercent: -110, duration: 1.2 }, .95)
           .from(q('.hero-title-word'), {
-            yPercent: 125, x: desktop ? 45 : 20, rotation: 5, skewY: 6,
-            scaleY: .58, scaleX: .9, duration: 1.75, stagger: .18,
-          }, 1.5)
-          .from(q('.hero-eyebrow'), { y: 28, clipPath: 'inset(0 0 100% 0)', duration: 1.2 }, 1.6)
-          .from(q('.hero-action-entry'), { y: 58, scale: .94, opacity: 0, duration: 1.4 }, 2);
+            yPercent: 115, scaleY: .82, duration: 1.6, stagger: .12,
+          }, 1.05)
+          .from(q('.hero-eyebrow'), { y: 24, clipPath: 'inset(0 0 100% 0)', duration: 1.2 }, 1.1)
+          .from(q('.hero-description'), { y: 25, opacity: 0, duration: 1.2 }, 1.5)
+          .from(q('.hero-action-entry'), { y: 35, opacity: 0, duration: 1.4 }, 1.6);
         window.addEventListener('wheel', skip, { passive: true });
         window.addEventListener('touchmove', skip, { passive: true });
         // Complete after a pointer click has been dispatched. Moving a target
@@ -194,10 +193,6 @@ export default function usePortfolioMotion(rootRef, active = true) {
 
       // Image wrappers scrub independently; leave the photo wall's camera and tiles alone.
       if (desktop) {
-        gsap.fromTo(q('.hero-image-parallax'), { yPercent: -3 }, {
-          yPercent: 9, ease: 'none',
-          scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 1.1 },
-        });
         q('.project-art').forEach((art) => {
           gsap.fromTo(art.querySelector('.project-image-parallax'), { yPercent: -5 }, {
             yPercent: 5, ease: 'none',

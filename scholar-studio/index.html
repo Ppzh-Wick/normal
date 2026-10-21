@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#100c16" />
     <script>
-      // A direct person link needs its portrait first, not the home glacier.
+      // Prioritize the small title subset only when opening the home page.
       if (!location.hash.startsWith('#/people')) {
         const preload = document.createElement('link');
         preload.rel = 'preload';
-        preload.as = 'image';
-        preload.type = 'image/webp';
-        preload.imageSrcset = './images/hero-glacier-800.webp 800w, ./images/hero-glacier-1600.webp 1600w, ./images/hero-glacier-1920.webp 1920w, ./images/hero-glacier-2560.webp 2560w';
-        preload.imageSizes = '(max-width: 600px) 100vw, (max-width: 1800px) calc(100vw - 72px), 1700px';
+        preload.as = 'font';
+        preload.type = 'font/woff2';
+        preload.href = './fonts/noto-sans-sc-hero-variable.woff2';
+        preload.crossOrigin = 'anonymous';
         preload.fetchPriority = 'high';
         document.head.append(preload);
       }

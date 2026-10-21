@@ -21,11 +21,15 @@ npm run dev
 `npm test` 运行测试，`npm run build` 生成 dist，`npm run preview` 预览构建。
 维护说明见 [工程 README](scholar-studio/README.md)、[性能记录](scholar-studio/PERFORMANCE.md) 和 [内容来源](scholar-studio/CONTENT_SOURCES.md)。
 
-## 当前开发检查点 · v24
+## 当前设计分支 · v25
+
+`design/plum-silk-hero` 基于 v24 检查点 `559b5dc`。首屏换为全幅深紫 Silk 与本地中文可变字体，保留左下排版、玻璃按钮及十三人人物专题。说明见 [首屏维护记录](scholar-studio/HERO_SILK.md)。本地预览 http://127.0.0.1:4185/?v=25#home 。未推送或发布，主分支检查点及旧预览保留。
+
+## 此前检查点 · v24
 
 2026-10-21：四行人物墙与 Lightfall、十三人人物独立专题已保存到本地仓库。点击肖像进入人物页，返回时保留筛选、暂停状态与浏览位置；详情见 [人物专题维护说明](scholar-studio/PERSON_PAGES.md)。
 
-源码与仓库根目录的静态预览内容均为 v24。生产构建和 10 项测试通过，十三个人物页面已逐一验证。本次仅本地提交，尚未推送，公开网站仍为此前发布版本。
+该检查点生产构建和 10 项测试通过，十三个人物页面已逐一验证。当前设计分支的源码与根目录静态产物更新为 v25。公开网站仍为此前发布版本。
 
 ## 发布
 

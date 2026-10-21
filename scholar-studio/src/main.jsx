@@ -11,6 +11,7 @@ import './border-glow-theme.css';
 import './motion.css';
 import usePortfolioMotion from './hooks/usePortfolioMotion';
 import ScholarSite from './components/ScholarSite';
+import './hero-silk.css';
 
 const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
 
@@ -120,17 +121,23 @@ function App({ active = true, onOpenPerson, initialGallery }) {
   const peopleRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [grainientVisible, setGrainientVisible] = useState(true);
+  const [grainientVisible, setGrainientVisible] = useState(false);
+  const [heroVisible, setHeroVisible] = useState(true);
+  const [heroPaused, setHeroPaused] = useState(false);
   const [peoplePaused, setPeoplePaused] = useState(initialGallery?.paused || false);
 
   useEffect(() => {
     if (!active) return undefined;
-    // One shared backdrop for the light sections; stop it when the scholar
-    // section covers the viewport so only the photo wall needs to keep moving.
+    // Give each visible section its own rendering budget. The light backdrop
+    // is not loaded behind the opaque Silk hero or the scholar gallery.
     const visibility = new Map();
     const sections = document.querySelectorAll('#home, #projects, #strengths, .site-footer');
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => visibility.set(entry.target, entry.isIntersecting && entry.intersectionRect.height > 0));
+      entries.forEach((entry) => {
+        const visible = entry.isIntersecting && entry.intersectionRect.height > 0;
+        if (entry.target.id === 'home') setHeroVisible(visible);
+        else visibility.set(entry.target, visible);
+      });
       setGrainientVisible([...visibility.values()].some(Boolean));
     }, { threshold: [0, 0.001] });
     sections.forEach((section) => observer.observe(section));
@@ -174,7 +181,7 @@ function App({ active = true, onOpenPerson, initialGallery }) {
   const openProjectScholar = id => peopleRef.current?.openProfile(id);
 
   return (
-    <div className="site-shell grainient-theme" ref={siteRef}>
+    <div className="site-shell grainient-theme silk-hero-theme" ref={siteRef}>
       <div className="site-ambient" aria-hidden="true" data-active={grainientVisible}>
         <DeferredBackground
           variant="grainient"
@@ -206,7 +213,17 @@ function App({ active = true, onOpenPerson, initialGallery }) {
       </BorderGlow>
 
       <main id="main">
-        <section className="hero" id="home" aria-labelledby="hero-title">
+        <section className="hero hero-silk" id="home" aria-labelledby="hero-title">
+          <div className="hero-silk-visual" aria-hidden="true">
+            <DeferredBackground variant="silk"
+              color="#725078" sheenColor="#e2d3e8"
+              speed={0.65} scale={1.2} rotation={0.25}
+              noiseIntensity={0.3} sheen={0.7} depth={0.62}
+              glow={0.03} ripple={1.1} wave={0.8} variation={0}
+              mouseInteraction={false} clickRipple={false} intro={false}
+              paused={!active || !heroVisible || heroPaused}
+              dpr={1} maxFps={30} maxPixels={1_000_000} />
+          </div>
           <div className="hero-opening" aria-hidden="true">
             <span className="opening-panel opening-panel--top" />
             <span className="opening-panel opening-panel--bottom" />
@@ -214,31 +231,6 @@ function App({ active = true, onOpenPerson, initialGallery }) {
             <span className="opening-signature"><span>学脉相承</span></span>
           </div>
           <div className="hero-content page-container">
-            <figure className="hero-visual">
-              <div className="hero-image-parallax"><div className="hero-image-reveal">
-              <img
-                className="hero-glacier"
-                src={asset('images/hero-glacier-1600.webp')}
-                srcSet={`${asset('images/hero-glacier-800.webp')} 800w, ${asset('images/hero-glacier-1600.webp')} 1600w, ${asset('images/hero-glacier-1920.webp')} 1920w, ${asset('images/hero-glacier-2560.webp')} 2560w`}
-                sizes="(max-width: 600px) 100vw, (max-width: 1800px) calc(100vw - 72px), 1700px"
-                alt="冰岛杰古沙龙冰河湖的浮冰与远处冰川"
-                width="2560"
-                height="1707"
-                fetchPriority="high"
-                decoding="async"
-              />
-              <img
-                className="hero-glacier hero-glacier-edge"
-                src={asset('images/hero-glacier-edge.webp')}
-                alt=""
-                aria-hidden="true"
-                width="400"
-                height="267"
-                decoding="async"
-                fetchPriority="low"
-              />
-              </div></div>
-            </figure>
             <div className="hero-bottom">
               <div className="hero-copy">
                 <p className="hero-eyebrow">成都理工大学 · 八大学者与五大奠基人</p>
@@ -246,13 +238,14 @@ function App({ active = true, onOpenPerson, initialGallery }) {
                   <span className="hero-title-mask" aria-hidden="true"><span className="hero-title-word">探索，</span></span>
                   <span className="hero-title-mask" aria-hidden="true"><span className="hero-title-word">从未止步。</span></span>
                 </h1>
+                <p className="hero-description">十三位先贤，留下不息的学脉。<span>走近他们的研究与人生。</span></p>
               </div>
               <div className="hero-action-entry">
-              <BorderGlow {...borderGlow} lightSurface className="hero-action">
-                <span className="hero-glass-layer" aria-hidden="true" />
-                <p>十三位先贤，留下不息的学脉。<span>走近他们的研究与人生。</span></p>
-                <BorderGlow {...borderGlow} as="a" className="hero-cta" href="#scholars">开始探索</BorderGlow>
-              </BorderGlow>
+                <a className="hero-cta silk-hero-cta" href="#scholars">开始探索<ArrowIcon /></a>
+                <button className="silk-pause" type="button" aria-pressed={heroPaused} onClick={() => setHeroPaused(value => !value)}>
+                  <span className={heroPaused ? 'silk-play-icon' : 'silk-pause-icon'} aria-hidden="true" />
+                  {heroPaused ? '继续背景' : '暂停背景'}
+                </button>
               </div>
             </div>
           </div>
@@ -317,7 +310,7 @@ function App({ active = true, onOpenPerson, initialGallery }) {
       <footer className="site-footer">
         <div className="page-container footer-inner">
           <div><strong>学脉相承</strong><span>成都理工大学八大学者与五大奠基人人物专题 · 设计原型</span></div>
-          <p>人物内容依据学校官方宣传册及公开人物史料整理；项目图像为专题示意，不代表历史现场。本页为设计展示原型，非学校官方发布网站。<br />首屏摄影：<a href="https://unsplash.com/photos/icebergs-floating-in-a-glacial-lagoon-with-mountains-behind-9v9uIJKEhDY" target="_blank" rel="noreferrer">Danny Rienecker / Unsplash</a>，冰岛冰川景观。</p>
+          <p>人物内容依据学校官方宣传册及公开人物史料整理；项目图像为专题示意，不代表历史现场。本页为设计展示原型，非学校官方发布网站。<br />首屏动态背景：<a href="https://reactbits.dev/backgrounds/silk" target="_blank" rel="noreferrer">React Bits · Silk</a>，经调色与性能适配。</p>
           <span>© 2026 SCHOLAR ARCHIVE</span>
         </div>
       </footer>
