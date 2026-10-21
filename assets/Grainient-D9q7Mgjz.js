@@ -1,4 +1,4 @@
-import{r as X,R as Ae}from"./index-DYqqSlB7.js";import{c as et,a as tt}from"./renderBudget-DnUjQnA8.js";const Fe=8,J=24,oe=4,_e=1.3,nt=.06,Le=2.6,it=1.6,Pe=["#120f17","#2a0f0a","#9a3412","#f97316","#fed7aa"],rt={linear:0,radial:1},ae=.2,ot=`#version 300 es
+import{r as X,R as Ae}from"./index-D0kasAfd.js";import{c as et,a as tt}from"./renderBudget-DnUjQnA8.js";const Fe=8,J=24,oe=4,_e=1.3,nt=.06,Le=2.6,it=1.6,Pe=["#120f17","#2a0f0a","#9a3412","#f97316","#fed7aa"],rt={linear:0,radial:1},ae=.2,ot=`#version 300 es
 out vec2 vUv;
 void main() {
   vec2 p = vec2(float((gl_VertexID << 1) & 2), float(gl_VertexID & 2));

@@ -1,4 +1,4 @@
-import{r as b,R as fe}from"./index-DYqqSlB7.js";import{a as de,c as me}from"./renderBudget-DnUjQnA8.js";const ze=`#version 300 es
+import{r as b,R as fe}from"./index-D0kasAfd.js";import{a as de,c as me}from"./renderBudget-DnUjQnA8.js";const ze=`#version 300 es
 precision highp float;
 in vec2 aPoint;
 uniform float uTime;

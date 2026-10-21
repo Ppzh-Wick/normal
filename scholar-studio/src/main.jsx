@@ -258,9 +258,9 @@ function App({ active = true, onOpenPerson, initialGallery }) {
         <section className="scholars-section people-section section-pad" id="scholars" aria-labelledby="scholars-title" data-grainient-ignore>
           <div className="people-lightfall" aria-hidden="true">
             <DeferredBackground variant="lightfall"
-              colors={['#d8b882', '#ae8459']} backgroundColor="#171114"
+              colors={['#d8b882', '#ae8459']} backgroundColor="#d5b68b"
               speed={0.26} streakCount={2} streakWidth={0.6} streakLength={1.35}
-              density={0.4} zoom={2.9} twinkle={0.08} backgroundGlow={0.06}
+              density={0.4} zoom={2.9} twinkle={0.08} backgroundGlow={0.48}
               headGlow={0.45} bloom={0.24} opacity={0.9}
               mouseInteraction={false} holdToWarp={false} intro={false}
               paused={!active || peoplePaused} dpr={1} maxFps={30} maxPixels={1_000_000} />

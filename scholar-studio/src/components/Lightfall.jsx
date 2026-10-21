@@ -233,11 +233,12 @@ void main() {
 
   if (uLightMode < 0.5 && uTopGlow > 0.0) {
     float aspect = uView.x / uView.y;
-    vec2 q = vec2((uv.x - 0.5) * aspect, 1.04 - uv.y);
-    float spread = 0.34 * max(aspect, 0.75);
-    float core = exp(-q.x * q.x / (spread * spread) - q.y * q.y / 0.06);
-    float halo = exp(-q.x * q.x / (3.6 * spread * spread) - q.y * q.y / 0.18);
-    light += uTopColor * uTopGlow * (core * 0.85 + halo * 0.3) * uPresence;
+    vec2 q = vec2((uv.x - 0.5) * aspect, 1.01 - uv.y);
+    // A compact overhead source, with a wider, soft pool of light below it.
+    float spread = 0.14 * max(aspect, 0.75);
+    float core = exp(-q.x * q.x / (spread * spread) - q.y * q.y / 0.0034);
+    float halo = exp(-q.x * q.x / (5.8 * spread * spread) - q.y * q.y / 0.085);
+    light += uTopColor * uTopGlow * (core * 1.25 + halo * 0.42) * uPresence;
   }
 
   vec3 lit = max(light, 0.0);
