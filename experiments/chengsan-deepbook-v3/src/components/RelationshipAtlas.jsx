@@ -3,6 +3,7 @@ import './RelationshipAtlas.css';
 
 const CURATED = ['stille', 'berlin', 'chengdu', 'sichuan-map', 'jialing', 'guo-lingzhi', 'zhou-tingru', 'arnold-heim'];
 const SLOTS = [[480,70],[750,105],[840,255],[740,400],[480,425],[220,400],[120,255],[210,105]];
+const radialSlot = i => { const inner=i<8; const angle=-Math.PI/2+(inner?i*Math.PI/4:(i-8)*Math.PI/8+Math.PI/16); return [620+Math.cos(angle)*(inner?270:540),220+Math.sin(angle)*(inner?100:170)]; };
 const CATEGORY_MARKS = {people:'人',institutions:'校',research:'野',works:'著'};
 
 export default function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelectedId, selectionNonce, onNavigateWithin }) {
@@ -120,15 +121,16 @@ export default function RelationshipAtlas({ data, onOpenImage, selectedId, initi
         <div className={`atlas-canvas ${isOverview?'atlas-overview-canvas':list?'atlas-show-list':''}`} data-scroll-lock={!isOverview&&list||undefined}>
           {isOverview ? <>
             <svg className="atlas-complete-network" viewBox="0 0 1240 470" role="group" aria-label={`李承三与全部${overviewNodes.length}条关系，圆形节点和连线，Tab选择节点查看史料`}>
-              <defs><clipPath id={`${uid}-all-portrait`}><circle cx="620" cy="250" r="52"/></clipPath></defs>
-              {overviewNodes.map((n,i)=>{const col=Math.floor(i/4),row=i%4;const x=[85,250,415,825,990,1155][col],y=45+row*105;return <path key={'edge-'+n.id} className={`atlas-complete-edge ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`} d={`M620 250 C${x<620?530:710} 250 ${x<620?x+65:x-65} ${y} ${x} ${y}`}/>;})}
-              <circle cx="620" cy="250" r="64" className="atlas-core-ring"/><circle cx="620" cy="250" r="53" fill="#292824"/>
-              {portrait?.path&&<image href={portrait.path} x="568" y="198" width="104" height="104" clipPath={`url(#${uid}-all-portrait)`} preserveAspectRatio="xMidYMin slice"/>}
-              <text className="atlas-core-name" x="620" y="343" textAnchor="middle">李承三</text><text className="atlas-core-date" x="620" y="371" textAnchor="middle">1899 — 1967</text>
-              {overviewNodes.map((n,i)=>{const col=Math.floor(i/4),row=i%4;const x=[85,250,415,825,990,1155][col],y=45+row*105;const lines=n.name.length>9?[n.name.slice(0,9),n.name.slice(9)]:[n.name];return <g key={n.id} data-node="true" data-relation-id={n.id} role="button" tabIndex="0" aria-label={`${n.name}，${n.relation}，查看史料`} aria-pressed={selected?.id===n.id} className={`atlas-node atlas-complete-node ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`} onClick={e=>choose(n,e)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();choose(n,e);}}} onMouseEnter={()=>setHovered(n.id)} onMouseLeave={()=>setHovered(null)} onFocus={()=>setHovered(n.id)} onBlur={()=>setHovered(null)}>
-                <circle className="atlas-node-halo" cx={x} cy={y} r="35"/><circle className="atlas-node-disc" cx={x} cy={y} r="28"/>
-                <text className="atlas-node-symbol" x={x} y={y+8} textAnchor="middle">{CATEGORY_MARKS[n.category]}</text>
-                {lines.map((line,j)=><text key={j} className="atlas-complete-name" x={x} y={y+53+j*20} textAnchor="middle">{line}</text>)}
+              <defs><clipPath id={`${uid}-all-portrait`}><circle cx="620" cy="220" r="45"/></clipPath>{overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i);return <clipPath key={n.id} id={`${uid}-all-${n.id}`}><circle cx={x} cy={y} r="25"/></clipPath>;})}</defs>
+              <ellipse className="atlas-orbit" cx="620" cy="220" rx="540" ry="170"/><ellipse className="atlas-orbit" cx="620" cy="220" rx="270" ry="100"/>
+              {overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i);const t=i<8?.63:.80;return <g key={'edge-'+n.id} className={`atlas-radial-link ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`}><path className="atlas-complete-edge" d={`M620 220 L${x} ${y}`}/><text className="atlas-radial-relation" x={620+(x-620)*t+(i===0||i===4?45:0)} y={220+(y-220)*t-7} textAnchor="middle">{n.relation}</text></g>;})}
+              <circle cx="620" cy="220" r="54" className="atlas-core-ring"/><circle cx="620" cy="220" r="46" fill="#292824"/>
+              {portrait?.path&&<image href={portrait.path} x="575" y="175" width="90" height="90" clipPath={`url(#${uid}-all-portrait)`} preserveAspectRatio="xMidYMin slice"/>}
+              <text className="atlas-core-name" x="620" y="290" textAnchor="middle">李承三</text>
+              {overviewNodes.map((n,i)=>{const [x,y]=radialSlot(i);const media=n.media||data?.media?.[n.id];const lines=n.name.length>9?[n.name.slice(0,9),n.name.slice(9)]:[n.name];return <g key={n.id} data-node="true" data-relation-id={n.id} role="button" tabIndex="0" aria-label={`${n.name}，${n.relation}，查看史料`} aria-pressed={selected?.id===n.id} className={`atlas-node atlas-complete-node ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`} onClick={e=>choose(n,e)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();choose(n,e);}}} onMouseEnter={()=>setHovered(n.id)} onMouseLeave={()=>setHovered(null)} onFocus={()=>setHovered(n.id)} onBlur={()=>setHovered(null)}>
+                <circle className="atlas-node-halo" cx={x} cy={y} r="31"/><circle className="atlas-node-disc" cx={x} cy={y} r="26"/>
+                {media?.path?<image href={media.path} x={x-25} y={y-25} width="50" height="50" preserveAspectRatio={media.fit||'xMidYMin slice'} clipPath={`url(#${uid}-all-${n.id})`}/>:<text className="atlas-node-symbol" x={x} y={y+8} textAnchor="middle">{CATEGORY_MARKS[n.category]}</text>}
+                {lines.map((line,j)=><text key={j} className="atlas-complete-name" x={x} y={y+45+j*17} textAnchor="middle">{line}</text>)}
                 <title>{n.name} · {n.relation}</title>
               </g>;})}
             </svg>
