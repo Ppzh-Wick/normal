@@ -1,0 +1,1 @@
+function l(e,a,t=1,r=15e5){const n=Math.min(Math.max(t,.1),2,Math.sqrt(r/(e*a)));return{width:Math.max(1,Math.floor(e*n)),height:Math.max(1,Math.floor(a*n)),ratio:n}}function u(e=30){const a=1e3/e;let t=null;return{ready(r){return t===null?(t=r+a,!0):r+.1<t?!1:(t+=(Math.floor(Math.max(0,r-t)/a)+1)*a,!0)},reset(){t=null}}}export{u as a,l as c};
