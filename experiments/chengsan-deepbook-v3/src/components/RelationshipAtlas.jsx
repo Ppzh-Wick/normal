@@ -20,7 +20,7 @@ export default function RelationshipAtlas({ data, onOpenImage, selectedId, initi
   const drag = useRef(null);
   const detailRef = useRef(null);
   const openerRef = useRef(null);
-  const focusEvidence=()=>requestAnimationFrame(()=>{const el=detailRef.current;if(!el)return;el.focus({preventScroll:true});if(matchMedia('(max-width:999px)').matches)el.scrollIntoView({block:'start',behavior:'instant'});});
+  const focusEvidence=()=>requestAnimationFrame(()=>{const el=detailRef.current;if(!el)return;el.focus({preventScroll:true});if(!el.closest('.atlas-all-view')&&matchMedia('(max-width:999px)').matches)el.scrollIntoView({block:'start',behavior:'instant'});});
   const uid = useId().replace(/:/g, '');
   const filtered = useMemo(() => {
     const ordered = [...nodes].sort((a,b) => {
@@ -36,17 +36,22 @@ export default function RelationshipAtlas({ data, onOpenImage, selectedId, initi
     const node = nodes.find(n => n.id === requestedId);
     if (!node) return;
     setSelected(node); setCategory('all'); setSearch('');
-    const ordered = [...nodes].sort((a,b) => {
-      const ai=CURATED.indexOf(a.id), bi=CURATED.indexOf(b.id);
-      return (ai<0?100:ai)-(bi<0?100:bi);
-    });
-    setPage(Math.floor(ordered.findIndex(n => n.id === requestedId)/8));
+    setPage(0);
     setView({x:0,y:0,scale:1});
     if(detailRef.current) detailRef.current.scrollTop=0;
     focusEvidence();
   }, [selectedId, initialSelectedId, selectionNonce, nodes]);
-  const pages = Math.max(1, Math.ceil(filtered.length/8));
-  const shown = filtered.slice(Math.min(page,pages-1)*8,Math.min(page,pages-1)*8+8);
+  const isOverview = category === 'all';
+  const pages = isOverview ? 1 : Math.max(1, Math.ceil(filtered.length/8));
+  const shown = isOverview ? filtered : filtered.slice(Math.min(page,pages-1)*8,Math.min(page,pages-1)*8+8);
+  const overviewNodes = useMemo(() => [...filtered].sort((a,b) => categories.findIndex(c=>c.id===a.category)-categories.findIndex(c=>c.id===b.category)), [filtered,categories]);
+  const EvidencePanel = isOverview ? 'dialog' : 'aside';
+  useEffect(() => {
+    const panel=detailRef.current;
+    if(!isOverview || !panel)return;
+    if(selected && !panel.open)panel.showModal();
+    else if(!selected && panel.open)panel.close();
+  }, [isOverview,selected]);
   const active = hovered || selected?.id;
   const portrait = data?.media?.['li-chengsan'];
   const reset = () => setView({x:0,y:0,scale:1});
@@ -56,7 +61,7 @@ export default function RelationshipAtlas({ data, onOpenImage, selectedId, initi
     setSelected(n);
     onNavigateWithin?.();
     if(detailRef.current) detailRef.current.scrollTop=0;
-    if(event?.type==='keydown' || event?.detail===0 || matchMedia('(max-width:999px)').matches) focusEvidence();
+    if(isOverview || event?.type==='keydown' || event?.detail===0 || matchMedia('(max-width:999px)').matches) focusEvidence();
   };
   const closeDetail = () => {
     setSelected(null);setHovered(null);
@@ -98,11 +103,10 @@ export default function RelationshipAtlas({ data, onOpenImage, selectedId, initi
   const chooseGuide=(id,event)=>{
     const n=nodes.find(n=>n.id===id);if(!n)return;
     setCategory('all');setSearch('');
-    const ordered=[...nodes].sort((a,b)=>{const ai=CURATED.indexOf(a.id),bi=CURATED.indexOf(b.id);return(ai<0?100:ai)-(bi<0?100:bi)});
-    setPage(Math.floor(ordered.findIndex(n=>n.id===id)/8));reset();choose(n,event);focusEvidence();
+    setPage(0);reset();choose(n,event);focusEvidence();
   };
 
-  return <div className="atlas-atlas" onKeyDown={e=>{if(e.key==='Escape'&&selected){e.preventDefault();e.stopPropagation();closeDetail();}}}>
+  return <div className={`atlas-atlas ${isOverview?'atlas-all-view':''}`} onKeyDown={e=>{if(e.key==='Escape'&&selected){e.preventDefault();e.stopPropagation();closeDetail();}}}>
     <div className="atlas-toolbar" data-scroll-lock>
       <div className="atlas-filters" role="group" aria-label="筛选关系类型">
         <button className={category==='all'?'is-active':''} aria-pressed={category==='all'} onClick={()=>changeCategory('all')}>全部关系 <span>{nodes.length}</span></button>
@@ -112,8 +116,16 @@ export default function RelationshipAtlas({ data, onOpenImage, selectedId, initi
     </div>
     <div className="atlas-workspace">
       <div className="atlas-map-column">
-        <div className="atlas-map-top"><span>学术关系图谱 <i>RELATIONSHIP ATLAS</i></span><button onClick={()=>{setList(!list);onNavigateWithin?.();}} aria-pressed={list}>{list?'切换图谱':'列表阅读'} <span aria-hidden="true">↗</span></button></div>
-        <div className={`atlas-canvas ${list?'atlas-show-list':''}`} data-scroll-lock={list||undefined}>
+        {isOverview ? <div className="atlas-map-top atlas-overview-heading"><span>全部学术关系 <i>RELATIONSHIP ATLAS</i></span><div className="atlas-overview-core">{portrait?.path&&<img src={portrait.path} alt=""/>}<strong>李承三</strong><small>1899 — 1967</small></div><span className="atlas-overview-prompt">选择一段关系，读其记述与出处</span></div> : <div className="atlas-map-top"><span>学术关系图谱 <i>RELATIONSHIP ATLAS</i></span><button onClick={()=>{setList(!list);onNavigateWithin?.();}} aria-pressed={list}>{list?'切换图谱':'列表阅读'} <span aria-hidden="true">↗</span></button></div>}
+        <div className={`atlas-canvas ${isOverview?'atlas-overview-canvas':list?'atlas-show-list':''}`} data-scroll-lock={!isOverview&&list||undefined}>
+          {isOverview ? <>
+            <svg className="atlas-overview-branches" viewBox="0 0 1000 18" preserveAspectRatio="none" aria-hidden="true"><path d="M500 0V9 M125 18V9H875V18 M375 9V18 M625 9V18"/></svg>
+            <div className="atlas-overview-nodes" aria-label={`以李承三为中心的${overviewNodes.length}条学术关系`}>
+              {overviewNodes.map(n=><button key={n.id} data-relation-id={n.id} className={`atlas-overview-node ${selected?.id===n.id?'is-active':''}`} aria-label={`李承三：${n.relation}，${n.name}，查看史料`} aria-pressed={selected?.id===n.id} onClick={e=>choose(n,e)}>
+                <strong>{n.name}</strong><span className="atlas-overview-relation"><span>{n.relation}</span><small>{categories.find(c=>c.id===n.category)?.label}</small></span><span className="atlas-overview-arrow" aria-hidden="true">↗</span>
+              </button>)}
+            </div>
+          </> : <>
           <svg ref={svgRef} className="atlas-network" viewBox="0 15 960 505" role="group" aria-label="以李承三为中心的关系图。拖动平移，方向键平移，加减缩放，0复位。Tab键选择关系节点。" tabIndex="0" onKeyDown={keyGraph} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}}>
             <defs>
               <radialGradient id={`${uid}-glow`}><stop offset="0" stopColor="#ae9161" stopOpacity=".12"/><stop offset="1" stopColor="#ae9161" stopOpacity="0"/></radialGradient>
@@ -138,12 +150,13 @@ export default function RelationshipAtlas({ data, onOpenImage, selectedId, initi
             </g>
           </svg>
           <div className="atlas-list" aria-label="关系节点列表">{shown.map(n=><button key={n.id} onClick={e=>choose(n,e)} className={selected?.id===n.id?'is-active':''}><span className="atlas-list-mark">{CATEGORY_MARKS[n.category]}</span><span><strong>{n.name}</strong><small>{n.relation} · {n.subtitle}</small></span><span aria-hidden="true">↗</span></button>)}</div>
-          {!shown.length&&<div className="atlas-empty">未找到相关记录。<button onClick={()=>{setSearch('');changeCategory('all');}}>重置筛选</button></div>}
           <div className="atlas-map-controls"><span>拖动探索 · 选择节点读史料</span><div><button aria-label="缩小关系图" onClick={()=>zoom(-.15)}>−</button><output aria-live="polite">{Math.round(view.scale*100)}%</output><button aria-label="放大关系图" onClick={()=>zoom(.15)}>+</button><button aria-label="复位关系图" onClick={reset}>复位</button></div></div>
+          </>}
+          {!shown.length&&<div className="atlas-empty">未找到相关记录。<button onClick={()=>{setSearch('');changeCategory('all');}}>重置筛选</button></div>}
         </div>
-        <div className="atlas-map-bottom"><span aria-live="polite">{filtered.length?`${Math.min(page,pages-1)*8+1} — ${Math.min((page+1)*8,filtered.length)}`:'0'} / {filtered.length} 条关系</span><div><button disabled={page===0} aria-label="上一组关系" onClick={()=>{setPage(p=>p-1);setSelected(null);setHovered(null);reset();}}>←</button><span>{page+1} / {pages}</span><button disabled={page>=pages-1} aria-label="下一组关系" onClick={()=>{setPage(p=>p+1);setSelected(null);setHovered(null);reset();}}>→</button></div></div>
+        {isOverview ? <div className="atlas-map-bottom atlas-overview-bottom"><span aria-live="polite">{search.trim()?`找到 ${filtered.length} / ${nodes.length} 条关系`:`全部 ${nodes.length} 条关系 · 已完整展开`}</span><span>位置只作阅读排布，不表示亲疏或影响</span></div> : <div className="atlas-map-bottom"><span aria-live="polite">{filtered.length?`${Math.min(page,pages-1)*8+1} — ${Math.min((page+1)*8,filtered.length)}`:'0'} / {filtered.length} 条关系</span><div><button disabled={page===0} aria-label="上一组关系" onClick={()=>{setPage(p=>p-1);setSelected(null);setHovered(null);reset();}}>←</button><span>{page+1} / {pages}</span><button disabled={page>=pages-1} aria-label="下一组关系" onClick={()=>{setPage(p=>p+1);setSelected(null);setHovered(null);reset();}}>→</button></div></div>}
       </div>
-      <aside className={`atlas-evidence ${selected?'has-selection':''}`} ref={detailRef} tabIndex="-1" data-scroll-lock aria-label="关系史料" onWheel={e=>e.stopPropagation()}>
+      <EvidencePanel className={`atlas-evidence ${selected?'has-selection':''}`} hidden={isOverview&&!selected} ref={detailRef} tabIndex="-1" data-scroll-lock aria-label={selected?`${selected.name}的关系史料`:'关系史料'} onWheel={e=>e.stopPropagation()} onCancel={e=>{e.preventDefault();closeDetail();}} onClick={e=>{if(isOverview&&e.target===e.currentTarget){const rect=e.currentTarget.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)closeDetail();}}}>
         <div className="atlas-evidence-eyebrow"><span>档案注释 / EVIDENCE</span>{selected&&<button aria-label="关闭关系详情" onClick={closeDetail}>×</button>}</div>
         {selected?<>
           <p className="atlas-source-status">{selected.status || '依据所列资料整理'}<br/><span>{selected.sources?.filter(r=>r.source==='enhancedChronology').length ? '本次年谱 · 第'+[...new Set(selected.sources.filter(r=>r.source==='enhancedChronology').map(r=>r.page))].join('、')+'页' : '详见下方文字依据'}</span></p>
@@ -153,7 +166,7 @@ export default function RelationshipAtlas({ data, onOpenImage, selectedId, initi
           <div className="atlas-citations"><h4>文字依据</h4><ol>{groupedSources.map(ref=><li key={ref.source}>{sourceLink(ref)}</li>)}</ol></div>
           {(selected.media||data?.media?.[selected.id])&&(()=>{const media=selected.media||data.media[selected.id];return <figure className="atlas-document"><button className="atlas-document-image" onClick={()=>onOpenImage?.(media)} disabled={!onOpenImage} aria-label={`查看图片与出处：${media.caption||selected.name}`}><img src={media.path} alt={media.alt||selected.name} loading="lazy"/>{onOpenImage&&<span>查看原图 ↗</span>}</button><figcaption>{media.caption}<p>{media.credit}</p><p>{media.rightsNote}</p>{media.verificationNote&&<p>{media.verificationNote}</p>}{media.sourceUrl&&<a href={media.sourceUrl} target="_blank" rel="noreferrer">图像来源：{media.sourceTitle||'原始页面'} ↗</a>}{media.licenseUrl&&<a href={media.licenseUrl} target="_blank" rel="noreferrer">许可：{media.license||'查看许可'} ↗</a>}</figcaption></figure>;})()}
         </>:<div className="atlas-invitation"><span className="atlas-invitation-index">以人为轴，以史为据</span><h3>一段关系，<br/>一条学脉。</h3><div className="atlas-guides">{[['stille','他向谁求学？'],['guo-lingzhi','谁与他共同考察？'],['xu-kaili','学问怎样传向后来？']].map(([id,label],i)=><button key={id} onClick={e=>chooseGuide(id,e)}><span>0{i+1}</span>{label}<i aria-hidden="true">→</i></button>)}</div><div className="atlas-reading-note"><span>阅读说明</span><p>节点位置只作阅读排布，不表示亲疏或影响。文字依据与图像出处分别标注。</p></div>{graph.sources?.[graph.primarySource]&&<div className="atlas-primary-source">{sourceLink({source:graph.primarySource})}</div>}</div>}
-      </aside>
+      </EvidencePanel>
     </div>
   </div>;
 }

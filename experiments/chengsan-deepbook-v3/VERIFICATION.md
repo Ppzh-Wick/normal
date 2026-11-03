@@ -34,3 +34,8 @@ Chromium, desktop 1180×757 CSS pixels. Native browser zoom also exercised 944px
 ## Final artifact check
 
 The final self-contained HTML was loaded over local HTTP. All scripts are inline, all displayed image references are embedded data URLs, no external stylesheets remain, no broken images were observed, and no application-origin console errors were recorded. All three graph groups were checked for text-box overlap between node names and relation captions after final corrections; none remained at the tested desktop viewport.
+
+
+## Requested refinement, 2026-11-03
+
+All24 relationships now appear together without pagination; category graphs retain8+5 person pagination. Verified all24 fit above bottom controls at1180×757, final item opens native evidence dialog, Escape returns focus, no-result search works. Removed visible pause control; animation is finite4.8seconds with reduced-motion override. Visible chronology titles retain source and page numbers but omit the edition suffix. The original sketch and its overlay remain unchanged per latest instruction to prioritize other changes.
