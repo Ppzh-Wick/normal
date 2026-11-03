@@ -51,3 +51,15 @@
 @media(max-width:600px){.atlas-overview-nodes{grid-template-columns:1fr;gap:0;padding:10px 14px 14px}.atlas-atlas .atlas-overview-node{min-height:66px;border:0;border-bottom:1px solid #bca2772b;background:transparent;padding:10px 4px}.atlas-overview-node strong{font-size:17px}.atlas-overview-relation{justify-content:flex-start;gap:14px}.atlas-overview-relation small{font-size:11px}.atlas-overview-arrow{display:block;opacity:1;top:25px;right:7px}.atlas-atlas.atlas-all-view .atlas-evidence.has-selection{left:12px;right:12px;bottom:12px;height:calc(100svh - 94px)}}
 
 @media(min-width:1000px) and (max-width:1100px){.atlas-overview-node strong{font-size:13px}}
+
+/* All 24 relations retain the circular-node and connecting-line presentation. */
+.atlas-all-view .atlas-overview-core{visibility:hidden}
+.atlas-atlas.atlas-all-view .atlas-overview-canvas{overflow:auto;display:block;scrollbar-width:thin}
+.atlas-complete-network{display:block;width:100%;height:auto;max-height:56vh;min-height:330px;overflow:visible}
+.atlas-complete-edge{fill:none;stroke:#bca27765;stroke-width:1;transition:stroke .2s,opacity .2s}
+.atlas-complete-edge.is-active{stroke:#ead09a;stroke-width:2}.atlas-complete-edge.is-muted{opacity:.25}
+.atlas-complete-name{font:17px var(--serif,serif);fill:#eee3d1;paint-order:stroke;stroke:#191a1b;stroke-width:5px;stroke-linejoin:round}
+.atlas-complete-node:focus-visible .atlas-node-halo{stroke:#fff0c8;stroke-width:3}.atlas-complete-node.is-active .atlas-complete-name{fill:#ffe3a8}
+@media(max-width:999px){.atlas-complete-network{min-width:1050px;min-height:465px;max-height:none}.atlas-all-view .atlas-overview-canvas{touch-action:pan-x pan-y}.atlas-all-view .atlas-overview-prompt{display:block}.atlas-all-view .atlas-overview-heading{grid-template-columns:1fr}.atlas-all-view .atlas-overview-core{display:none}}
+
+@media(min-width:1000px){.atlas-atlas.atlas-all-view .atlas-overview-canvas{overflow:hidden}.atlas-complete-network{position:absolute;inset:0;width:100%;height:100%;min-height:0;max-height:none}}

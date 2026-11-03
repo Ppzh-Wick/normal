@@ -119,12 +119,19 @@ export default function RelationshipAtlas({ data, onOpenImage, selectedId, initi
         {isOverview ? <div className="atlas-map-top atlas-overview-heading"><span>全部学术关系 <i>RELATIONSHIP ATLAS</i></span><div className="atlas-overview-core">{portrait?.path&&<img src={portrait.path} alt=""/>}<strong>李承三</strong><small>1899 — 1967</small></div><span className="atlas-overview-prompt">选择一段关系，读其记述与出处</span></div> : <div className="atlas-map-top"><span>学术关系图谱 <i>RELATIONSHIP ATLAS</i></span><button onClick={()=>{setList(!list);onNavigateWithin?.();}} aria-pressed={list}>{list?'切换图谱':'列表阅读'} <span aria-hidden="true">↗</span></button></div>}
         <div className={`atlas-canvas ${isOverview?'atlas-overview-canvas':list?'atlas-show-list':''}`} data-scroll-lock={!isOverview&&list||undefined}>
           {isOverview ? <>
-            <svg className="atlas-overview-branches" viewBox="0 0 1000 18" preserveAspectRatio="none" aria-hidden="true"><path d="M500 0V9 M125 18V9H875V18 M375 9V18 M625 9V18"/></svg>
-            <div className="atlas-overview-nodes" aria-label={`以李承三为中心的${overviewNodes.length}条学术关系`}>
-              {overviewNodes.map(n=><button key={n.id} data-relation-id={n.id} className={`atlas-overview-node ${selected?.id===n.id?'is-active':''}`} aria-label={`李承三：${n.relation}，${n.name}，查看史料`} aria-pressed={selected?.id===n.id} onClick={e=>choose(n,e)}>
-                <strong>{n.name}</strong><span className="atlas-overview-relation"><span>{n.relation}</span><small>{categories.find(c=>c.id===n.category)?.label}</small></span><span className="atlas-overview-arrow" aria-hidden="true">↗</span>
-              </button>)}
-            </div>
+            <svg className="atlas-complete-network" viewBox="0 0 1240 470" role="group" aria-label={`李承三与全部${overviewNodes.length}条关系，圆形节点和连线，Tab选择节点查看史料`}>
+              <defs><clipPath id={`${uid}-all-portrait`}><circle cx="620" cy="250" r="52"/></clipPath></defs>
+              {overviewNodes.map((n,i)=>{const col=Math.floor(i/4),row=i%4;const x=[85,250,415,825,990,1155][col],y=45+row*105;return <path key={'edge-'+n.id} className={`atlas-complete-edge ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`} d={`M620 250 C${x<620?530:710} 250 ${x<620?x+65:x-65} ${y} ${x} ${y}`}/>;})}
+              <circle cx="620" cy="250" r="64" className="atlas-core-ring"/><circle cx="620" cy="250" r="53" fill="#292824"/>
+              {portrait?.path&&<image href={portrait.path} x="568" y="198" width="104" height="104" clipPath={`url(#${uid}-all-portrait)`} preserveAspectRatio="xMidYMin slice"/>}
+              <text className="atlas-core-name" x="620" y="343" textAnchor="middle">李承三</text><text className="atlas-core-date" x="620" y="371" textAnchor="middle">1899 — 1967</text>
+              {overviewNodes.map((n,i)=>{const col=Math.floor(i/4),row=i%4;const x=[85,250,415,825,990,1155][col],y=45+row*105;const lines=n.name.length>9?[n.name.slice(0,9),n.name.slice(9)]:[n.name];return <g key={n.id} data-node="true" data-relation-id={n.id} role="button" tabIndex="0" aria-label={`${n.name}，${n.relation}，查看史料`} aria-pressed={selected?.id===n.id} className={`atlas-node atlas-complete-node ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`} onClick={e=>choose(n,e)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();choose(n,e);}}} onMouseEnter={()=>setHovered(n.id)} onMouseLeave={()=>setHovered(null)} onFocus={()=>setHovered(n.id)} onBlur={()=>setHovered(null)}>
+                <circle className="atlas-node-halo" cx={x} cy={y} r="35"/><circle className="atlas-node-disc" cx={x} cy={y} r="28"/>
+                <text className="atlas-node-symbol" x={x} y={y+8} textAnchor="middle">{CATEGORY_MARKS[n.category]}</text>
+                {lines.map((line,j)=><text key={j} className="atlas-complete-name" x={x} y={y+53+j*20} textAnchor="middle">{line}</text>)}
+                <title>{n.name} · {n.relation}</title>
+              </g>;})}
+            </svg>
           </> : <>
           <svg ref={svgRef} className="atlas-network" viewBox="0 15 960 505" role="group" aria-label="以李承三为中心的关系图。拖动平移，方向键平移，加减缩放，0复位。Tab键选择关系节点。" tabIndex="0" onKeyDown={keyGraph} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}}>
             <defs>
