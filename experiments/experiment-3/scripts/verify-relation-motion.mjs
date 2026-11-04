@@ -39,14 +39,14 @@ const categories = [
   { label: '成果与建设', name: '四川大地构造图', count: 3 },
 ];
 
-async function eventually(description, operation, timeout = 10000) {
+async function eventually(description, operation, timeout = 10000, interval = 80) {
   const deadline = Date.now() + timeout;
   let lastError;
   while (Date.now() < deadline) {
     try { return await operation(); }
     catch (error) { lastError = error; }
     // Bounded condition polling, not a fixed sleep to hide rendering races.
-    await delay(80);
+    await delay(interval);
   }
   throw new Error(description + ': ' + (lastError?.message || 'timed out'), { cause: lastError });
 }
@@ -273,6 +273,7 @@ function installMotionAudit() {
   const raf = { requested: 0, fired: 0, cancelled: 0, sources: [] };
   const created = [];
   const transitions = [];
+  const documentId = String(performance.timeOrigin) + ':' + Math.random().toString(36).slice(2);
   window.requestAnimationFrame = function (callback) {
     raf.requested += 1;
     let source = null;
@@ -316,21 +317,47 @@ function installMotionAudit() {
       const entry = {
         kind: document.documentElement.dataset.transitionKind || null,
         started: performance.now(), ready: null, committed: null, finished: null,
-        readyError: null, finishedError: null,
+        readyError: null, finishedError: null, samples: [],
       };
       transitions.push(entry);
-      native.ready.then(() => { entry.ready = performance.now(); },
-        error => { entry.readyError = error.name; });
+      let sampleTimer = 0;
+      const stopSampling = () => { if (sampleTimer) clearTimeout(sampleTimer); sampleTimer = 0; };
+      native.ready.then(() => {
+        entry.ready = performance.now();
+        // Only measure this bounded native transition. This is not a RAF loop:
+        // the timer is cancelled on finish/rejection, and has a 1500ms hard cap.
+        const sample = () => {
+          sampleTimer = 0;
+          const animations = document.getAnimations()
+            .filter(animation => animation.animationName?.startsWith('echo-room'))
+            .map(animation => {
+              const timing = animation.effect.getComputedTiming();
+              const pseudo = animation.effect.pseudoElement;
+              const style = pseudo ? getComputedStyle(document.documentElement, pseudo) : null;
+              return {
+                name: animation.animationName, pseudo, pending: animation.pending,
+                state: animation.playState, currentTime: animation.currentTime,
+                progress: timing.progress,
+                opacity: style ? Number(style.opacity) : null,
+                transform: style?.transform || null,
+              };
+            });
+          entry.samples.push({ now: performance.now(), animations });
+          if (entry.finished === null && performance.now() - entry.ready < 1500)
+            sampleTimer = setTimeout(sample, 24);
+        };
+        sample();
+      }, error => { entry.readyError = error.name; stopSampling(); });
       native.updateCallbackDone.then(() => { entry.committed = performance.now(); }, () => {});
-      native.finished.then(() => { entry.finished = performance.now(); },
-        error => { entry.finished = performance.now(); entry.finishedError = error.name; });
+      native.finished.then(() => { entry.finished = performance.now(); stopSampling(); },
+        error => { entry.finished = performance.now(); entry.finishedError = error.name; stopSampling(); });
       return native;
     };
   }
   window.__relationMotionAudit = {
     snapshot() {
       return {
-        now: performance.now(),
+        documentId, now: performance.now(),
         raf: { ...raf, pending: pending.size, pendingSources: [...pending.values()].filter(Boolean) },
         created: created.map(({ animation, ...record }) => ({
           ...record, state: animation.playState, pending: animation.pending,
@@ -466,6 +493,11 @@ function assertFinite(records, { mobile = false } = {}) {
 async function openFresh(page, hash = 'network') {
   currentPage = page;
   await page.bringToFront();
+  const previousDocument = await page.evaluate(() =>
+    window.__relationMotionAudit?.snapshot().documentId || null);
+  // Navigating to the same #hash can be a same-document navigation. Do not
+  // mistake it for a new React root or let earlier selection/mode state leak.
+  await page.goto('about:blank', { waitUntil: 'domcontentloaded' });
   if (hash === 'network') await openNetwork(page);
   else {
     await page.goto(origin + '/#' + hash, { waitUntil: 'domcontentloaded' });
@@ -474,6 +506,9 @@ async function openFresh(page, hash = 'network') {
       assert.equal((await motionState(page)).currentChapter, hash));
     await page.evaluate(async () => { await document.fonts.ready; });
   }
+  const fresh = await motionState(page);
+  assert.notEqual(fresh.documentId, previousDocument, 'each case must have a new document');
+  assert.equal(echoRecords(fresh).length, 0, 'no selection score leaks from the previous case');
   assert.equal(await page.locator('.relation-echo-experiment').count(), 1,
     'test the intended experiment, not a stale experiment-2 build');
   await expectEchoReleased(page);
@@ -769,13 +804,23 @@ try {
     await openFresh(page, 'field');
     const first = await beginChapter(page, 'network');
     motionSamples.push({ case: currentCase, label: 'chapter-forward-start', ...first });
-    await delay(90);
-    const second = await recordState(page, 'chapter-forward-progress');
-    const old = first.animations.find(animation => animation.name === 'echo-room-in');
-    const newer = second.animations.find(animation => animation.name === 'echo-room-in');
-    assert.ok(old && newer && newer.currentTime > old.currentTime,
-      'native snapshot animation really progresses');
     await screenshot(page, 'desktop-chapter-depth');
+    // Native ready means snapshots exist, not that their animations have left
+    // pending. Compare observed presentation samples, never a fixed 90ms guess.
+    const progressed = await eventually('native snapshots actually advance after pending resolves', async () => {
+      const state = await motionState(page);
+      const samples = state.transitions.at(-1)?.samples || [];
+      const frames = samples.flatMap(sample => sample.animations)
+        .filter(animation => animation.name === 'echo-room-in' &&
+          !animation.pending && Number(animation.currentTime) > 0);
+      assert.ok(frames.length >= 2, 'at least two actually ticking frames are required');
+      const a = frames[0];
+      const b = frames.find(frame => frame.currentTime > a.currentTime + 8 &&
+        (frame.transform !== a.transform || Math.abs(frame.opacity - a.opacity) > .001));
+      assert.ok(b, 'native snapshot time and rendered transform/opacity must both advance');
+      return state;
+    }, 2000, 24);
+    motionSamples.push({ case: currentCase, label: 'chapter-forward-progress', ...progressed });
     await expectChapterDone(page, 'network');
     await beginChapter(page, 'field', 'back');
     await expectChapterDone(page, 'field');
@@ -899,7 +944,8 @@ try {
   await check('mobile-chapter-navigation-skips-depth-snapshots', async () => {
     await openFresh(mobile, 'field');
     const before = (await motionState(mobile)).transitions.length;
-    await mobile.getByRole('button', { name: '下一屏', exact: true }).click();
+    await mobile.locator('.menu-toggle').tap();
+    await mobile.locator('#chapter-menu a[href="#network"]').tap();
     await expectChapterDone(mobile, 'network');
     assert.equal((await motionState(mobile)).transitions.length, before);
     await expectIdle(mobile, 'mobile chapter navigation');
