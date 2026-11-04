@@ -8,7 +8,7 @@ import { chromium } from 'playwright';
 // Run from experiments/experiment-2 after npm run build.
 // Playwright and its Chromium browser must already be installed by CI.
 // This script only reads the built application. Reports stay in this workspace.
-const origin = 'http://127.0.0.1:4173';
+const origin = (process.env.PAIR_TEST_URL || 'http://127.0.0.1:4173').replace(/\/$/, '');
 const output = path.resolve('review/pair-focus');
 const results = [];
 const screenshots = [];
@@ -256,6 +256,7 @@ async function check(name, operation) {
 
 await mkdir(output, { recursive: true });
 try {
+  if (!process.env.PAIR_TEST_URL) {
   server = spawn('npm', ['run', 'preview', '--', '--port', '4173', '--strictPort'], {
     cwd: process.cwd(), detached: process.platform !== 'win32',
     stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, BROWSER: 'none' },
@@ -272,6 +273,7 @@ try {
     const response = await fetch(origin, { signal: AbortSignal.timeout(1200) });
     assert.equal(response.status, 200);
   }, 20000);
+  }
   browser = await chromium.launch({ headless: true });
   const desktop = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'no-preference' });
   desktop.setDefaultTimeout(10000);

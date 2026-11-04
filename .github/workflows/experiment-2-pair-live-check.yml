@@ -1,0 +1,64 @@
+name: Verify public Experiment 2 pair focus
+on:
+  push:
+    branches: [experiment-2-pair-live-check]
+    paths:
+      - '.github/workflows/experiment-2-pair-live-check.yml'
+      - 'experiments/experiment-2/scripts/verify-pair-focus.mjs'
+permissions:
+  contents: read
+jobs:
+  verify-public:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: experiments/experiment-2
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Install browser tests
+        run: |
+          npm ci
+          npm install --no-save --package-lock=false playwright@1.64.1
+          npx playwright install --with-deps chromium
+      - name: Verify exact deployed build
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import crypto from 'node:crypto';
+          import fs from 'node:fs';
+          const base='https://ppzh-wick.github.io/normal/previews/experiment-2/';
+          const local=fs.readFileSync('../../previews/experiment-2/index.html','utf8');
+          const files=['index.html',...Array.from(local.matchAll(/(?:src|href)="\.\/(assets\/index-[^"]+\.(?:js|css))"/g),m=>m[1])];
+          assert.equal(files.length,3,'index plus exact JS and CSS bundle');
+          for(const file of files){
+            const response=await fetch(base+file+'?verified='+process.env.GITHUB_SHA);
+            assert.equal(response.status,200);
+            const actual=Buffer.from(await response.arrayBuffer()),expected=fs.readFileSync('../../previews/experiment-2/'+file);
+            assert.equal(crypto.createHash('sha256').update(actual).digest('hex'),crypto.createHash('sha256').update(expected).digest('hex'),file+' exact deployed bytes');
+          }
+          for(const old of ['previews/experiment-2-mineral/','previews/chengsan-motion-v7/']){
+            const response=await fetch('https://ppzh-wick.github.io/normal/'+old);
+            assert.equal(response.status,200,old+' retained'); console.log('PRESERVED_PREVIEW',old,response.status);
+          }
+          console.log('PUBLIC_BUILD_MATCHES_GIT');
+          NODE
+      - name: Browser regressions against published page
+        env:
+          PAIR_TEST_URL: https://ppzh-wick.github.io/normal/previews/experiment-2
+        run: node scripts/verify-pair-focus.mjs
+      - name: Export scoped public review results
+        if: always()
+        run: node scripts/export-pair-review.mjs
+      - name: Retain published review
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: experiment-2-pair-live-review
+          path: experiments/experiment-2/review/pair-focus
+          retention-days: 7
