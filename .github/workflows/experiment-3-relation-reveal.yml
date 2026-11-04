@@ -1,0 +1,81 @@
+name: Validate Experiment 3 relation reveal
+on:
+  push:
+    branches:
+      - experiment-3-relation-reveal
+    paths:
+      - 'experiments/experiment-3/**'
+      - '.github/workflows/experiment-3-relation-reveal.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: experiments/experiment-3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Install, test and build
+        run: |
+          npm ci
+          npm test
+          npm run build
+      - name: Install the official browser test runner
+        run: |
+          npm install --no-save --package-lock=false playwright@1.64.1
+          npx playwright install --with-deps chromium
+      - name: Test focused graph in Chromium
+        run: node scripts/verify-pair-focus.mjs
+      - name: Export scoped public build and review files
+        if: always()
+        run: node scripts/export-pair-review.mjs
+      - name: Retain review artifact
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: experiment-3-relation-review
+          path: |
+            experiments/experiment-3/dist
+            experiments/experiment-3/review/pair-focus
+          retention-days: 7
+
+  retrieve:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      max-parallel: 4
+      matrix:
+        file: [js-0, js-1, js-2, css, index, desktop-selected-school, desktop-selected-project, mobile-overview, mobile-selected-person]
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: experiment-3-relation-review
+          path: review-artifact
+      - name: Export one bounded public review segment
+        env:
+          REVIEW_FILE: ${{ matrix.file }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import crypto from 'node:crypto';
+          const root='review-artifact',key=process.env.REVIEW_FILE,assets=path.join(root,'dist/assets');
+          let file,part=0,parts=1;
+          if(key.startsWith('js-')){file='dist/assets/'+fs.readdirSync(assets).find(n=>/^index-.*\.js$/.test(n));part=Number(key.slice(3));parts=3;}
+          else if(key==='css')file='dist/assets/'+fs.readdirSync(assets).find(n=>/^index-.*\.css$/.test(n));
+          else if(key==='index')file='dist/index.html';
+          else file='review/pair-focus/'+key+'.jpg';
+          const bytes=fs.readFileSync(path.join(root,file)),all=bytes.toString('base64'),width=Math.ceil(all.length/parts/4)*4;
+          const base64=all.slice(part*width,(part+1)*width),chunks=Math.ceil(base64.length/12000);
+          const sha=crypto.createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex');
+          console.log('__REVIEW_FILE__ '+JSON.stringify({path:file,bytes:bytes.length,sha,part,parts,chunks}));
+          for(let i=0;i<chunks;i++)console.log('__REVIEW_CHUNK__ '+JSON.stringify({path:file,part,index:i,data:base64.slice(i*12000,(i+1)*12000)}));
+          NODE

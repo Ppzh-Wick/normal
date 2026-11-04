@@ -1,0 +1,164 @@
+{
+  "kind": "native offscreen shader unit render; not browser GPU, browser integration, or FPS testing",
+  "implementation": "Python ctypes calling already installed Mesa EGL, surfaceless OpenGL ES3 pbuffer and llvmpipe software rasterizer; no software installed and no browser settings changed",
+  "context": {
+    "vendor": "Mesa",
+    "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+    "version": "OpenGL ES 3.2 Mesa 25.0.7-2+deb13u1",
+    "shading_language": "OpenGL ES GLSL ES 3.20"
+  },
+  "egl_version": "1.5",
+  "dimensions": [
+    960,
+    600
+  ],
+  "pixel_count": 576000,
+  "source": "reference/Galaxy.jsx",
+  "wrapper": "src/components/GalaxyAtmosphere.jsx",
+  "source_sha256": "a5b43552317991ec5e9483f4ccdce064035ca5fdeb5d1785d04b00340c171c86",
+  "wrapper_sha256": "927e1cebe878b23e7ce63e9fa290f06811e286d2d36157bc7e34b63eade74da4",
+  "raw_shader_sha256": {
+    "VERTEX": "254cf753223046ecd2701ab8d840273bb06e104774ef4940f99dbbfa852945f4",
+    "FRAGMENT": "f2bd23a7f3ca0abf8f8dc3e9fbf22aac92da7cead9f12e0b035994b5003e476b"
+  },
+  "compiled_shader_sha256": {
+    "VERTEX": "254cf753223046ecd2701ab8d840273bb06e104774ef4940f99dbbfa852945f4",
+    "FRAGMENT": "d25d82c1afd52f4a38aca6c963e5dced0ba9810e7586f8ace21c3edfc626c8a3"
+  },
+  "shader_substitutions": {
+    "MAX_COLORS": 4,
+    "MAX_LAYERS": 8,
+    "defines": [
+      "PALETTE"
+    ]
+  },
+  "production_shader_matches_reference": true,
+  "props": {
+    "layers": 2.0,
+    "density": 0.7,
+    "glowIntensity": 0.2,
+    "starSize": 0.75,
+    "flareIntensity": 0.12,
+    "saturation": 0.4,
+    "starSpeed": 0.0,
+    "speed": 0.0,
+    "rotationSpeed": 0.0,
+    "twinkleIntensity": 0.0,
+    "mouseInteraction": false,
+    "mouseRepulsion": false,
+    "clickWarp": false,
+    "intro": false,
+    "disableAnimation": true,
+    "transparent": false,
+    "opacity": 1.0,
+    "dpr": 1.0,
+    "maxPixels": 600000.0,
+    "focal": [
+      0.5,
+      0.46
+    ],
+    "rotation": [
+      1.0,
+      0.0
+    ],
+    "starColors": [
+      "#bfd0e8",
+      "#8eabd5",
+      "#d8cbb2"
+    ],
+    "backgroundColor": "#000000"
+  },
+  "uniforms": {
+    "uTime": 0,
+    "uGloss": 0,
+    "uDepth": 0,
+    "uDensity": 0.7,
+    "uHueShift": 140,
+    "uSpeed": 0.0,
+    "uStarGlow": 0.0075000000000000015,
+    "uFlareGain": 0.024,
+    "uSquash": 0,
+    "uSaturation": 0.4,
+    "uMouseRepulsion": 0,
+    "uTwinkleIntensity": 0.0,
+    "uRotationAngle": 0,
+    "uRepulsionStrength": 2,
+    "uMouseActiveFactor": 0,
+    "uAutoCenterRepulsion": 0,
+    "uWarp": 0,
+    "uReveal": 1,
+    "uMode": 0,
+    "uOpacity": 1.0,
+    "uResolution": [
+      960,
+      600
+    ],
+    "uFocal": [
+      0.5,
+      0.46
+    ],
+    "uRotation": [
+      1.0,
+      0.0
+    ],
+    "uMouse": [
+      0.5,
+      0.5
+    ],
+    "uLayers": 2,
+    "uColorCount": 3,
+    "uColors": [
+      0.7490196078431373,
+      0.8156862745098039,
+      0.9098039215686274,
+      0.5568627450980392,
+      0.6705882352941176,
+      0.8352941176470589,
+      0.8470588235294118,
+      0.796078431372549,
+      0.6980392156862745,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "uBackground": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "rgb_extrema": [
+    [
+      0,
+      255
+    ],
+    [
+      0,
+      255
+    ],
+    [
+      0,
+      255
+    ]
+  ],
+  "alpha_extrema": [
+    255,
+    255
+  ],
+  "elapsed_seconds": 0.25,
+  "output": "review/galaxy-native.png",
+  "webp": {
+    "path": "public/images/materials/memorial-galaxy.webp",
+    "bytes": 45610,
+    "lossless": true,
+    "method": 6,
+    "pixel_exact_to_png": true,
+    "sha256": "9b961d8c0394c34a096adf9d81ab6019a54121b0a6075ffbd89e610de1133d0b"
+  },
+  "visual_review": {
+    "reviewed": "review/galaxy-native.png at 960x600",
+    "findings": "Sparse, subdued blue and warm-white pinpoint stars on opaque black; no streaks, warp, or bright cross flares. A quiet commemorative base. The shader alone does not create a luminous galactic cloud band; the planned low-contrast deep-blue CSS nebula supplies that atmosphere. Wrapper parameters left unchanged.",
+    "webp_review": "Lossless output verified pixel-identical to the inspected PNG.",
+    "limits": "Native shader output only. No browser GPU, FPS, screenshot integration, or end-device performance test was performed."
+  }
+}

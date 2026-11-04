@@ -1,0 +1,89 @@
+/* Experiment 3: a relation is briefly awakened, then returns to stillness.
+   The selected edge underneath stays complete and readable at every frame. */
+.relation-echo-experiment .atlas-echo-mark {
+  pointer-events:none;
+}
+.relation-echo-experiment .atlas-echo-line {
+  fill:none;
+  stroke:#e6f5ff;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-dasharray:1;
+  stroke-dashoffset:0;
+  opacity:0;
+}
+.relation-echo-experiment .atlas-echo-halo {
+  fill:none;
+  stroke:#c5e8ef;
+  stroke-width:1;
+  opacity:0;
+  transform-box:fill-box;
+  transform-origin:center;
+}
+.relation-echo-experiment .atlas-echo-sheet {
+  transform-origin:0 45%;
+}
+.relation-echo-experiment .atlas-folio-thread path {
+  stroke-dasharray:1;
+  stroke-dashoffset:0;
+}
+/* The selection score owns these accents. Do not stack legacy arrivals on it. */
+.relation-echo-experiment .atlas-atlas .atlas-arrival,
+.relation-echo-experiment .atlas-atlas .atlas-evidence.has-selection,
+.relation-echo-experiment .atlas-atlas .atlas-folio-thread path {
+  animation:none!important;
+}
+/* A shallow spatial hand-off. Only the two native page snapshots move.
+   Keep the proven transition coordinator, cancellation and history behavior. */
+html[data-transition-kind=chapter]::view-transition-group(root) {
+  animation-duration:.52s;
+}
+html[data-transition-kind=chapter]::view-transition-old(root) {
+  animation:echo-room-out .38s cubic-bezier(.3,0,.35,1) both;
+  mix-blend-mode:normal;
+  box-shadow:none;
+}
+html[data-transition-kind=chapter]::view-transition-new(root) {
+  animation:echo-room-in .52s cubic-bezier(.16,.7,.2,1) both;
+  mix-blend-mode:normal;
+  box-shadow:none;
+}
+html[data-transition-kind=chapter][data-nav-direction=back]::view-transition-old(root) {
+  animation-name:echo-room-out-back;
+}
+html[data-transition-kind=chapter][data-nav-direction=back]::view-transition-new(root) {
+  animation-name:echo-room-in-back;
+  box-shadow:none;
+}
+@keyframes echo-room-out {
+  0% {transform:translateY(0) scale(1);opacity:1}
+  75%,100% {transform:translateY(-24px) scale(.985);opacity:0}
+}
+@keyframes echo-room-in {
+  0% {transform:translateY(32px) scale(1.015);opacity:0}
+  48% {opacity:1}
+  100% {transform:translateY(0) scale(1);opacity:1}
+}
+@keyframes echo-room-out-back {
+  0% {transform:translateY(0) scale(1);opacity:1}
+  75%,100% {transform:translateY(24px) scale(.985);opacity:0}
+}
+@keyframes echo-room-in-back {
+  0% {transform:translateY(-32px) scale(1.015);opacity:0}
+  48% {opacity:1}
+  100% {transform:translateY(0) scale(1);opacity:1}
+}
+@media(prefers-reduced-motion:reduce) {
+  .relation-echo-experiment .atlas-echo-mark {display:none}
+  .relation-echo-experiment .atlas-atlas *,
+  .relation-echo-experiment .atlas-atlas *::before,
+  .relation-echo-experiment .atlas-atlas *::after {
+    animation:none!important;
+    transition:none!important;
+  }
+  html[data-transition-kind=chapter]::view-transition-old(root),
+  html[data-transition-kind=chapter]::view-transition-new(root) {
+    animation:none!important;
+    transform:none!important;
+  }
+}
