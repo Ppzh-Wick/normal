@@ -206,8 +206,8 @@ async function closeDetail(page, { escape = false, opener } = {}) {
 }
 
 async function screenshot(page, name) {
-  const file = name + '.png';
-  await page.screenshot({ path: path.join(output, file), fullPage: false, animations: 'disabled' });
+  const file = name + '.jpg';
+  await page.screenshot({ path: path.join(output, file), fullPage: false, type: 'jpeg', quality: 65, animations: 'disabled' });
   screenshots.push(file);
 }
 
