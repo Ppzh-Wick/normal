@@ -1,6 +1,8 @@
-# 李承三 · 实验2 · 星河学脉
+# 李承三 · 实验3 · 关系回响
 
-在矿色雾面实验2之上，仅为“学脉相连”接入真实 React Bits Galaxy。深群青、银蓝星点和青蓝极光弧带与紫色云海营造安静的纪念氛围。星河是装饰意象，不是历史坐标或事实陈述。人物资料、24个圆形节点、分类、证据与原始图像均保留。
+基于已单独保存的实验2聚焦版本，探索有限的关系描线、节点回响、证据纸面展开和章节纵深转场。原实验2不覆盖。
+
+公开预览：`previews/experiment-3/`；源代码：`experiments/experiment-3/`。原聚焦版：`previews/experiment-2/`，Git分支：`experiment-2-pair-focus`。原矿色版：`previews/experiment-2-mineral/`。
 
 ## Run and verify
 
@@ -8,11 +10,10 @@
 npm ci
 npm test
 npm run build
-node scripts/build-standalone.mjs
+node scripts/verify-pair-focus.mjs
+node scripts/verify-relation-motion.mjs
 ```
 
-公开预览：`previews/experiment-2/`；源代码：`experiments/experiment-2/`。原矿色预览原样另存于 `previews/experiment-2-mineral/`。单文件输出：`../李承三-实验2-星河学脉.html`。
+浏览器测试需先安装Playwright和Chromium。动作与降级说明见 `docs/EXPERIMENT-3.md`，最终验收以CI结果和浏览器截图为准。
 
-Galaxy 的原始 shader 保留；默认静止一帧，关闭穿越、闪烁、旋转、交互扰动。手机与减少动态模式不创建 Galaxy canvas；无 WebGL 时使用同一 shader 原生离屏生成的静态 WebP。旧首页的真实 Grainient 和小面积 GlassSurface 维持原样。
-
-组件来源、许可、性能适配、测试边界见 `docs/V9-GALAXY.md`。前轮材质与转场说明仍保留。历史图片与文字依据不变；未公开年谱 PDF 不随站点发布。
+24个节点、分类、史料、图片、青蓝极光与紫色云海保持原样。Galaxy的默认静帧、Grainient与GlassSurface的来源与许可仍保留于原文档。新增关系动效为原创，不声称来自Active Theory或React Bits。未公开年谱PDF不随站点发布。

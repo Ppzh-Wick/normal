@@ -3,11 +3,11 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { observeEntrance } from './observeEntrance.mjs';
 import { SplitText as GSAPSplitText } from 'gsap/SplitText';
 import { useGSAP } from '@gsap/react';
 
-gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
+gsap.registerPlugin(GSAPSplitText, useGSAP);
 
 const DEFAULT_FROM = { opacity: 0, y: 40 };
 const DEFAULT_TO = { opacity: 1, y: 0 };
@@ -123,17 +123,6 @@ const SplitText = ({
         return;
       }
 
-      const startPct = (1 - threshold) * 100;
-      const marginMatch = /^(-?\d+(?:\.\d+)?)(px|em|rem|%)?$/.exec(rootMargin);
-      const marginValue = marginMatch ? parseFloat(marginMatch[1]) : 0;
-      const marginUnit = marginMatch ? marginMatch[2] || 'px' : 'px';
-      const sign =
-        marginValue === 0
-          ? ''
-          : marginValue < 0
-            ? `-=${Math.abs(marginValue)}${marginUnit}`
-            : `+=${marginValue}${marginUnit}`;
-      const start = `top ${startPct}%${sign}`;
       const unit = splitType.includes('chars') ? 'chars' : splitType.includes('words') ? 'words' : 'lines';
 
       const em = parseFloat(getComputedStyle(el).fontSize) || 16;
@@ -150,6 +139,7 @@ const SplitText = ({
       let order = gsap.utils.distribute({ each: delay / 1000, from: staggerFrom });
       let revealed = completedTextRef.current === text;
       let intro = null;
+      let stopEntrance = () => {};
       let busy = null;
       let queued = null;
       let raf = 0;
@@ -324,6 +314,7 @@ const SplitText = ({
         charsClass: 'split-char',
         reduceWhiteSpace: false,
         onSplit: self => {
+          stopEntrance();
           pieces = [self[unit], self.chars, self.words, self.lines].find(list => list.length) || [];
           movers = mask && self.masks?.length === pieces.length ? self.masks : pieces;
           order = gsap.utils.distribute({ each: delay / 1000, from: staggerFrom });
@@ -336,10 +327,7 @@ const SplitText = ({
           }
           if (revealed) return undefined;
           intro = reveal(true, {
-            scrollTrigger:
-              trigger === 'load'
-                ? undefined
-                : { trigger: el, start, once: true, fastScrollEnd: true, anticipatePin: 0.4 },
+            paused: trigger !== 'load',
             onComplete: () => {
               revealed = true;
               intro = null;
@@ -349,6 +337,15 @@ const SplitText = ({
             }
           });
           busy = intro;
+          if (trigger !== 'load') {
+            const animation = intro;
+            stopEntrance = observeEntrance(el, {
+              threshold,
+              rootMargin,
+              once: true,
+              onEnter: () => animation.play()
+            });
+          }
           return intro;
         }
       });
@@ -364,6 +361,7 @@ const SplitText = ({
       if (trigger === 'click') el.addEventListener('click', onClick);
 
       return () => {
+        stopEntrance();
         cancelAnimationFrame(raf);
         queued?.kill();
         busy?.kill();
@@ -373,9 +371,6 @@ const SplitText = ({
         el.removeEventListener('click', onClick);
         movers.forEach(node => {
           node.style.translate = '';
-        });
-        ScrollTrigger.getAll().forEach(st => {
-          if (st.trigger === el) st.kill();
         });
         splitInstance.revert();
       };

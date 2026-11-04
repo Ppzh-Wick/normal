@@ -1,11 +1,10 @@
 // Adapted from React Bits AnimatedContent. See docs/V7-MOTION.md and licenses/React-Bits-LICENSE.md.
+// This exhibit keeps finite entrances; unused scroll-scrubbing is intentionally omitted.
 'use client';
 
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import { observeEntrance } from './observeEntrance.mjs';
 
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
@@ -40,7 +39,6 @@ const AnimatedContent = ({
   staggerFrom = 'start',
   trigger = 'scroll',
   once = true,
-  scrub = false,
   disappearAfter = 0,
   disappearDuration = 0.5,
   disappearEase = 'power3.in',
@@ -64,6 +62,7 @@ const AnimatedContent = ({
 
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
+    let stopEntrance = () => {};
     const ctx = gsap.context(() => {
       const targets = stagger > 0 && el.children.length ? Array.from(el.children) : [el];
       const horizontal = direction === 'horizontal';
@@ -114,7 +113,6 @@ const AnimatedContent = ({
       if (stagger > 0) to.stagger = { each: stagger, from: staggerFrom };
 
       const settle = () => {
-        if (scrub) return;
         gsap.set(targets, { clearProps: mask ? 'filter,transform,maskImage,webkitMaskImage' : 'filter,transform' });
       };
 
@@ -140,46 +138,32 @@ const AnimatedContent = ({
         onComplete: () => {
           callbacksRef.current.onComplete?.();
           settle();
-          if (once && !scrub) disappear();
+          if (once) disappear();
         }
       });
-      tl.fromTo(targets, from, to, scrub ? 0 : Math.max(delay, 0));
+      tl.fromTo(targets, from, to, Math.max(delay, 0));
 
       if (trigger === 'mount') {
         tl.play();
         return;
       }
 
-      const start = `top ${(1 - threshold) * 100}%`;
-
-      if (scrub) {
-        ScrollTrigger.create({
-          trigger: el,
-          scroller,
-          start,
-          end: `top ${Math.max((1 - threshold) * 100 - 45, 5)}%`,
-          scrub: scrub === true ? true : Math.max(Number(scrub) || 0, 0.01),
-          animation: tl
-        });
-        return;
-      }
-
-      ScrollTrigger.create({
-        trigger: el,
-        scroller,
-        start,
+      stopEntrance = observeEntrance(el, {
+        root: scroller,
+        threshold,
         once,
         onEnter: () => tl.play(),
-        onLeaveBack: once
-          ? undefined
-          : () => {
-              if (mask) gsap.set(targets, { maskImage: mask, webkitMaskImage: mask });
-              tl.reverse();
-            }
+        onLeaveBack: () => {
+          if (mask) gsap.set(targets, { maskImage: mask, webkitMaskImage: mask });
+          tl.reverse();
+        }
       });
     }, el);
 
-    return () => ctx.revert();
+    return () => {
+      stopEntrance();
+      ctx.revert();
+    };
   }, [
     disabled,
     container,
@@ -201,7 +185,6 @@ const AnimatedContent = ({
     staggerFrom,
     trigger,
     once,
-    scrub,
     disappearAfter,
     disappearDuration,
     disappearEase

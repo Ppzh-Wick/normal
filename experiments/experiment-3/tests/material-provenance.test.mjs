@@ -16,8 +16,8 @@ test('the material poster ships and the frosted-only GlassSurface does not creat
  const glass=read('src/vendor/GlassSurface.jsx');assert.match(glass,/glass-surface__sheen/);assert.match(glass,/glass-surface__rim/);assert.match(glass,/glass-surface__content/);assert.doesNotMatch(glass,/getContext|requestAnimationFrame|ResizeObserver|useEffect/);
  const css=read('src/frost.css');assert.match(css,/max-width:999px/);assert.match(css,/prefers-reduced-motion:reduce/);assert.match(css,/backdrop-filter:none/);
 });
-test('the new preview is visibly named experiment two and keeps the documented source path',()=>{
- assert.match(read('index.html'),/<title>李承三 · 山河之间 · 实验2<\/title>/);assert.match(read('src/App.jsx'),/李承三 · 实验2/);assert.match(read('README.md'),/previews\/experiment-2\//);
+test('the new preview is visibly named experiment three and keeps the documented source path',()=>{
+ assert.match(read('index.html'),/<title>李承三 · 山河之间 · 实验3 · 关系回响<\/title>/);assert.match(read('src/App.jsx'),/李承三 · 实验3/);assert.match(read('README.md'),/previews\/experiment-3\//);
 });
 test('the Galaxy poster uses exactly the production shaders and ships within its budget',()=>{
  const source=read('src/vendor/Galaxy.jsx'),report=JSON.parse(read('docs/galaxy-native-render.json'));
