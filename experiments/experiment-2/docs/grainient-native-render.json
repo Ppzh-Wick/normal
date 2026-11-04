@@ -1,0 +1,76 @@
+{
+  "kind": "native offscreen shader unit render; not browser GPU or visual integration testing",
+  "implementation": "Python ctypes calling already installed Mesa EGL, surfaceless OpenGL ES3 pbuffer",
+  "context": {
+    "vendor": "Mesa",
+    "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+    "version": "OpenGL ES 3.2 Mesa 25.0.7-2+deb13u1",
+    "shading_language": "OpenGL ES GLSL ES 3.20"
+  },
+  "egl_version": "1.5",
+  "dimensions": [
+    960,
+    600
+  ],
+  "field_dimensions": [
+    480,
+    300
+  ],
+  "source": "src/vendor/Grainient.jsx",
+  "wrapper": "src/components/MineralAtmosphere.jsx",
+  "shader_sha256": {
+    "VERTEX": "81dca6ac2b6289f3a8a343ffe79bd46b81f3f1777b3635c1bde1d1b36864ca6a",
+    "FIELD": "4875ff83dbc20f92e1877b53e2b9296c296df3cf2379d2954bee8f412d8b4c41",
+    "COMPOSITE": "9f33624f48e694d53876c8c6ae7a8c24690c960f8dff974652149da753cfaff4"
+  },
+  "props": {
+    "angle": 118.0,
+    "bands": 1.0,
+    "flow": 1.15,
+    "scale": 1.35,
+    "softness": 1.0,
+    "silk": 0.14,
+    "grainAmount": 0.045,
+    "grainSize": 1.2,
+    "contrast": 1.03,
+    "saturation": 0.86,
+    "variation": 3.0,
+    "speed": 0.0,
+    "grainAnimated": false,
+    "interactive": false,
+    "clickSwirl": false,
+    "intro": false,
+    "dpr": 1.0,
+    "maxPixels": 600000.0,
+    "colors": [
+      "#080f25",
+      "#132e58",
+      "#3e617d",
+      "#75463d",
+      "#ca9876"
+    ],
+    "type": "linear"
+  },
+  "static_uniforms": {
+    "uTime": 0,
+    "uFrame": 0,
+    "uSettle": 1,
+    "uReveal": 1
+  },
+  "rgb_extrema": [
+    [
+      1,
+      207
+    ],
+    [
+      7,
+      164
+    ],
+    [
+      25,
+      135
+    ]
+  ],
+  "elapsed_seconds": 0.665,
+  "output": "review/render-grainient-native.png"
+}

@@ -1,0 +1,22 @@
+{
+  "revision": "4dc7b5b7772e1217c8fb8d2a7aa074302180e5b4",
+  "retrieved": "2026-11-04",
+  "files": [
+    {
+      "file": "Grainient.jsx",
+      "sha256": "54e16ec1ea2beae8d50c5774626bc3d113293321095673017aea5a1960555905"
+    },
+    {
+      "file": "Grainient.css",
+      "sha256": "7d0f38ba834b1473c201a596199fe4a029723f28c27556a93f33edcf8a9b478d"
+    },
+    {
+      "file": "GlassSurface.jsx",
+      "sha256": "d435562be2930a98270e3ff5881402a301f84813b06f0603ed353af12a9c96b3"
+    },
+    {
+      "file": "GlassSurface.css",
+      "sha256": "90cfc3ad54ad7aa92bb2b700696e2d9f2d8704162ba1b94ebf0b6f8dcecc4e61"
+    }
+  ]
+}
