@@ -55,3 +55,36 @@ This section applies to the isolated refinement of the frozen V4 checkpoint. It 
 - Original-pixel magnifier ArrowRight changes inspected region; Escape removes lens and restores toggle focus without leaving the chapter.
 - Final chrome pass separates graph camera from its toolbar (measured8.2CSS-pixel gap) and docks chapter navigation in the masthead during object/folio/archive reading. Gallery arrow indicators are SVG rather than font glyphs.
 - Final browser pass exercised all six archive tabs with nonempty panels and matching URL view state; search found5 relationship records for 嘉陵江; relation captions/list expose24 entries; people paging remains8+5.
+
+## Performance update, 2026-11-04 UTC
+
+Only the refined experimental source/preview is updated. Earlier submission, V3,
+frozen V4, root site, data and original archival images remain unchanged.
+
+- 40/40 tests pass. New behavioral tests cover cached terrain geometry/final
+  projection, inactive/hidden pause and resume, canvas pixel budget, fixed wheel
+  lock, one graph update for 20 pointer events, and final drag-position flushing.
+- Build and standalone export pass (18 embedded assets, zero runtime imports).
+- Chapter wheel suppression: 950 ms with momentum extending it indefinitely
+  becomes a fixed 380 ms. Instant internal alignment uses 100 ms.
+- Chapter transitions: 720 ms clip-path/brightness animation becomes 320 ms
+  opacity/translation. Graph layout no longer animates grid widths or padding;
+  its camera and paper keep short 320 ms entrances. Image/object transitions
+  remain, at 340/360 ms. Fixed header/menu/navigation no longer blur the backdrop.
+- Terrain caches 11,376 original sample triples. Each animated frame previously
+  recomputed heights plus rotation per vertex; it now uses two rotation trig
+  calls, reuses gradient/geometry, and does no RAF work when inactive/hidden.
+  Completed reveal does not restart when returning to the opening.
+- Graph drag caches its coordinate ratio at pointerdown and batches pointer
+  updates into one RAF. Root changes no longer rerender a memoized graph with a
+  fresh callback; decorative registration marks are memoized too. Lens/tilt and
+  scroll-state synchronization are RAF-coalesced.
+- Node-only geometry microbenchmark: 50 warmups / 400 draws, original mean
+  0.743 ms and p95 0.928 ms, cached-height/rotation mean 0.211 ms and p95 0.395 ms.
+  This isolates math only, not Canvas paint, GPU, live FPS, or user-device speed.
+- Bundle size is not the principal issue: JS 504,376 to 506,056 bytes; CSS
+  132,804 to 132,515 bytes (production build). No feature or original image was
+  removed merely to reduce transfer size.
+- Local browser connection to the executor HTTP server was unavailable. Public
+  preview interaction verification is recorded separately after publication.
+  No claim of measured FPS, physical trackpad/mobile, or Safari/Firefox coverage.

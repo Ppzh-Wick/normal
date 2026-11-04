@@ -9,7 +9,7 @@ const HOME_VIEW = { x:0, y:0, scale:1 };
 
 // Registration marks belong to the drawing, not the historical dataset.
 // Only the existing graph nodes and their source-backed links represent records.
-function SurveyPlate({ count }) {
+const SurveyPlate = React.memo(function SurveyPlate({ count }) {
   return <g className="atlas-survey-plate" aria-hidden="true" pointerEvents="none">
     <text className="atlas-scene-glyph" x="32" y="384">学</text>
     <text className="atlas-scene-glyph" x="848" y="384">脉</text>
@@ -23,7 +23,7 @@ function SurveyPlate({ count }) {
     <text className="atlas-survey-caption" x="24" y="481">学术关系 · {String(count).padStart(2,'0')} 条记录</text>
     <text className="atlas-survey-caption" x="1216" y="481" textAnchor="end">位置为阅读排布 / NOT A MEASURE OF INFLUENCE</text>
   </g>;
-}
+});
 
 
 // Reserve portrait/name boxes before placing edge captions, so the optional
@@ -38,7 +38,7 @@ function layoutEdgeLabels(nodes, compact=false){
  });
 }
 
-export default function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelectedId, selectionNonce, onNavigateWithin }) {
+export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelectedId, selectionNonce, onNavigateWithin }) {
   const graph = data?.graph || {};
   const nodes = graph.nodes || [];
   const categories = graph.categories || [];
@@ -57,6 +57,8 @@ export default function RelationshipAtlas({ data, onOpenImage, selectedId, initi
   const [focusedRelation,setFocusedRelation]=useState(false);
   const svgRef = useRef(null);
   const drag = useRef(null);
+  const dragFrame = useRef(0), pendingView = useRef(null);
+  useEffect(()=>()=>{if(dragFrame.current)cancelAnimationFrame(dragFrame.current)},[]);
   const returnViewRef = useRef(HOME_VIEW);
   const detailRef = useRef(null);
   const openerRef = useRef(null);
@@ -137,14 +139,20 @@ export default function RelationshipAtlas({ data, onOpenImage, selectedId, initi
   const startDrag = e => {
     if(e.button!==0 || e.target.closest('[data-node]')) return;
     setIsDragging(true);setFocusedRelation(false);
-    drag.current={id:e.pointerId,x:e.clientX,y:e.clientY,vx:view.x,vy:view.y};
+    const rect=e.currentTarget.getBoundingClientRect();
+    drag.current={id:e.pointerId,x:e.clientX,y:e.clientY,vx:view.x,vy:view.y,scale:view.scale,ratio:(isOverview?(compact?720:1240):960)/Math.max(1,rect.width)};
     e.currentTarget.setPointerCapture(e.pointerId);
   };
-  const endDrag = () => {drag.current=null;setIsDragging(false);};
+  const endDrag = () => {
+    if(dragFrame.current){cancelAnimationFrame(dragFrame.current);dragFrame.current=0;}
+    if(pendingView.current){setView(pendingView.current);pendingView.current=null;}
+    drag.current=null;setIsDragging(false);
+  };
   const moveDrag = e => {
     if(!drag.current || drag.current.id!==e.pointerId) return;
-    const rect=svgRef.current.getBoundingClientRect(); const ratio=(isOverview?(compact?720:1240):960)/rect.width;
-    setView(v=>({...v,x:Math.max(-350,Math.min(350,drag.current.vx+(e.clientX-drag.current.x)*ratio)),y:Math.max(-250,Math.min(250,drag.current.vy+(e.clientY-drag.current.y)*ratio))}));
+    const {ratio,scale,vx,vy,x,y}=drag.current;
+    pendingView.current={scale,x:Math.max(-350,Math.min(350,vx+(e.clientX-x)*ratio)),y:Math.max(-250,Math.min(250,vy+(e.clientY-y)*ratio))};
+    if(!dragFrame.current)dragFrame.current=requestAnimationFrame(()=>{dragFrame.current=0;if(pendingView.current){setView(pendingView.current);pendingView.current=null;}});
   };
   const keyGraph = e => {
     if(e.target!==e.currentTarget) return;
@@ -251,3 +259,5 @@ export default function RelationshipAtlas({ data, onOpenImage, selectedId, initi
     </div>
   </div>;
 }
+
+export default React.memo(RelationshipAtlas);

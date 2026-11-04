@@ -55,9 +55,9 @@
 /* The same original sheet changes position; it is not replaced by a new card. */
 .field.is-reading .artifact-reading{animation:none!important}
 html[data-transition-kind=artifact]::view-transition-old(root),html[data-transition-kind=artifact]::view-transition-new(root){animation:none;mix-blend-mode:normal}
-::view-transition-group(study-sheet){animation-duration:.72s;animation-timing-function:cubic-bezier(.22,.7,.2,1)}
+::view-transition-group(study-sheet){animation-duration:.36s;animation-timing-function:cubic-bezier(.22,.7,.2,1)}
 ::view-transition-old(study-sheet),::view-transition-new(study-sheet){animation:none;mix-blend-mode:normal;object-fit:contain}
-::view-transition-new(study-note){animation:studyNoteEnter .65s cubic-bezier(.22,.7,.2,1) both}
+::view-transition-new(study-note){animation:studyNoteEnter .32s cubic-bezier(.22,.7,.2,1) both}
 ::view-transition-old(study-note){animation:studyNoteLeave .32s ease-in both}
 @keyframes studyNoteEnter{from{opacity:0;transform:translateX(45px) rotateY(-12deg)}to{opacity:1;transform:none}}
 @keyframes studyNoteLeave{to{opacity:0;transform:translateX(30px)}}
@@ -79,3 +79,6 @@ html[data-transition-kind=artifact]::view-transition-old(root),html[data-transit
  .strata-app.chapter-3:has(.atlas-has-focus) .reading-rail,
  .strata-app.chapter-5:has(.archive-is-open) .reading-rail{top:8px;bottom:auto;left:auto;right:180px;height:40px;z-index:85;background:transparent;backdrop-filter:none;border:0;padding:0 12px;box-shadow:none}
 }
+
+/* Opaque-enough fixed chrome needs no backdrop re-rasterization on scroll. */
+.masthead,.reading-rail,dialog.chapter-menu{backdrop-filter:none}

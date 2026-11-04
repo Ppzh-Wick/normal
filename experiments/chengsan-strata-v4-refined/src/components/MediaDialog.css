@@ -19,7 +19,7 @@ dialog.archival-reader::backdrop{background:#11191d;backdrop-filter:none}
 .archival-reader .image-zoom-toggle{color:#40382b;border-color:#8e7b5c65;padding:12px 18px;background:transparent}
 .archival-reader .media-caption .fine{color:#676b64;font-size:10px;margin-top:30px;padding-top:18px;border-top:1px solid #27323825}
 .archival-reader :focus-visible{outline:2px solid #84683f;outline-offset:4px}
-html[data-archive-transition]::view-transition-group(archive-reading-object){animation-duration:620ms;animation-timing-function:cubic-bezier(.22,.7,.1,1)}
+html[data-archive-transition]::view-transition-group(archive-reading-object){animation-duration:340ms;animation-timing-function:cubic-bezier(.22,.7,.1,1)}
 html[data-archive-transition]::view-transition-old(archive-reading-object),html[data-archive-transition]::view-transition-new(archive-reading-object){height:100%;width:100%;object-fit:contain;mix-blend-mode:normal}
 /* Extra specificity wins over persistent chapter/back/artifact attributes. */
 html:root[data-archive-transition]::view-transition-old(root){animation:archivePlaneOut 280ms ease-out both;mix-blend-mode:normal}

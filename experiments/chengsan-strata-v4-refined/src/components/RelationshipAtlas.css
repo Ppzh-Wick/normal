@@ -146,7 +146,7 @@
 .network .atlas-observatory .atlas-survey-tick {fill:none;stroke:#bbc4b834;stroke-width:.8}
 .network .atlas-observatory .atlas-survey-tick.is-major {stroke:#bbc4b86b;stroke-width:1}
 .network .atlas-observatory .atlas-survey-caption {font:9px var(--sans,sans-serif);letter-spacing:.12em;fill:#899991}
-.network .atlas-observatory .atlas-camera {transition:transform .68s cubic-bezier(.22,.68,.2,1)}
+.network .atlas-observatory .atlas-camera {transition:transform .32s cubic-bezier(.22,.68,.2,1)}
 .network .atlas-observatory.atlas-is-dragging .atlas-camera {transition:none}
 .network .atlas-observatory .atlas-orbit {stroke:#b9ba9e30;stroke-width:.7;stroke-dasharray:1 7}
 .network .atlas-observatory .atlas-complete-edge {stroke:#c3c2a666;stroke-width:.85}
@@ -286,21 +286,21 @@
 @media(min-width:1000px){
   .network .atlas-atlas.atlas-observatory.atlas-spatial-reader .atlas-workspace{
     position:relative;grid-template-columns:minmax(0,1fr) minmax(0,0fr);
-    transition:grid-template-columns .78s cubic-bezier(.22,.72,.15,1);overflow:hidden;
+    transition:none;overflow:hidden;
   }
   .network .atlas-atlas.atlas-observatory.atlas-spatial-reader.atlas-has-focus .atlas-workspace,
   .network .atlas-atlas.atlas-observatory.atlas-spatial-reader:not(.atlas-all-view) .atlas-workspace{
     grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
   }
   .network .atlas-atlas.atlas-observatory.atlas-spatial-reader .atlas-map-column{
-    padding-right:0;transition:padding .78s cubic-bezier(.22,.72,.15,1);overflow:hidden;
+    padding-right:0;transition:none;overflow:hidden;
   }
   .network .atlas-atlas.atlas-observatory.atlas-spatial-reader.atlas-has-focus .atlas-map-column{padding-right:22px}
   .network .atlas-atlas.atlas-observatory.atlas-spatial-reader .atlas-evidence.has-selection{
     position:relative;inset:auto;align-self:stretch;width:100%;min-width:0;height:100%;max-height:100%;margin:0;
     border:0;border-left:1px solid #d2bea0;padding:25px clamp(22px,3vw,48px) 48px;
     background:linear-gradient(90deg,#d6ceba,#eeeadd 22px,#eeeadd);box-shadow:none;
-    animation:atlas-folio-unfold .78s cubic-bezier(.22,.72,.15,1) both;
+    animation:atlas-folio-unfold .32s cubic-bezier(.22,.72,.15,1) both;
   }
   .network .atlas-atlas.atlas-observatory.atlas-spatial-reader .atlas-evidence:not(.has-selection){min-width:0}
   .network .atlas-atlas.atlas-observatory.atlas-spatial-reader .has-selection .atlas-evidence-eyebrow{
@@ -340,7 +340,7 @@
   }
   .network .atlas-atlas.atlas-observatory.atlas-spatial-reader .atlas-evidence::backdrop{background:#061114aa}
 }
-@keyframes atlas-folio-unfold{from{opacity:.5;clip-path:inset(0 0 0 100%);transform:translateX(30px)}to{opacity:1;clip-path:inset(0);transform:translateX(0)}}
+@keyframes atlas-folio-unfold{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
 @keyframes atlas-thread-draw{from{stroke-dashoffset:1;opacity:0}to{stroke-dashoffset:0;opacity:1}}
 @media(prefers-reduced-motion:reduce){
   .network .atlas-atlas.atlas-observatory.atlas-spatial-reader *,

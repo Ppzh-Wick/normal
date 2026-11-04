@@ -151,6 +151,15 @@ test('one wheel chapter move locks repeated deltas and ignores nested scrollable
  });
 });
 
+test('wheel lock is bounded: momentum cannot keep extending the dead period',()=>{
+ hookHarness(({listeners,scrolls,advance})=>{
+  const e={ctrlKey:false,metaKey:false,deltaX:0,deltaY:100,deltaMode:0,target:{closest:()=>null},preventDefault(){}};
+  listeners.wheel(e);assert.equal(scrolls.length,1);
+  for(let i=0;i<3;i++){advance(100);listeners.wheel(e);assert.equal(scrolls.length,1);}
+  advance(90);listeners.wheel(e);assert.equal(scrolls.length,2,'new gesture responds after fixed 380ms, not an extended 950ms lock');
+ });
+});
+
 const archiveBuild=await build({entryPoints:[resolve(root,'src/components/ArchiveRoom.jsx')],bundle:true,jsx:'automatic',platform:'node',format:'cjs',write:false,loader:{'.css':'empty'},external:['react','react-dom']});
 const archiveModule={exports:{}};
 new Function('require','module','exports',archiveBuild.outputFiles[0].text)(require,archiveModule,archiveModule.exports);
@@ -204,7 +213,7 @@ function atlasFocusHarness(run){
  const saved=['requestAnimationFrame','document','matchMedia'].map(k=>[k,Object.getOwnPropertyDescriptor(globalThis,k)]);
  const changes={requestAnimationFrame:f=>f(),document:{activeElement:null},matchMedia:()=>({matches:false})};
  for(const[k,v]of Object.entries(changes))Object.defineProperty(globalThis,k,{configurable:true,writable:true,value:v});
- const render=()=>{stateCursor=0;refCursor=0;return module.exports.default({data:archiveData})};
+ const render=()=>{stateCursor=0;refCursor=0;return module.exports.RelationshipAtlas({data:archiveData})};
  function* walkElements(el){if(!el||typeof el!=='object')return;if(Array.isArray(el)){for(const child of el)yield*walkElements(child);return;}if(el.props){yield el;yield*walkElements(el.props.children)}}
  try{run({render,state,find:(tree,predicate)=>[...walkElements(tree)].find(predicate)});}
  finally{for(const[k,d]of saved){if(d)Object.defineProperty(globalThis,k,d);else delete globalThis[k];}}
@@ -233,6 +242,26 @@ test('closing evidence falls back to graph focus when its original opener has di
   find(tree,e=>e.props['data-relation-id']==='jialing').props.onClick({currentTarget:opener,type:'click',detail:1});
   tree=render();tree.props.onKeyDown({key:'Escape',preventDefault(){},stopPropagation(){}});
   assert.equal(openerFocus,0);assert.equal(graphFocus,1);
+ });
+});
+
+test('graph drag batches pointer events and flushes the final view at release',()=>{
+ atlasFocusHarness(({render,state,find})=>{
+  let queued,reads=0,scheduled=0;
+  const oldRAF=globalThis.requestAnimationFrame,oldCancel=globalThis.cancelAnimationFrame;
+  globalThis.requestAnimationFrame=f=>{scheduled++;queued=f;return scheduled};
+  globalThis.cancelAnimationFrame=()=>{queued=null};
+  try{
+   const tree=render(),svg=find(tree,e=>e.type==='svg'&&String(e.props.className).includes('atlas-complete-network'));
+   const target={closest:()=>null},currentTarget={getBoundingClientRect:()=>{reads++;return {width:1240}},setPointerCapture(){}};
+   svg.props.onPointerDown({button:0,pointerId:1,clientX:100,clientY:100,target,currentTarget});
+   for(let i=1;i<=20;i++)svg.props.onPointerMove({pointerId:1,clientX:100+i,clientY:100+i});
+   assert.equal(scheduled,1);assert.equal(reads,1);assert.deepEqual(state[5],{x:0,y:0,scale:1});
+   queued();assert.deepEqual(state[5],{x:20,y:20,scale:1});
+   svg.props.onPointerMove({pointerId:1,clientX:130,clientY:125});
+   svg.props.onPointerUp();assert.deepEqual(state[5],{x:30,y:25,scale:1});
+   assert.equal(queued,null);
+  }finally{globalThis.requestAnimationFrame=oldRAF;if(oldCancel)globalThis.cancelAnimationFrame=oldCancel;else delete globalThis.cancelAnimationFrame;}
  });
 });
 
