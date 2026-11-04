@@ -1,0 +1,1975 @@
+{
+  "graph": {
+    "nodes": [
+      {
+        "id": "stille",
+        "name": "汉斯·施蒂勒",
+        "category": "people",
+        "relation": "师从",
+        "subtitle": "留德研习大地构造学",
+        "date": "1931 年 8 月 — 1936 年",
+        "evidence": "1931 年 8 月，李承三赴德国柏林大学地质系留学，师从构造地质学家汉斯·施蒂勒（Hans Stille），研究大地构造学。",
+        "context": "1936 年 7 月，在柏林大学获博士（哲学）学位，完成德文博士论文。秋季学成返国，此后至 1940 年任中央大学教授，兼任前经济部地质调查所特约研究员。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 2
+          }
+        ],
+        "lines": [
+          "汉斯",
+          "施蒂勒"
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/stille.jpg",
+          "alt": "汉斯·施蒂勒肖像",
+          "caption": "汉斯·施蒂勒，1934年",
+          "sourceTitle": "File:1941-StilleH.jpg — Wikimedia Commons",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:1941-StilleH.jpg",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/52/1941-StilleH.jpg",
+          "credit": "Lotze F. / Wikimedia Commons",
+          "license": "Public Domain Mark 1.0",
+          "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+          "rightsNote": "Commons原页面标注公有领域；照片说明为1934年，来源为1941年《Die Naturwissenschaften》29卷40期593页。",
+          "fit": "xMidYMin slice",
+          "width": 225,
+          "height": 290,
+          "bytes": 35760
+        },
+        "x": 500,
+        "y": 70
+      },
+      {
+        "id": "chang-longqing",
+        "name": "常隆庆",
+        "category": "people",
+        "relation": "共同编图",
+        "subtitle": "四川省大地构造图与合作研究",
+        "date": "1950 — 1960",
+        "evidence": "1950 年，常隆庆兼任重庆大学教授，与李承三同列为地质系创建时期的学科带头人。1959 年，两人共同主持编制四川省第一幅 1∶100 万大地构造图，划分厘定四川地区的大地构造单元。",
+        "context": "1960 年，李承三与常隆庆、吴燕生等合作发表《四川省大地构造轮廓（四川省大地构造图说明书摘要）》，刊于《成都地质学院学报》第 1 期。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 7
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          }
+        ],
+        "personId": "chang-longqing",
+        "x": 657,
+        "y": 91
+      },
+      {
+        "id": "wu-yansheng",
+        "name": "吴燕生",
+        "category": "people",
+        "relation": "共同考察",
+        "subtitle": "龙门山考察与合作著述",
+        "date": "1960 · 考察；1964 · 论文发表",
+        "evidence": "1960 年夏，李承三率吴燕生、李永昭、卢登仕三位教师及何辅德、倪秉方、王昌烈等 8 名学生，考察龙门山南段东坡及山前带第四纪冰川遗迹，历时三个多月。",
+        "context": "吴燕生参与 1960 年《四川省大地构造轮廓》的合作发表。1964 年，李承三与吴燕生、李永昭、卢登仕合作的龙门山冰川论文收入《中国第四纪冰川遗迹研究文集》第 14—84 页。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          }
+        ],
+        "personId": "wu-yansheng",
+        "x": 790,
+        "y": 149
+      },
+      {
+        "id": "guo-lingzhi",
+        "name": "郭令智",
+        "category": "people",
+        "relation": "学术合作",
+        "subtitle": "从西康同行到长期合作",
+        "date": "1938 — 1950；1998 · 纪念",
+        "evidence": "1938 年，郭令智与李承三、袁见齐等赴西康调查；1939 年与李承三合作发表《康定道孚之冰川地形》，并参与矿产调查成果著述。1940—1941 年参加李承三领导的嘉陵江流域考察，其后共同发表研究成果。",
+        "context": "1950 年，李承三亲笔致信并附路费两千美金，邀请留英的郭令智回国任教；郭令智后因故转赴南京大学。年谱将他列为李承三合作时间长、成果集中的学生辈合作者之一。1998 年，郭令智等发起李承三百年诞辰纪念活动。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 3
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 4
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 5
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 7
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 10
+          }
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/guo-lingzhi.png",
+          "alt": "郭令智肖像",
+          "caption": "郭令智肖像",
+          "sourceTitle": "郭令智 — 南京大学",
+          "sourceUrl": "https://www.nju.edu.cn/info/3891/405871.htm",
+          "imageUrl": "https://www.nju.edu.cn/__local/4/F6/99/119B6350F4685FE64551D5D7828_CA580EEA_1C7D6.png",
+          "credit": "南京大学",
+          "rightsNote": "南京大学公开人物介绍配图；页面未注明开放转载许可，版权归原权利人。",
+          "fit": "xMidYMin slice",
+          "width": 252,
+          "height": 377,
+          "bytes": 116694
+        },
+        "x": 879,
+        "y": 237
+      },
+      {
+        "id": "zhou-tingru",
+        "name": "周廷儒",
+        "category": "people",
+        "relation": "共同考察",
+        "subtitle": "嘉陵江田野工作与合作发表",
+        "date": "1940 — 1946",
+        "evidence": "1940—1941 年，周廷儒随李承三、郭令智、高泳源等沿嘉陵江徒步调查，记录河流地貌。1941 年与李承三合作发表《离堆与离堆山考》，刊于《地理》第 1 卷第 3 期。",
+        "context": "1943 年，两人合作发表《青海茶卡之盐矿》；周廷儒还参与《嘉陵江三峡地质与地形和温泉的关系》的合作著述。1946 年，《嘉陵江流域地理考察专报·上卷》以李承三、郭令智、周廷儒、高泳源的合作成果出版。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 3
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 4
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 5
+          }
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/zhou-tingru.jpg",
+          "alt": "周廷儒先生伏案阅读的工作照",
+          "caption": "周廷儒先生工作照",
+          "sourceTitle": "先生工作照 — 北京师范大学周廷儒院士纪念网",
+          "sourceUrl": "https://zhoutr.bnu.edu.cn/rsly/txjy/xsgzz/",
+          "imageUrl": "https://zhoutr.bnu.edu.cn/images/content/2017-05/20170524154716770323.jpg",
+          "credit": "北京师范大学周廷儒院士纪念网",
+          "rightsNote": "北京师范大学官方纪念网的单人工作照；页面未注明开放转载许可，版权归原权利人。原图220×150，适合图谱节点，放大时有原始资料清晰度限制。",
+          "fit": "xMidYMin slice",
+          "width": 220,
+          "height": 150,
+          "bytes": 9213
+        },
+        "x": 910,
+        "y": 340
+      },
+      {
+        "id": "ye-lianjun",
+        "name": "叶连俊",
+        "category": "people",
+        "relation": "共同调查",
+        "subtitle": "叙昆铁路调查与地层研究",
+        "date": "1940 — 1941",
+        "evidence": "1940 年，李承三与叶连俊合作发表英文论文《云南北部之泥盆纪》。1941 年，两人共同进行叙昆铁路沿线地质矿产调查，自宜宾经珙县、长宁进入滇北盐津、彝良，止于昭通。",
+        "context": "途中两人先后病倒，仍坚持完成调查，并对铁路选线提出地质修正意见。同年，李承三发表《叙昆铁路北段游记》及《叙昆铁路北段之选线研究》等成果。 本次提供年谱的正文“南段”与游记题名“北段”存在差异，本专题不裁定段别。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 4
+          }
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/ye-lianjun.jpg",
+          "alt": "叶连俊肖像",
+          "caption": "叶连俊肖像",
+          "sourceTitle": "叶连俊 — 李四光地质科学奖基金会",
+          "sourceUrl": "https://www.lsgf.ac.cn/lsgj/ljhj/2001/rongyujiang/8104.htm",
+          "imageUrl": "https://www.lsgf.ac.cn/UploadFiles/2013_4_18/01%E5%8F%B6%E8%BF%9E%E4%BF%8A.jpg",
+          "credit": "李四光地质科学奖基金会",
+          "rightsNote": "基金会公开获奖者人物介绍配图；页面未注明开放转载许可，版权归原权利人。",
+          "fit": "xMidYMin slice",
+          "width": 200,
+          "height": 268,
+          "bytes": 15883
+        },
+        "x": 879,
+        "y": 443
+      },
+      {
+        "id": "shi-yafeng",
+        "name": "施雅风",
+        "category": "people",
+        "relation": "出版支持",
+        "subtitle": "考察成果出版与后来的纪念",
+        "date": "1945 — 1946；1998 · 纪念",
+        "evidence": "1945 年冬，李承三代理中国地理研究所所长，清理战时积压稿件，加快《地理》杂志出版。青年学者施雅风的《川西地理考察记》经其推动，于次年刊出。",
+        "context": "1998 年，学校学报推出李承三百年诞辰纪念专辑，施雅风撰写《缅怀李承三教授——重读〈嘉陵江流域地理考察报告上卷·地形〉》，回顾他的研究贡献。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 5
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 10
+          }
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/shi-yafeng.jpg",
+          "alt": "施雅风肖像",
+          "caption": "施雅风肖像",
+          "sourceTitle": "施雅风 — 中国科学院学部与院士",
+          "sourceUrl": "https://casad.cas.cn/ysxx2022/ygys/200906/t20090624_1804321.html",
+          "imageUrl": "https://casad.cas.cn/ysxx2022/ygys/200906/W020100513344852712991.jpg",
+          "credit": "中国科学院学部与院士",
+          "rightsNote": "中国科学院公开院士资料配图；页面未注明开放转载许可，版权归原权利人。",
+          "fit": "xMidYMin slice",
+          "width": 200,
+          "height": 276,
+          "bytes": 38710
+        },
+        "x": 790,
+        "y": 531
+      },
+      {
+        "id": "xu-kaili",
+        "name": "徐开礼",
+        "category": "people",
+        "relation": "指导",
+        "subtitle": "统编教材的编写与指导",
+        "date": "1959 — 1961",
+        "evidence": "1959 年，地质部将全国统编教材《构造地质学及地质制图学》的编写任务下达成都地质学院。李承三推荐徐开礼任主编，从编写提纲到具体内容给予全面指导。",
+        "context": "年谱记载，相关全国统编教材于1961年出版。徐开礼也是年谱列举的李承三培养的地学人才之一。1958年著述与1961年版的具体关系仍待版权页、书目核对。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 8
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 11
+          }
+        ],
+        "x": 657,
+        "y": 589
+      },
+      {
+        "id": "henan",
+        "name": "河南大学",
+        "category": "institutions",
+        "relation": "毕业",
+        "subtitle": "进入地质学的求学阶段",
+        "date": "1927 — 1928",
+        "evidence": "1927 年，李承三考入河南大学地质系。1928 年毕业，获理学士学位。",
+        "context": "毕业后至 1931 年，在两广地质调查所任技助，并先后任天津北洋大学助教、兼任广州中山大学助教。1928 年发表海南岛北部地质矿产与火山研究，开始对华南沿海区域地质进行实地调查。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 1
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 2
+          }
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/henan-gate.webp",
+          "alt": "河南大学沿用中州大学时期的旧校门",
+          "caption": "河南大学旧校门，1936年以前沿用中州大学时期的建筑",
+          "sourceTitle": "刘波：校门——见证百年变迁（河南大学离退休工作处）",
+          "sourceUrl": "https://ganbu.henu.edu.cn/info/1036/4225.htm",
+          "imageUrl": "https://ganbu.henu.edu.cn/__local/7/63/96/A433C290423A7B77485044FC7A6_16D977FE_5B0E8.png",
+          "credit": "河南大学离退休工作处；刘波《校门：见证百年变迁》所载校史照片",
+          "rightsNote": "官方校史文章中的历史照片；页面未标明开放许可。沿用原图并保留来源，照片准确拍摄年份未注明。 展示副本仅转为WebP编码，尺寸与画面未改变。",
+          "fit": "xMidYMid slice",
+          "width": 1080,
+          "height": 685,
+          "bytes": 100140
+        },
+        "x": 500,
+        "y": 610
+      },
+      {
+        "id": "berlin",
+        "name": "柏林大学",
+        "category": "institutions",
+        "relation": "留学",
+        "subtitle": "留德深造与博士学位",
+        "date": "1931 年 8 月 — 1936 年 7 月",
+        "evidence": "1931 年 8 月，李承三赴德国柏林大学地质系留学，师从汉斯·施蒂勒研究大地构造学。1936 年 7 月获博士（哲学）学位。",
+        "context": "博士论文为德文 Schichtenfolge und Bau des ober Lausitzer Schiefergebirges。1936 年秋学成返国，随后在中央大学从事教学与地质研究。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 2
+          }
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/berlin-1938.jpg",
+          "alt": "1938年柏林大学主楼与广场旧影",
+          "caption": "柏林大学主楼旧影，1938年；今柏林洪堡大学",
+          "sourceTitle": "Bundesarchiv Bild 146-2006-0130, Berlin, Humboldt Universität",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_146-2006-0130,_Berlin,_Humboldt_Universit%C3%A4t.jpg",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/76/Bundesarchiv_Bild_146-2006-0130%2C_Berlin%2C_Humboldt_Universit%C3%A4t.jpg",
+          "credit": "Bundesarchiv, Bild 146-2006-0130 / Hagemann, Otto / CC-BY-SA 3.0",
+          "rightsNote": "CC BY-SA 3.0 Germany；保留作者、档案编号与许可链接。本地文件未修改。照片为1938年旧影，不能作为李承三1931—1936年留学现场照片。学校是Friedrich-Wilhelms-Universität（今洪堡大学），并非柏林自由大学。",
+          "license": "CC BY-SA 3.0 DE",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/",
+          "fit": "xMidYMax slice",
+          "width": 790,
+          "height": 522,
+          "bytes": 98282
+        },
+        "x": 343,
+        "y": 589
+      },
+      {
+        "id": "chongqing",
+        "name": "重庆大学",
+        "category": "institutions",
+        "relation": "任教",
+        "subtitle": "地质系教学与石油地质专业建设",
+        "date": "1946 — 1956",
+        "evidence": "1946 年兼任重庆大学地质系教授，讲授构造地质学、地质测量学、造山运动理论、冰川地貌等课程。1949 年 8 月受聘任教授，稍后兼任系主任；1950 年主持创办石油地质专业。",
+        "context": "1952—1955 年主持教学与系务，开设多门地质课程与选修课。1954 年设计制作的地质构造模型在重庆展出获奖，1955 年获重庆科普协会奖；同时带领学生野外实习，指导青年教师绘制地质素描、编写讲稿。1956 年调往成都。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 6
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 7
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 8
+          }
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/chongqing-1933.webp",
+          "alt": "1933年重庆大学大校门旧影",
+          "caption": "重庆大学大校门旧影，1933年",
+          "sourceTitle": "重庆大学大校门（Wikimedia Commons）",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E9%87%8D%E5%BA%86%E5%A4%A7%E5%AD%A6%E5%A4%A7%E6%A0%A1%E9%97%A8.png",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8d/%E9%87%8D%E5%BA%86%E5%A4%A7%E5%AD%A6%E5%A4%A7%E6%A0%A1%E9%97%A8.png",
+          "credit": "国立重庆大学旧影，摄影者不详；Wikimedia Commons",
+          "rightsNote": "Commons文件页标注CC0 1.0；页面记载日期为1933年10月1日。非李承三1946—1956年在校期间的现场记录。 展示副本仅转为WebP编码，尺寸与画面未改变。",
+          "license": "CC0 1.0",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "fit": "xMidYMid meet",
+          "width": 1138,
+          "height": 890,
+          "bytes": 72190
+        },
+        "x": 210,
+        "y": 531
+      },
+      {
+        "id": "chengdu",
+        "name": "成都地质勘探学院",
+        "category": "institutions",
+        "relation": "来校任教",
+        "subtitle": "建校初期的教务长与教授",
+        "date": "1956 — 1967",
+        "evidence": "1956 年成都地质勘探学院成立，李承三作为首批师资由重庆大学调来，任教务长兼教授，任职至 1967 年，是建校初期“八大教授”之一。",
+        "context": "来校后继续开展教学、编图和冰川研究。1959 年与常隆庆共同主持四川省大地构造图，并推荐、指导徐开礼编写统编教材；1960 年率本校教师和学生开展龙门山考察。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 8
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          }
+        ],
+        "lines": [
+          "成都地质",
+          "勘探学院"
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/chengdu-gate.webp",
+          "alt": "成都地质勘探学院旧校门前合影",
+          "caption": "成都地质勘探学院校门旧貌；成都理工大学档案馆藏图",
+          "sourceTitle": "成都理工大学更名往事（2024年7月12日转载，图源成都理工大学档案馆）",
+          "sourceUrl": "https://www.sohu.com/a/792797255_121117463",
+          "imageUrl": "https://q0.itc.cn/q_70/images03/20240712/bd2c66898f3b476bb2488e08e21f91a0.png",
+          "credit": "成都理工大学档案馆；《成都理工大学更名往事》转载图片",
+          "rightsNote": "转载页图片下明确署名成都理工大学档案馆，原照片拍摄年份未注明。未取得开放许可；来源文章声明转载需授权。当前为本地研究原型配图，公开正式发布前宜由学校核对使用授权。没有把合影中的人认定为李承三。 展示副本仅转为WebP编码，尺寸与画面未改变。",
+          "fit": "xMinYMid slice",
+          "width": 916,
+          "height": 844,
+          "bytes": 114726
+        },
+        "x": 121,
+        "y": 443
+      },
+      {
+        "id": "jialing",
+        "name": "嘉陵江流域考察",
+        "category": "research",
+        "relation": "率队考察",
+        "subtitle": "河流阶地、离堆山与手工制图",
+        "date": "1940 — 1941 · 考察；1946 · 报告出版",
+        "evidence": "1940—1941 年，李承三率周廷儒、郭令智、高泳源等沿嘉陵江徒步调查，在苍溪至南充李渡场间发现废弃河曲 29 处，填绘阶地分布图，以离堆山前阶地确定河曲切割时期。",
+        "context": "考察结合路线调查、地貌素描与手工制图。1946 年成果以《嘉陵江流域地理考察专报·上卷》出版，文字 79 页、图版 63 幅、含图 240 份，成为其河流地貌研究的重要成果。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 3
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 5
+          }
+        ],
+        "lines": [
+          "嘉陵江",
+          "流域考察"
+        ],
+        "x": 90,
+        "y": 340,
+        "media": {
+          "path": "images/chengsan-nodes/jialing-sketch.jpg",
+          "alt": "李承三手绘的剑门关地形图",
+          "caption": "嘉陵江地形图集第24号图 · 剑门关（1940年底）",
+          "sourceTitle": "中国地质调查局 · 百年地质图艺展",
+          "sourceUrl": "https://www.cgs.gov.cn/ywdt/ddyw/201608/t20160823_817166.html",
+          "imageUrl": "https://www.cgs.gov.cn/ywdt/ddyw/201608/W020251114617093294657.jpg",
+          "credit": "李承三绘；中国地质调查局公开展示",
+          "rightsNote": "官网公开展示，未见开放授权声明；保留原图及原有标记。",
+          "fit": "xMidYMid slice",
+          "width": 640,
+          "height": 378,
+          "bytes": 71273,
+          "verificationNote": "本轮核对中国地质调查局2016-08-23图艺展页面，确认作者、图集第24号及1940年底剑门关邓家坡的说明；未核实公开传播许可。"
+        }
+      },
+      {
+        "id": "longmen",
+        "name": "龙门山冰川考察",
+        "category": "research",
+        "relation": "率队考察",
+        "subtitle": "科研与现场教学相结合",
+        "date": "1960 · 考察；1964 · 论文发表",
+        "evidence": "1960 年夏，李承三率吴燕生、李永昭、卢登仕三位教师及 8 名学生，考察龙门山南段东坡和山前带第四纪冰川遗迹，历时三个多月，范围包括杂谷脑、威州托山以及灌县、邛崃、雅安一带。",
+        "context": "1964 年，合作论文《四川龙门山南段东坡及其山前带第四纪冰川遗迹》发表于科学出版社《中国第四纪冰川遗迹研究文集》第 14—84 页。该论文在龙门山地区将亚冰期划分为五次。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 10
+          }
+        ],
+        "lines": [
+          "龙门山",
+          "冰川考察"
+        ],
+        "x": 121,
+        "y": 237
+      },
+      {
+        "id": "sichuan-map",
+        "name": "四川大地构造图",
+        "category": "works",
+        "relation": "共同主持",
+        "subtitle": "四川首幅百万分之一大地构造图",
+        "date": "1959 · 编图；1960 · 说明书摘要发表",
+        "evidence": "1959 年，李承三与常隆庆共同主持编制四川省第一幅 1∶100 万大地构造图，详细划分厘定四川地区的大地构造单元，为区域构造研究提供基础。",
+        "context": "1960 年，李承三与常隆庆、吴燕生等合作发表《四川省大地构造轮廓（四川省大地构造图说明书摘要）》，刊于《成都地质学院学报》第 1 期。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          }
+        ],
+        "lines": [
+          "四川大地",
+          "构造图"
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/sichuan-tectonic-paper.jpg",
+          "alt": "《四川省大地构造轮廓》说明书首页",
+          "caption": "《四川省大地构造轮廓》说明书首页",
+          "sourceTitle": "成都理工大学学报 · 四川省大地构造轮廓",
+          "sourceUrl": "https://xbzrkx.cdut.edu.cn/cn/article/pdf/preview/4b1124b2-631d-419d-aeaa-4479ef67115b.pdf",
+          "imageUrl": "https://xbzrkx.cdut.edu.cn/cn/article/pdf/preview/4b1124b2-631d-419d-aeaa-4479ef67115b.pdf",
+          "credit": "成都理工大学学报",
+          "rightsNote": "由学校学报公开PDF第一页渲染；为说明书首页，非大地构造图原图。",
+          "fit": "xMidYMin slice",
+          "width": 700,
+          "height": 1000,
+          "bytes": 153393
+        },
+        "x": 210,
+        "y": 149
+      },
+      {
+        "id": "tectonics-textbook",
+        "name": "《构造地质学及地质制图学》",
+        "category": "works",
+        "relation": "著述指导",
+        "subtitle": "著述与统编教材的编写",
+        "date": "1958 — 1961",
+        "evidence": "1958 年，李承三所著《构造地质学及地质制图学》由四川人民出版社出版。1959 年，地质部将全国统编教材编写任务下达成都地质学院，李承三推荐徐开礼任主编并全面指导。",
+        "context": "年谱记载，徐开礼主编、李承三指导的全国统编教材于1961年由中国工业出版社出版。1958年著述与1961年版的具体关系仍待版权页、书目核对，本展不直接认作同一书的修订版。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 8
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          }
+        ],
+        "lines": [
+          "构造地质",
+          "与制图"
+        ],
+        "x": 343,
+        "y": 91
+      },
+      {
+        "id": "arnold-heim",
+        "name": "阿诺德·海姆",
+        "category": "people",
+        "relation": "共同考察",
+        "subtitle": "国立中山大学川边地质调查团",
+        "date": "1930 — 1931",
+        "evidence": "1930 年，李承三以两广地质调查所技师、国立中山大学助教身份，加入瑞士地质学家阿诺德·海姆（Arnold Heim）领队的川边地质调查团，与爱德华·英霍夫、徐瑞麟、古力齐等进入川西。",
+        "context": "调查团环贡嘎山开展地貌与冰川考察，到达西坡海拔 5200 米处。1931 年，李承三翻译海姆的《国立中山大学川边调查团旅行记略》，刊于《自然科学》第 3 卷第 2 期。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 2
+          }
+        ],
+        "lines": [
+          "阿诺德",
+          "海姆"
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/arnold-heim.jpg",
+          "alt": "阿诺德·海姆（Arnold Heim）肖像",
+          "caption": "Arnold Heim · 历史肖像",
+          "sourceTitle": "Arnold Heim (1882–1965) — ETH Library",
+          "sourceUrl": "https://library.ethz.ch/en/collections-and-archives/short-portraits/arnold-heim--1882-1965-.html",
+          "imageUrl": "https://library.ethz.ch/en/collections-and-archives/short-portraits/arnold-heim--1882-1965-/_jcr_content/par/textimage/image.imageformat.textdouble.1341484201.jpg",
+          "credit": "ETH Library / E-Pics Image Archive Online",
+          "rightsNote": "ETH图书馆人物档案页提供的历史肖像；此人物页未直接标注本图许可，保留馆藏出处，未推定开放许可。",
+          "fit": "xMidYMin slice",
+          "width": 600,
+          "height": 750,
+          "bytes": 42013
+        },
+        "x": 500,
+        "y": 200
+      },
+      {
+        "id": "yuan-jianqi",
+        "name": "袁见齐",
+        "category": "people",
+        "relation": "共同考察",
+        "subtitle": "西康地质矿产调查与合作著述",
+        "date": "1938 — 1941",
+        "evidence": "1938 年 8 月 3 日，李承三与袁见齐、郭令智等随西康科学调查团地质组自重庆出发，赴西康调查，11 月 15 日返校，历时 105 日。",
+        "context": "1939 年共同发表《西康道孚菜子沟铁矿》《康定道孚及瞻化之金矿》；1940 年合作发表《西康东部地质之检讨》；1941 年又合作完成《雅安道孚间地质》《刘君方烨淘金器之设计》《泸定磨西面水利问题》等报告。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 3
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 4
+          }
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/yuan-jianqi.jpg",
+          "alt": "袁见齐先生历史照片",
+          "caption": "袁见齐 · 历史照片",
+          "sourceTitle": "袁见齐 — 上海交通大学校史博物馆",
+          "sourceUrl": "https://museum.sjtu.edu.cn/info/1085/1423.htm",
+          "imageUrl": "https://museum.sjtu.edu.cn/__local/6/64/21/EBDE1B488144B90C27414456FC3_40CC40D6_3EC5.jpg",
+          "credit": "上海交通大学校史博物馆",
+          "rightsNote": "校史博物馆公开资料；原页面未标明开放使用许可，保留原始出处。",
+          "fit": "xMidYMin slice",
+          "width": 338,
+          "height": 394,
+          "bytes": 16069
+        },
+        "x": 663,
+        "y": 241
+      },
+      {
+        "id": "li-siguang",
+        "name": "李四光",
+        "category": "people",
+        "relation": "学术联络",
+        "subtitle": "第四纪研究的组织与交流",
+        "date": "1957 — 1961",
+        "evidence": "1957 年第一届中国科学院第四纪研究委员会成立，李四光任主任，李承三为首届委员之一。1960 年 3 月，中国第四纪冰川遗迹研究中心联络组成立，李四光任组长，李承三任西南区负责人。",
+        "context": "1961 年 4 月 30 日，李承三应李四光之邀到其家中座谈第四纪问题，之后同至紫竹院公园继续交流。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 8
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          }
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/li-siguang.jpg",
+          "alt": "李四光先生肖像",
+          "caption": "李四光 · 历史肖像",
+          "sourceTitle": "李四光 — 中国科学院水生生物研究所建所90周年",
+          "sourceUrl": "https://ihb.cas.cn/sq90/Homeland/syfc/202006/t20200629_5613059.html",
+          "imageUrl": "https://ihb.cas.cn/sq90/Homeland/syfc/202006/W020200629588541236805.jpg",
+          "credit": "中国科学院水生生物研究所",
+          "rightsNote": "研究所公开纪念资料；原页面未标明开放使用许可，保留原始出处。",
+          "fit": "xMidYMin slice",
+          "width": 268,
+          "height": 396,
+          "bytes": 19194
+        },
+        "x": 730,
+        "y": 340
+      },
+      {
+        "id": "li-yongzhao",
+        "name": "李永昭",
+        "category": "people",
+        "relation": "共同考察",
+        "subtitle": "龙门山野外研究的同行教师",
+        "date": "1960 · 考察；1964 · 合作发表",
+        "evidence": "1960 年夏，李永昭作为成都地质学院同行教师，与吴燕生、卢登仕及 8 名学生一道，在李承三带领下开展龙门山南段第四纪冰川遗迹考察，历时三个多月。",
+        "context": "1964 年，李承三与吴燕生、李永昭、卢登仕合作的《四川龙门山南段东坡及其山前带第四纪冰川遗迹》收入《中国第四纪冰川遗迹研究文集》第 14—84 页。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          }
+        ],
+        "x": 663,
+        "y": 439
+      },
+      {
+        "id": "lu-dengshi",
+        "name": "卢登仕",
+        "category": "people",
+        "relation": "共同考察",
+        "subtitle": "龙门山考察与冰川成果整理",
+        "date": "1960 · 考察；1964 · 合作发表",
+        "evidence": "1960 年夏，卢登仕与吴燕生、李永昭同为参加龙门山考察的三位教师，在李承三带领下，与学生共同调查南段东坡及山前带第四纪冰川遗迹。",
+        "context": "1964 年，与李承三、吴燕生、李永昭合作的龙门山冰川论文发表于《中国第四纪冰川遗迹研究文集》，记录了这次野外调查的研究成果。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          }
+        ],
+        "x": 500,
+        "y": 480
+      },
+      {
+        "id": "central-university",
+        "name": "中央大学",
+        "category": "institutions",
+        "relation": "任教",
+        "subtitle": "回国执教与普通地质学课程",
+        "date": "1936 — 1940",
+        "evidence": "1936 年秋学成返国后，李承三任中央大学教授，兼任前经济部地质调查所特约研究员。1937 年 11 月至 1938 年 2 月，为农业化学系二年级讲授《普通地质学》。",
+        "context": "年谱记述，学生陈学斌留存的课程笔记显示，授课按“元素—矿物—岩石—地壳”展开，并结合四川红岩、自流井食盐、宜昌峡冰积层等实例讲解。1939 年编成《普通地质学》讲义。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 2
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 3
+          }
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/central-1930s.jpg",
+          "alt": "1930年代南京国立中央大学大礼堂",
+          "caption": "国立中央大学大礼堂，约1930年代；南京四牌楼旧址",
+          "sourceTitle": "Zhongyang Daxue Dalitang (Nanjing, 1930s)",
+          "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zhongyang_Daxue_Dalitang_(Nanjing,_1930s).jpg",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/04/Zhongyang_Daxue_Dalitang_%28Nanjing%2C_1930s%29.jpg",
+          "credit": "历史明信片／东南大学校史馆；摄影者不详；Wikimedia Commons",
+          "rightsNote": "Commons标注PD-China；来源为东南大学校史馆收录的历史明信片。图片对应国立中央大学南京四牌楼校园，不是当代南京大学鼓楼校园。",
+          "license": "Public domain (PD-China, as marked on Commons)",
+          "fit": "xMidYMin slice",
+          "width": 716,
+          "height": 449,
+          "bytes": 115759
+        },
+        "x": 337,
+        "y": 439
+      },
+      {
+        "id": "geography-institute",
+        "name": "中国地理研究所",
+        "category": "institutions",
+        "relation": "研究与主持",
+        "subtitle": "研究组织、考察与出版",
+        "date": "1940 — 1946",
+        "evidence": "1940 年 8 月，中国地理研究所在重庆北碚成立，李承三任研究员兼自然地理组主任。1945 年冬代理所长，清理战时积压稿件，加快《地理》杂志出版，推动施雅风等青年学者的成果刊行。",
+        "context": "1946 年，《嘉陵江流域地理考察专报·上卷》作为《中国地理研究所专刊》第 1 号出版。同年，李承三出版《中国地理研究所的六年和将来》。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 3
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 5
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 6
+          }
+        ],
+        "lines": [
+          "中国地理",
+          "研究所"
+        ],
+        "media": {
+          "path": "images/chengsan-nodes/geography-site-1943.jpg",
+          "alt": "1943年中国地理研究所重庆状元碑蔡家湾邓家大院所址",
+          "caption": "中国地理研究所所址，重庆蔡家湾邓家大院，1943年",
+          "sourceTitle": "南京地理与湖泊研究所建所80周年：所址所貌",
+          "sourceUrl": "http://www.niglas.ac.cn/zt_165997/80y/dhyx/szsm/",
+          "imageUrl": "http://www.niglas.ac.cn/zt_165997/80y/dhyx/szsm/202008/W020260929643405423951.jpg",
+          "credit": "中国科学院南京地理与湖泊研究所，建所80周年历史照片",
+          "rightsNote": "官网下载的公开缩略图，未标明开放许可。原图库建议更多或高清照片联系研究所。当前130×97原图仅宜节点或小图展示，不能放大假装高清；保留原始公开HTTP地址，没有绕过TLS校验。",
+          "fit": "xMidYMid slice",
+          "width": 130,
+          "height": 97,
+          "bytes": 26457
+        },
+        "x": 270,
+        "y": 340
+      },
+      {
+        "id": "petroleum-geology",
+        "name": "石油地质专业",
+        "category": "works",
+        "relation": "推动创办",
+        "subtitle": "专业创办与第一批人才培养",
+        "date": "1950 — 1954",
+        "evidence": "1950 年初，李承三赴北京与国家石油管理总局联系，为创办石油地质专业争取经费。随后与重庆大学地质系教师共同主持创办中国第一个石油地质专业，动员各年级学生转学石油地质。",
+        "context": "至 1954 年前后，培养四届共计 100 余名石油地质专门人才，为国家输送了第一批相关专业人才。",
+        "status": "据年谱",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 7
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 11
+          }
+        ],
+        "lines": [
+          "石油地质",
+          "专业"
+        ],
+        "type": "学科",
+        "x": 337,
+        "y": 241
+      }
+    ],
+    "categories": [
+      {
+        "id": "people",
+        "label": "人物往来",
+        "color": "var(--atlas-person-color, #b7c7a6)"
+      },
+      {
+        "id": "institutions",
+        "label": "求学任教",
+        "color": "var(--atlas-institution-color, #cbd3c4)"
+      },
+      {
+        "id": "research",
+        "label": "山川考察",
+        "color": "var(--atlas-research-color, #a9b7a3)"
+      },
+      {
+        "id": "works",
+        "label": "成果与建设",
+        "color": "var(--atlas-work-color, #9fc0b2)"
+      }
+    ],
+    "sources": {
+      "chronology": {
+        "title": "旧预览年谱（AI版，未复核）",
+        "url": "sources/li-chengsan-chronology.pdf",
+        "local": true
+      },
+      "enhancedChronology": {
+        "title": "本次提供《李承三先生年谱》",
+        "url": "sources/li-chengsan-chronology-enhanced.pdf",
+        "local": true
+      },
+      "biography": {
+        "title": "学校《攀登志》· 李承三人物传记",
+        "url": "https://www.cdut.edu.cn/info/1061/22207.htm"
+      },
+      "archive": {
+        "title": "成都理工大学校史馆 · 李承三",
+        "url": "https://xsg.cdut.edu.cn/info/1007/1073.htm"
+      },
+      "journal": {
+        "title": "1998 年校刊 · 缅怀李承三先生对中国第四纪冰川地质研究的贡献",
+        "url": "https://xbzrkx.cdut.edu.cn/cn/article/pdf/preview/d8c21b0c-5e87-47b0-aee7-af68d69e1288.pdf"
+      },
+      "zhouWorks": {
+        "title": "北京师范大学 · 周廷儒文集",
+        "url": "https://zhoutr.bnu.edu.cn/manage/wj_lj/200995181319.pdf"
+      },
+      "njuArchive": {
+        "title": "南京大学校史博物馆 · 西康东部地质之检讨",
+        "url": "https://historymuseum.nju.edu.cn/info/2761/2491.htm"
+      },
+      "sysuHistory": {
+        "title": "中山大学地质学的百年学科发展（2024）",
+        "url": "https://xuebaozr.sysu.edu.cn/zh/article/doi/10.13471/j.cnki.acta.snus.ZR20240135/"
+      }
+    },
+    "number": "01",
+    "heading": "把山川读懂，把学问传下去",
+    "introduction": "循着师承、同行与育人，走进一生的求索",
+    "tagline": "循山川之理，开地学新篇",
+    "summary": "从河流与冰川的现场，到课堂与教材的传承。李承三将长期田野积累带入学校，也与同仁共同拓展地学研究。",
+    "primarySource": "enhancedChronology",
+    "primarySourceLabel": "阅读年谱 · 11 页",
+    "bottomNote": "依据所提供年谱与公开史料整理；节点位置只作阅读排布，不代表关系亲疏。",
+    "counts": [
+      {
+        "value": "13",
+        "label": "人物往来"
+      },
+      {
+        "value": "06",
+        "label": "求学任教机构"
+      }
+    ],
+    "milestones": [
+      {
+        "year": "1899",
+        "title": "出生于河北涉县",
+        "text": "号继五，早年在乡间生活与求学。",
+        "detail": "据本次提供的年谱第1页，1899年5月生于河北涉县郭口村，号继五；材料未给出具体出生日期。",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 1
+          }
+        ]
+      },
+      {
+        "year": "1918",
+        "title": "进入开封一中",
+        "text": "从乡间求学走向中学课堂。",
+        "detail": "据年谱，考入开封一中后，在同学帮助下补足基础，完成中学学业。",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 1
+          }
+        ]
+      },
+      {
+        "year": "1924",
+        "title": "投身矿业学业",
+        "text": "考入河南焦作矿物大学。",
+        "detail": "这段学习把他引向矿业与地质，之后继续辗转求学。早年各校的课程衔接仍以档案为准。",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 1
+          }
+        ]
+      },
+      {
+        "year": "1926",
+        "title": "南开求学与返乡任教",
+        "text": "矿科学习中断后，返乡担任小学教师。",
+        "detail": "年谱记述在南开矿科学习后返涉县任教。停办范围应理解为南开大学矿科，不是整所大学停办。",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 1
+          }
+        ]
+      },
+      {
+        "year": "1928",
+        "title": "从河南大学毕业",
+        "text": "走向地质矿产调查与研究。",
+        "detail": "毕业于河南大学地质系，随后在两广地质调查所等机构从事调查与教学；早期论文关注海南等地的地质矿产。",
+        "nodeId": "henan",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 2
+          },
+          {
+            "source": "archive"
+          }
+        ]
+      },
+      {
+        "year": "1930",
+        "title": "随调查团进入川西",
+        "text": "与海姆等同行，考察贡嘎山一带。",
+        "detail": "以两广地质调查所技师、中山大学助教身份参加川边地质调查团，积累山地与冰川调查经验。",
+        "nodeId": "arnold-heim",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 2
+          }
+        ]
+      },
+      {
+        "year": "1931",
+        "title": "赴柏林研习构造地质",
+        "text": "师从施蒂勒，接受系统的学术训练。",
+        "detail": "赴德国柏林大学地质系留学，研习大地构造学；留德时段与博士正式授予年份分开呈现。",
+        "nodeId": "berlin",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 2
+          },
+          {
+            "source": "archive"
+          }
+        ]
+      },
+      {
+        "year": "1936",
+        "title": "学成回国，执教中央大学",
+        "text": "将构造地质训练带回课堂。",
+        "detail": "据本次提供的年谱第2页，1936年7月获博士学位，秋季归国，随后任中央大学教授。",
+        "nodeId": "central-university",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 2
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 3
+          }
+        ]
+      },
+      {
+        "year": "1938",
+        "title": "与同仁开展西康调查",
+        "text": "与袁见齐、郭令智等进入西康。",
+        "detail": "年谱将这次现场调查记于1938年，后续论文主要在1939年及以后发表。",
+        "nodeId": "yuan-jianqi",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 3
+          }
+        ]
+      },
+      {
+        "year": "1939",
+        "title": "田野成果进入著述与课堂",
+        "text": "发表西康研究成果，编成普通地质学讲义。",
+        "detail": "与郭令智合作的冰川地形论文及与袁见齐、郭令智合作的矿产调查成果陆续发表，同年编成《普通地质学》讲义。",
+        "nodeId": "yuan-jianqi",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 3
+          }
+        ]
+      },
+      {
+        "year": "1940",
+        "title": "带队考察嘉陵江",
+        "text": "以素描、测绘与实地观察认识河流地貌。",
+        "detail": "任中国地理研究所研究员兼自然地理组主任；带领周廷儒、郭令智、高泳源等开展嘉陵江流域调查。考察延续至1941年，报告后来出版。",
+        "nodeId": "jialing",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 3
+          },
+          {
+            "source": "biography"
+          }
+        ]
+      },
+      {
+        "year": "1941",
+        "title": "沿叙昆铁路调查",
+        "text": "与叶连俊共同开展地质矿产调查。",
+        "detail": "年谱正文与所列游记题名对叙昆铁路段别的记述不一致，暂不裁定；此处统一写作沿线调查。",
+        "nodeId": "ye-lianjun",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 4
+          },
+          {
+            "source": "journal",
+            "page": 1
+          }
+        ]
+      },
+      {
+        "year": "1943",
+        "title": "考察西北山川与矿产",
+        "text": "赴新疆北部等地开展地质地理工作。",
+        "detail": "参加西北科学考察，关注地层、构造、矿产与边界问题；相关成果于其后陆续刊出。年谱附带山势引语的具体写作年待考，未用作当年原话。",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 4
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 5
+          }
+        ]
+      },
+      {
+        "year": "1945",
+        "title": "主持研究所与成果出版",
+        "text": "代理中国地理研究所所长，整理战时积稿。",
+        "detail": "推动考察成果出版与《地理》刊行，施雅风等青年研究者的研究也在这一过程中得到支持。",
+        "nodeId": "geography-institute",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 5
+          }
+        ]
+      },
+      {
+        "year": "1946",
+        "title": "嘉陵江考察报告出版",
+        "text": "将现场积累整理为文字与图集。",
+        "detail": "《嘉陵江流域地理考察专报·上卷》出版，与郭令智、周廷儒、高泳源合作的研究形成可传阅的记录；同年兼任重庆大学教授。",
+        "nodeId": "jialing",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 5
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 6
+          },
+          {
+            "source": "zhouWorks",
+            "page": 293
+          }
+        ]
+      },
+      {
+        "year": "1949",
+        "title": "受聘重庆大学",
+        "text": "走向地质系教学与系务建设。",
+        "detail": "年谱分别记载此前兼任教授与1949年正式受聘的阶段，随后担任系主任，继续讲授地质课程。",
+        "nodeId": "chongqing",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 6
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 7
+          }
+        ]
+      },
+      {
+        "year": "1950",
+        "title": "推动石油地质教育",
+        "text": "争取支持，与同仁创办石油地质专业。",
+        "detail": "联系石油管理部门、延揽师资，推动专业建设并培养石油地质人才。这里展示个人推动与集体办学的关系。",
+        "nodeId": "petroleum-geology",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 7
+          }
+        ]
+      },
+      {
+        "year": "1954",
+        "title": "把地质形态带进课堂",
+        "text": "以构造模型和地质素描辅助教学。",
+        "detail": "年谱记载其设计制作地质构造模型，结合野外实习、地质素描与讲稿指导青年师生。",
+        "nodeId": "chongqing",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 7
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 8
+          }
+        ]
+      },
+      {
+        "year": "1956",
+        "title": "参与新学校的起步",
+        "text": "来成都地质勘探学院任教务长、教授。",
+        "detail": "作为建校初期师资投身教学组织、学科建设与青年教师培养；同时参与科学技术发展远景规划等工作。校名按1956年的“成都地质勘探学院”呈现。",
+        "nodeId": "chengdu",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 8
+          },
+          {
+            "source": "biography"
+          }
+        ]
+      },
+      {
+        "year": "1957",
+        "title": "参与第四纪学术组织",
+        "text": "任首届第四纪研究委员会委员。",
+        "detail": "年谱记载其参与第一届中国科学院第四纪研究委员会。委员身份与具体合作、师生关系分开，不由同列名单推断私人交往。",
+        "nodeId": "li-siguang",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 8
+          }
+        ]
+      },
+      {
+        "year": "1958",
+        "title": "整理构造地质与制图著述",
+        "text": "年谱记载这一时期的教材与论文工作。",
+        "detail": "1958年《构造地质学及地质制图学》版本暂据年谱，仍待版权页复核；不因采用修订说，就将它与1961年统编版认定为同一版次。",
+        "nodeId": "tectonics-textbook",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 8
+          }
+        ]
+      },
+      {
+        "year": "1959",
+        "title": "与常隆庆共同编图",
+        "text": "主持编制1∶100万四川省大地构造图。",
+        "detail": "共同整理区域构造认识。同年统编教材编写任务下达学校，李承三推荐徐开礼主编，并给予具体指导。",
+        "nodeId": "sichuan-map",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          },
+          {
+            "source": "biography"
+          }
+        ]
+      },
+      {
+        "year": "1960",
+        "title": "师生同行龙门山",
+        "text": "将冰川调查与现场教学结合。",
+        "detail": "率吴燕生、李永昭、卢登仕等教师及学生，开展龙门山南段冰川遗迹调查。同行教师与学生身份区分呈现。",
+        "nodeId": "longmen",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          },
+          {
+            "source": "journal",
+            "page": 2
+          }
+        ]
+      },
+      {
+        "year": "1961",
+        "title": "指导统编教材出版",
+        "text": "扶持后辈，将学问转化为教学资源。",
+        "detail": "统编教材由徐开礼主编，李承三从提纲到内容给予指导，形成青年教师成长与学术传承的一段经历。",
+        "nodeId": "xu-kaili",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          }
+        ]
+      },
+      {
+        "year": "1964",
+        "title": "冰川考察成果发表",
+        "text": "相关论文收入第四纪冰川遗迹研究文集。",
+        "detail": "与吴燕生、李永昭、卢登仕合作的龙门山研究论文发表。文中冰期划分作为当时研究观点理解，不表述为今天统一的科学结论。",
+        "nodeId": "longmen",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 9
+          },
+          {
+            "source": "enhancedChronology",
+            "page": 10
+          },
+          {
+            "source": "journal",
+            "page": 2
+          }
+        ]
+      },
+      {
+        "year": "1965",
+        "title": "继续指导西南冰川考察",
+        "text": "担任专业考察队学术顾问。",
+        "detail": "年谱记载，虽行动不便，他仍听取考察队汇报并指导整理西昌螺髻山冰川遗迹考察报告。",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 10
+          }
+        ]
+      },
+      {
+        "year": "1967",
+        "title": "一生求索，学脉留存",
+        "text": "5月21日，在成都逝世。",
+        "detail": "研究成果、课堂讲授和后辈培养，继续留存在学校的学术记忆中。",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 10
+          }
+        ]
+      },
+      {
+        "year": "1998",
+        "title": "纪念文章汇成专辑",
+        "text": "学校学报刊出纪念李承三教授的文章。",
+        "detail": "在百年诞辰前夕，学界同仁与学生回顾他的研究和教学贡献，纪念文章及著作目录成为后人整理其生平的重要资料。",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 10
+          },
+          {
+            "source": "journal",
+            "page": 1
+          }
+        ]
+      },
+      {
+        "year": "2002",
+        "title": "承三亭留下校园纪念",
+        "text": "以一处校园空间纪念学者与师者。",
+        "detail": "年谱记载，成都理工大学校园内建成承三亭，作为对李承三的纪念。",
+        "sources": [
+          {
+            "source": "enhancedChronology",
+            "page": 10
+          }
+        ]
+      }
+    ]
+  },
+  "biography": [
+    "李承三（1899—1967），号继五，河北涉县人，地质学家、地理学家和地质教育家。1928 年毕业于河南大学地质系，随后投身地质矿产调查；1931 年赴德国柏林大学深造，师从施蒂勒研习大地构造学，学成后回国任教。",
+    "他的学问来自长期的山川跋涉。1930 年参加川边地质调查，1938 年与袁见齐、郭令智等赴西康考察，相关成果于次年集中发表。1940—1941 年率队调查嘉陵江流域，以路线踏勘、地貌素描与手工制图记录河流阶地和离堆山；1941 年与叶连俊开展叙昆铁路沿线调查。嘉陵江考察报告及图集于 1946 年出版，将田野观察汇成系统研究。",
+    "从中央大学、中国地理研究所到重庆大学，教学与研究贯穿其学术生涯。1950 年在重庆大学推动创办石油地质专业。1956 年调入新建的成都地质勘探学院，任教务长、教授，参与建校初期的教学建设；1959 年与常隆庆共同主持编制 1∶100 万四川省大地构造图。",
+    "1960 年，他率吴燕生、李永昭、卢登仕等教师和学生考察龙门山南段冰川遗迹，相关成果于 1964 年发表。他也指导徐开礼主持统编教材编写，重视青年教师培养，将野外素描、现场教学和教材著述连在一起。1965 年继续以学术顾问身份指导西南第四纪冰川考察；1967 年逝世。此后，纪念专辑与校园内的承三亭延续了对他的纪念。"
+  ],
+  "places": [
+    {
+      "year": "1899",
+      "place": "河北 · 涉县郭口村",
+      "title": "出生与早年求学",
+      "text": "生于涉县郭口村，早年在家乡求学，后赴河南继续学业。",
+      "source": "enhancedChronology",
+      "page": 1
+    },
+    {
+      "year": "1928",
+      "place": "河南",
+      "title": "完成地质学学业",
+      "text": "毕业于河南大学地质系，随后进入地质调查工作。",
+      "source": "enhancedChronology",
+      "page": 2
+    },
+    {
+      "year": "1928 — 1931",
+      "place": "华南 · 海南岛",
+      "title": "地质调查的起步",
+      "text": "在两广地质调查所工作，发表海南岛地质矿产与火山研究。",
+      "source": "enhancedChronology",
+      "page": 2
+    },
+    {
+      "year": "1930",
+      "place": "川西 · 贡嘎山地区",
+      "title": "参加川边调查",
+      "text": "参加海姆领队的川边地质调查，观察地貌与冰川遗迹。",
+      "source": "enhancedChronology",
+      "page": 2
+    },
+    {
+      "year": "1931 — 1936",
+      "place": "德国 · 柏林",
+      "title": "研习大地构造学",
+      "text": "1931年8月赴柏林大学，师从施蒂勒。据本次提供的年谱，1936年7月获博士（哲学）学位，秋季回国。",
+      "source": "enhancedChronology",
+      "page": 2
+    },
+    {
+      "year": "1938",
+      "place": "西康 · 康定、道孚一带",
+      "title": "与同仁同行西康",
+      "text": "与袁见齐、郭令智等开展地质矿产调查；相关成果于1939年集中发表。西康为当时地区称谓。",
+      "source": "enhancedChronology",
+      "page": 3
+    },
+    {
+      "year": "1940 — 1941",
+      "place": "嘉陵江流域",
+      "title": "记录河流地貌",
+      "text": "率周廷儒、郭令智、高泳源等考察流域，以地貌素描与制图记录河流阶地和曲流。",
+      "source": "enhancedChronology",
+      "page": 3
+    },
+    {
+      "year": "1941",
+      "place": "叙昆铁路沿线",
+      "title": "调查铁路沿线地质",
+      "text": "与叶连俊开展地质矿产调查，提出选线修正意见。年谱正文“南段”与所列游记题名“北段”存在差异，此处不裁定段别。",
+      "source": "enhancedChronology",
+      "page": 4
+    },
+    {
+      "year": "1943",
+      "place": "新疆北部",
+      "title": "西北科学考察",
+      "text": "赴伊犁、塔城、阿尔泰山等地区调查，关注地层、矿产与边界问题。",
+      "source": "enhancedChronology",
+      "page": 4
+    },
+    {
+      "year": "1947",
+      "place": "四川松潘、台湾",
+      "title": "扩展地形与冰川研究",
+      "text": "参加松潘及台湾地质考察，观察雪宝顶北麓的地理与冰川遗迹、台湾地形与构造。",
+      "source": "enhancedChronology",
+      "page": 6
+    },
+    {
+      "year": "1949 — 1956",
+      "place": "重庆",
+      "title": "任教与专业建设",
+      "text": "主持地质系工作，推动石油地质专业建设，带领师生开展野外实习。",
+      "source": "enhancedChronology",
+      "page": 7
+    },
+    {
+      "year": "1956",
+      "place": "成都",
+      "title": "投身新校建设",
+      "text": "调入新建的成都地质勘探学院，任教务长、教授，参与早期教学建设。",
+      "source": "enhancedChronology",
+      "page": 8
+    },
+    {
+      "year": "1960",
+      "place": "四川 · 龙门山南段",
+      "title": "研究与教学同行",
+      "text": "率吴燕生、李永昭、卢登仕等教师和学生开展冰川遗迹考察，成果于1964年发表。",
+      "source": "enhancedChronology",
+      "page": 9
+    },
+    {
+      "year": "1965",
+      "place": "成都 · 西南考察队",
+      "title": "继续指导冰川研究",
+      "text": "任西南第四纪冰川专业考察队学术顾问，在成都听取考察汇报、指导报告编写；不据此画出本人赴西昌的路线。",
+      "source": "enhancedChronology",
+      "page": 10
+    }
+  ],
+  "works": [
+    {
+      "title": "《广东海南岛北部地质矿产》",
+      "year": "1928",
+      "category": "论文",
+      "note": "据年谱列目，刊于《两广地质调查所年报》。",
+      "source": "enhancedChronology",
+      "page": 2
+    },
+    {
+      "title": "《海南岛火山》",
+      "year": "1928",
+      "category": "论文",
+      "note": "据年谱列目。",
+      "source": "enhancedChronology",
+      "page": 2
+    },
+    {
+      "title": "《国立中山大学川边调查团旅行记略》",
+      "year": "1931",
+      "category": "译著",
+      "note": "译海姆考察记述，据年谱。",
+      "source": "enhancedChronology",
+      "page": 2
+    },
+    {
+      "title": "《康定道孚之冰川地形》",
+      "year": "1939",
+      "category": "论文",
+      "note": "与郭令智合作，据年谱。考察与发表年份分开记录。",
+      "source": "enhancedChronology",
+      "page": 3
+    },
+    {
+      "title": "《普通地质学》讲义",
+      "year": "1939",
+      "category": "教材",
+      "note": "前中央大学讲义室，据年谱。",
+      "source": "enhancedChronology",
+      "page": 3
+    },
+    {
+      "title": "《离堆与离堆山考》",
+      "year": "1941",
+      "category": "论文",
+      "source": "zhouWorks",
+      "page": 292,
+      "note": "与周廷儒合作；链接为署名与年份的书目证据。"
+    },
+    {
+      "title": "《西康地质调查旅行记》",
+      "year": "1941",
+      "category": "专著",
+      "note": "重庆独立出版社，据年谱。",
+      "source": "enhancedChronology",
+      "page": 4
+    },
+    {
+      "title": "《青海茶卡之盐矿》",
+      "year": "1943",
+      "category": "论文",
+      "note": "与周廷儒合作，据年谱。",
+      "source": "enhancedChronology",
+      "page": 4
+    },
+    {
+      "title": "《新疆北部边界考察报告》",
+      "year": "1944",
+      "category": "报告",
+      "note": "1943年考察、1944年发表，据年谱。",
+      "source": "enhancedChronology",
+      "page": 5
+    },
+    {
+      "title": "《扬子江水系发育史》",
+      "year": "1944",
+      "category": "论文",
+      "note": "与崔可石、陈泗桥合作，据年谱。",
+      "source": "enhancedChronology",
+      "page": 5
+    },
+    {
+      "title": "嘉陵江流域考察报告及图集",
+      "year": "1946",
+      "category": "报告",
+      "source": "zhouWorks",
+      "page": 293,
+      "note": "考察成果出版；链接为《周廷儒文集》著作目录。"
+    },
+    {
+      "title": "《松潘雪宝顶北麓的地理考察纪要》",
+      "year": "1951",
+      "category": "论文",
+      "note": "刊于《地理学报》，据年谱。",
+      "source": "enhancedChronology",
+      "page": 7
+    },
+    {
+      "title": "《长江发育史》",
+      "year": "1956",
+      "category": "论文",
+      "note": "刊于《人民长江》，据年谱。",
+      "source": "enhancedChronology",
+      "page": 8
+    },
+    {
+      "title": "《构造地质学及地质制图学》",
+      "year": "1958",
+      "category": "教材",
+      "note": "1958年版据年谱，书目与版权页仍待复核；不将其与1961年统编版直接认作修订关系。",
+      "source": "enhancedChronology",
+      "page": 8
+    },
+    {
+      "title": "1∶100 万四川省大地构造图",
+      "year": "1959",
+      "category": "地图",
+      "source": "biography",
+      "note": "与常隆庆共同主持编制，校方传记记载。"
+    },
+    {
+      "title": "《地质构造及地貌模型的设计和制作及其在教学上的功效》",
+      "year": "1959",
+      "category": "专著",
+      "note": "地质出版社，据年谱。",
+      "source": "enhancedChronology",
+      "page": 9
+    },
+    {
+      "title": "《四川省大地构造轮廓》",
+      "year": "1960",
+      "category": "论文",
+      "note": "四川省大地构造图说明书摘要，与常隆庆、吴燕生等合作，据年谱。",
+      "source": "enhancedChronology",
+      "page": 9
+    },
+    {
+      "title": "统编教材《构造地质学及地质制图学》编写指导",
+      "year": "1961",
+      "category": "教材",
+      "source": "biography",
+      "note": "徐开礼主编，李承三指导；不标为李承三独著。"
+    },
+    {
+      "title": "《四川龙门山南段东坡及其山前带第四纪冰川遗迹》",
+      "year": "1964",
+      "category": "论文",
+      "source": "journal",
+      "page": 2,
+      "note": "与吴燕生、李永昭、卢登仕合作，研究成果收入《中国第四纪冰川遗迹研究文集》。"
+    }
+  ],
+  "media": {
+    "li-chengsan": {
+      "path": "images/portraits/li-chengsan.jpg",
+      "alt": "旧预览中的李承三肖像",
+      "caption": "李承三（1899—1967）· 原人物档案肖像",
+      "credit": "沿用原人物预览；原始出处待补充",
+      "rightsNote": "本图沿用原项目人物档案。原始拍摄者、时间及公开传播授权尚未核实；不是本次年谱内的图片。未生成或修复为新的历史影像。"
+    },
+    "jialing": {
+      "path": "images/chengsan-nodes/jialing-sketch.jpg",
+      "alt": "李承三手绘的剑门关地形图",
+      "caption": "嘉陵江地形图集第24号图 · 剑门关（1940年底）",
+      "sourceTitle": "中国地质调查局 · 百年地质图艺展",
+      "sourceUrl": "https://www.cgs.gov.cn/ywdt/ddyw/201608/t20160823_817166.html",
+      "imageUrl": "https://www.cgs.gov.cn/ywdt/ddyw/201608/W020251114617093294657.jpg",
+      "credit": "李承三绘；中国地质调查局公开展示",
+      "rightsNote": "官网公开展示，未见开放授权声明；保留原图及原有标记。",
+      "fit": "xMidYMid slice",
+      "width": 640,
+      "height": 378,
+      "bytes": 71273,
+      "verificationNote": "本轮核对中国地质调查局2016-08-23图艺展页面，确认作者、图集第24号及1940年底剑门关邓家坡的说明；未核实公开传播许可。"
+    },
+    "sichuan-map": {
+      "path": "images/chengsan-nodes/sichuan-tectonic-paper.jpg",
+      "alt": "《四川省大地构造轮廓》说明书首页",
+      "caption": "《四川省大地构造轮廓》说明书首页",
+      "sourceTitle": "成都理工大学学报 · 四川省大地构造轮廓",
+      "sourceUrl": "https://xbzrkx.cdut.edu.cn/cn/article/pdf/preview/4b1124b2-631d-419d-aeaa-4479ef67115b.pdf",
+      "imageUrl": "https://xbzrkx.cdut.edu.cn/cn/article/pdf/preview/4b1124b2-631d-419d-aeaa-4479ef67115b.pdf",
+      "credit": "成都理工大学学报",
+      "rightsNote": "由学校学报公开PDF第一页渲染；为说明书首页，非大地构造图原图。",
+      "fit": "xMidYMin slice",
+      "width": 700,
+      "height": 1000,
+      "bytes": 153393
+    },
+    "stille": {
+      "path": "images/chengsan-nodes/stille.jpg",
+      "alt": "汉斯·施蒂勒肖像",
+      "caption": "汉斯·施蒂勒，1934年",
+      "sourceTitle": "File:1941-StilleH.jpg — Wikimedia Commons",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:1941-StilleH.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/52/1941-StilleH.jpg",
+      "credit": "Lotze F. / Wikimedia Commons",
+      "license": "Public Domain Mark 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "rightsNote": "Commons原页面标注公有领域；照片说明为1934年，来源为1941年《Die Naturwissenschaften》29卷40期593页。",
+      "fit": "xMidYMin slice",
+      "width": 225,
+      "height": 290,
+      "bytes": 35760
+    },
+    "guo-lingzhi": {
+      "path": "images/chengsan-nodes/guo-lingzhi.png",
+      "alt": "郭令智肖像",
+      "caption": "郭令智肖像",
+      "sourceTitle": "郭令智 — 南京大学",
+      "sourceUrl": "https://www.nju.edu.cn/info/3891/405871.htm",
+      "imageUrl": "https://www.nju.edu.cn/__local/4/F6/99/119B6350F4685FE64551D5D7828_CA580EEA_1C7D6.png",
+      "credit": "南京大学",
+      "rightsNote": "南京大学公开人物介绍配图；页面未注明开放转载许可，版权归原权利人。",
+      "fit": "xMidYMin slice",
+      "width": 252,
+      "height": 377,
+      "bytes": 116694
+    },
+    "zhou-tingru": {
+      "path": "images/chengsan-nodes/zhou-tingru.jpg",
+      "alt": "周廷儒先生伏案阅读的工作照",
+      "caption": "周廷儒先生工作照",
+      "sourceTitle": "先生工作照 — 北京师范大学周廷儒院士纪念网",
+      "sourceUrl": "https://zhoutr.bnu.edu.cn/rsly/txjy/xsgzz/",
+      "imageUrl": "https://zhoutr.bnu.edu.cn/images/content/2017-05/20170524154716770323.jpg",
+      "credit": "北京师范大学周廷儒院士纪念网",
+      "rightsNote": "北京师范大学官方纪念网的单人工作照；页面未注明开放转载许可，版权归原权利人。原图220×150，适合图谱节点，放大时有原始资料清晰度限制。",
+      "fit": "xMidYMin slice",
+      "width": 220,
+      "height": 150,
+      "bytes": 9213
+    },
+    "ye-lianjun": {
+      "path": "images/chengsan-nodes/ye-lianjun.jpg",
+      "alt": "叶连俊肖像",
+      "caption": "叶连俊肖像",
+      "sourceTitle": "叶连俊 — 李四光地质科学奖基金会",
+      "sourceUrl": "https://www.lsgf.ac.cn/lsgj/ljhj/2001/rongyujiang/8104.htm",
+      "imageUrl": "https://www.lsgf.ac.cn/UploadFiles/2013_4_18/01%E5%8F%B6%E8%BF%9E%E4%BF%8A.jpg",
+      "credit": "李四光地质科学奖基金会",
+      "rightsNote": "基金会公开获奖者人物介绍配图；页面未注明开放转载许可，版权归原权利人。",
+      "fit": "xMidYMin slice",
+      "width": 200,
+      "height": 268,
+      "bytes": 15883
+    },
+    "shi-yafeng": {
+      "path": "images/chengsan-nodes/shi-yafeng.jpg",
+      "alt": "施雅风肖像",
+      "caption": "施雅风肖像",
+      "sourceTitle": "施雅风 — 中国科学院学部与院士",
+      "sourceUrl": "https://casad.cas.cn/ysxx2022/ygys/200906/t20090624_1804321.html",
+      "imageUrl": "https://casad.cas.cn/ysxx2022/ygys/200906/W020100513344852712991.jpg",
+      "credit": "中国科学院学部与院士",
+      "rightsNote": "中国科学院公开院士资料配图；页面未注明开放转载许可，版权归原权利人。",
+      "fit": "xMidYMin slice",
+      "width": 200,
+      "height": 276,
+      "bytes": 38710
+    },
+    "yuan-jianqi": {
+      "path": "images/chengsan-nodes/yuan-jianqi.jpg",
+      "alt": "袁见齐先生历史照片",
+      "caption": "袁见齐 · 历史照片",
+      "sourceTitle": "袁见齐 — 上海交通大学校史博物馆",
+      "sourceUrl": "https://museum.sjtu.edu.cn/info/1085/1423.htm",
+      "imageUrl": "https://museum.sjtu.edu.cn/__local/6/64/21/EBDE1B488144B90C27414456FC3_40CC40D6_3EC5.jpg",
+      "credit": "上海交通大学校史博物馆",
+      "rightsNote": "校史博物馆公开资料；原页面未标明开放使用许可，保留原始出处。",
+      "fit": "xMidYMin slice",
+      "width": 338,
+      "height": 394,
+      "bytes": 16069
+    },
+    "li-siguang": {
+      "path": "images/chengsan-nodes/li-siguang.jpg",
+      "alt": "李四光先生肖像",
+      "caption": "李四光 · 历史肖像",
+      "sourceTitle": "李四光 — 中国科学院水生生物研究所建所90周年",
+      "sourceUrl": "https://ihb.cas.cn/sq90/Homeland/syfc/202006/t20200629_5613059.html",
+      "imageUrl": "https://ihb.cas.cn/sq90/Homeland/syfc/202006/W020200629588541236805.jpg",
+      "credit": "中国科学院水生生物研究所",
+      "rightsNote": "研究所公开纪念资料；原页面未标明开放使用许可，保留原始出处。",
+      "fit": "xMidYMin slice",
+      "width": 268,
+      "height": 396,
+      "bytes": 19194
+    },
+    "arnold-heim": {
+      "path": "images/chengsan-nodes/arnold-heim.jpg",
+      "alt": "阿诺德·海姆（Arnold Heim）肖像",
+      "caption": "Arnold Heim · 历史肖像",
+      "sourceTitle": "Arnold Heim (1882–1965) — ETH Library",
+      "sourceUrl": "https://library.ethz.ch/en/collections-and-archives/short-portraits/arnold-heim--1882-1965-.html",
+      "imageUrl": "https://library.ethz.ch/en/collections-and-archives/short-portraits/arnold-heim--1882-1965-/_jcr_content/par/textimage/image.imageformat.textdouble.1341484201.jpg",
+      "credit": "ETH Library / E-Pics Image Archive Online",
+      "rightsNote": "ETH图书馆人物档案页提供的历史肖像；此人物页未直接标注本图许可，保留馆藏出处，未推定开放许可。",
+      "fit": "xMidYMin slice",
+      "width": 600,
+      "height": 750,
+      "bytes": 42013
+    },
+    "henan": {
+      "path": "images/chengsan-nodes/henan-gate.webp",
+      "alt": "河南大学沿用中州大学时期的旧校门",
+      "caption": "河南大学旧校门，1936年以前沿用中州大学时期的建筑",
+      "sourceTitle": "刘波：校门——见证百年变迁（河南大学离退休工作处）",
+      "sourceUrl": "https://ganbu.henu.edu.cn/info/1036/4225.htm",
+      "imageUrl": "https://ganbu.henu.edu.cn/__local/7/63/96/A433C290423A7B77485044FC7A6_16D977FE_5B0E8.png",
+      "credit": "河南大学离退休工作处；刘波《校门：见证百年变迁》所载校史照片",
+      "rightsNote": "官方校史文章中的历史照片；页面未标明开放许可。沿用原图并保留来源，照片准确拍摄年份未注明。 展示副本仅转为WebP编码，尺寸与画面未改变。",
+      "fit": "xMidYMid slice",
+      "width": 1080,
+      "height": 685,
+      "bytes": 100140
+    },
+    "berlin": {
+      "path": "images/chengsan-nodes/berlin-1938.jpg",
+      "alt": "1938年柏林大学主楼与广场旧影",
+      "caption": "柏林大学主楼旧影，1938年；今柏林洪堡大学",
+      "sourceTitle": "Bundesarchiv Bild 146-2006-0130, Berlin, Humboldt Universität",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_146-2006-0130,_Berlin,_Humboldt_Universit%C3%A4t.jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/76/Bundesarchiv_Bild_146-2006-0130%2C_Berlin%2C_Humboldt_Universit%C3%A4t.jpg",
+      "credit": "Bundesarchiv, Bild 146-2006-0130 / Hagemann, Otto / CC-BY-SA 3.0",
+      "rightsNote": "CC BY-SA 3.0 Germany；保留作者、档案编号与许可链接。本地文件未修改。照片为1938年旧影，不能作为李承三1931—1936年留学现场照片。学校是Friedrich-Wilhelms-Universität（今洪堡大学），并非柏林自由大学。",
+      "license": "CC BY-SA 3.0 DE",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/",
+      "fit": "xMidYMax slice",
+      "width": 790,
+      "height": 522,
+      "bytes": 98282
+    },
+    "chongqing": {
+      "path": "images/chengsan-nodes/chongqing-1933.webp",
+      "alt": "1933年重庆大学大校门旧影",
+      "caption": "重庆大学大校门旧影，1933年",
+      "sourceTitle": "重庆大学大校门（Wikimedia Commons）",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E9%87%8D%E5%BA%86%E5%A4%A7%E5%AD%A6%E5%A4%A7%E6%A0%A1%E9%97%A8.png",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8d/%E9%87%8D%E5%BA%86%E5%A4%A7%E5%AD%A6%E5%A4%A7%E6%A0%A1%E9%97%A8.png",
+      "credit": "国立重庆大学旧影，摄影者不详；Wikimedia Commons",
+      "rightsNote": "Commons文件页标注CC0 1.0；页面记载日期为1933年10月1日。非李承三1946—1956年在校期间的现场记录。 展示副本仅转为WebP编码，尺寸与画面未改变。",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fit": "xMidYMid meet",
+      "width": 1138,
+      "height": 890,
+      "bytes": 72190
+    },
+    "chengdu": {
+      "path": "images/chengsan-nodes/chengdu-gate.webp",
+      "alt": "成都地质勘探学院旧校门前合影",
+      "caption": "成都地质勘探学院校门旧貌；成都理工大学档案馆藏图",
+      "sourceTitle": "成都理工大学更名往事（2024年7月12日转载，图源成都理工大学档案馆）",
+      "sourceUrl": "https://www.sohu.com/a/792797255_121117463",
+      "imageUrl": "https://q0.itc.cn/q_70/images03/20240712/bd2c66898f3b476bb2488e08e21f91a0.png",
+      "credit": "成都理工大学档案馆；《成都理工大学更名往事》转载图片",
+      "rightsNote": "转载页图片下明确署名成都理工大学档案馆，原照片拍摄年份未注明。未取得开放许可；来源文章声明转载需授权。当前为本地研究原型配图，公开正式发布前宜由学校核对使用授权。没有把合影中的人认定为李承三。 展示副本仅转为WebP编码，尺寸与画面未改变。",
+      "fit": "xMinYMid slice",
+      "width": 916,
+      "height": 844,
+      "bytes": 114726
+    },
+    "central-university": {
+      "path": "images/chengsan-nodes/central-1930s.jpg",
+      "alt": "1930年代南京国立中央大学大礼堂",
+      "caption": "国立中央大学大礼堂，约1930年代；南京四牌楼旧址",
+      "sourceTitle": "Zhongyang Daxue Dalitang (Nanjing, 1930s)",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zhongyang_Daxue_Dalitang_(Nanjing,_1930s).jpg",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/04/Zhongyang_Daxue_Dalitang_%28Nanjing%2C_1930s%29.jpg",
+      "credit": "历史明信片／东南大学校史馆；摄影者不详；Wikimedia Commons",
+      "rightsNote": "Commons标注PD-China；来源为东南大学校史馆收录的历史明信片。图片对应国立中央大学南京四牌楼校园，不是当代南京大学鼓楼校园。",
+      "license": "Public domain (PD-China, as marked on Commons)",
+      "fit": "xMidYMin slice",
+      "width": 716,
+      "height": 449,
+      "bytes": 115759
+    },
+    "geography-institute": {
+      "path": "images/chengsan-nodes/geography-site-1943.jpg",
+      "alt": "1943年中国地理研究所重庆状元碑蔡家湾邓家大院所址",
+      "caption": "中国地理研究所所址，重庆蔡家湾邓家大院，1943年",
+      "sourceTitle": "南京地理与湖泊研究所建所80周年：所址所貌",
+      "sourceUrl": "http://www.niglas.ac.cn/zt_165997/80y/dhyx/szsm/",
+      "imageUrl": "http://www.niglas.ac.cn/zt_165997/80y/dhyx/szsm/202008/W020260929643405423951.jpg",
+      "credit": "中国科学院南京地理与湖泊研究所，建所80周年历史照片",
+      "rightsNote": "官网下载的公开缩略图，未标明开放许可。原图库建议更多或高清照片联系研究所。当前130×97原图仅宜节点或小图展示，不能放大假装高清；保留原始公开HTTP地址，没有绕过TLS校验。",
+      "fit": "xMidYMid slice",
+      "width": 130,
+      "height": 97,
+      "bytes": 26457
+    }
+  },
+  "reports": [
+    {
+      "title": "《攀登志》李承三：承地质之学理，拓教育之新篇",
+      "year": "",
+      "category": "人物报道",
+      "source": "biography"
+    },
+    {
+      "title": "成都理工大学网络校史馆 · 李承三",
+      "year": "",
+      "category": "校史档案",
+      "source": "archive"
+    },
+    {
+      "title": "缅怀李承三先生对中国第四纪冰川地质研究的贡献",
+      "year": "1998-04",
+      "category": "纪念文章",
+      "source": "journal"
+    }
+  ],
+  "sourceNote": "据本次提供的《李承三先生年谱》整理，并保留当前人物档案的公开来源链接。年谱为现代编纂资料，未对全部条目作独立核验。",
+  "provenance": {
+    "previewRepository": "Ppzh-Wick/normal",
+    "previewCommit": "192b783dbeb9db916d3439ce4f38703a14d98102",
+    "previewDirectory": "previews/chengsan-v8",
+    "suppliedMaterial": "李承三先生年谱.pdf，11页",
+    "verification": "本次提供年谱已逐页阅读；原预览公开链接沿用，未逐条重新核验。",
+    "editorialChanges": [
+      "1936博士学位按本次提供年谱表述",
+      "叙昆铁路使用沿线，保留南北段矛盾",
+      "保留教材版次和历史校名的来源差异",
+      "不将共同考察一概当作师生关系"
+    ]
+  },
+  "extendedBiography": [
+    {
+      "title": "从涉县到柏林：求学与归国",
+      "text": "李承三早年在家乡接受教育，1918年进入开封一中。1924年入焦作矿物大学，1926年转入南开大学矿业系；该系停办后，他回到涉县任小学教师。1927年入河南大学地质系，次年毕业。此后在两广地质调查所等机构从事调查与教学，1931年赴柏林大学师从汉斯·施蒂勒，1936年7月获博士学位，秋季归国。",
+      "sources": [
+        {
+          "source": "enhancedChronology",
+          "page": 1
+        },
+        {
+          "source": "enhancedChronology",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "title": "在山川现场建立研究",
+      "text": "1930年，他参加阿诺德·海姆领队的川边地质调查团，在贡嘎山一带考察。1938年与袁见齐、郭令智赴西康调查，年谱记载历时105日。1940—1941年率周廷儒、郭令智、高泳源等调查嘉陵江流域，1946年相关成果出版。1941年与叶连俊开展叙昆铁路沿线调查；1943年赴新疆北部调查，关注地质、矿产与边界问题。调查与成果发表属于不同阶段，具体年份见年谱栏目。",
+      "sources": [
+        {
+          "source": "enhancedChronology",
+          "page": 2
+        },
+        {
+          "source": "enhancedChronology",
+          "page": 3
+        },
+        {
+          "source": "enhancedChronology",
+          "page": 4
+        },
+        {
+          "source": "enhancedChronology",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "title": "把观察方法变成教学方法",
+      "text": "他曾在中央大学、重庆大学等校任教，并在中国地理研究所承担研究与组织工作。1949年受聘重庆大学，稍后兼任地质系主任；1950年主持创办石油地质专业。1956年赴成都参与新建地质院校的教学建设，任教务长兼教授。他设计地质构造模型，指导野外素描与青年教师，1959年推荐徐开礼主持统编教材编写，并从提纲到内容给予指导。同年与常隆庆共同主持编制四川省大地构造图。",
+      "sources": [
+        {
+          "source": "enhancedChronology",
+          "page": 5
+        },
+        {
+          "source": "enhancedChronology",
+          "page": 6
+        },
+        {
+          "source": "enhancedChronology",
+          "page": 7
+        },
+        {
+          "source": "enhancedChronology",
+          "page": 8
+        },
+        {
+          "source": "enhancedChronology",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "title": "晚年的研究与后来的纪念",
+      "text": "1960年，他率教师与学生调查龙门山南段东坡及山前带冰川遗迹，相关论文于1964年发表。1965年仍以学术顾问身份指导西南第四纪冰川考察。1967年5月21日，李承三于成都逝世。1998年，学界同仁在百年诞辰前夕组织纪念并发表专辑；2002年，成都理工大学校园建成承三亭。年谱中的历史研究观点，应放在其发表年代与学术背景中理解。",
+      "sources": [
+        {
+          "source": "enhancedChronology",
+          "page": 9
+        },
+        {
+          "source": "enhancedChronology",
+          "page": 10
+        }
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "大地构造",
+      "summary": "关注大范围岩层的变形及其形成的构造，帮助理解地质格局。",
+      "sourceTitle": "USGS · Tectonic",
+      "sourceUrl": "https://www.usgs.gov/glossary/earthquake-hazards-program"
+    },
+    {
+      "term": "第四纪",
+      "summary": "从约258万年前延续至今，包括更新世和全新世。",
+      "sourceTitle": "国际地层委员会第四纪地层分委员会",
+      "sourceUrl": "https://quaternary.stratigraphy.org/major-divisions"
+    },
+    {
+      "term": "废弃河曲与离堆山",
+      "summary": "废弃河曲是旧河道；在深切河曲被截穿后，原曲流内侧的山丘可能独立出来，形成离堆山。",
+      "sourceTitle": "张长建等，碳酸盐岩岩溶古河道发育特征与成因演化，西北地质",
+      "sourceUrl": "https://xbdz.net.cn/cn/article/id/e15a3843-f3b9-45b6-9b91-cd2754cbd1ed"
+    }
+  ]
+}
