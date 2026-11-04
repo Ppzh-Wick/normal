@@ -1,8 +1,8 @@
 THIRD-PARTY NOTICES
-Li Chengsan / 山河之间 / V8
+Li Chengsan / 山河之间 / 实验2 · 星河学脉
 React Bits commit 4dc7b5b7772e1217c8fb8d2a7aa074302180e5b4
 React Bits: MIT + Commons Clause, not unrestricted MIT.
-Active components: SplitText, AnimatedContent, adapted StaggeredMenu, Grainient, GlassSurface.
+Active components: SplitText, AnimatedContent, adapted StaggeredMenu, Grainient, GlassSurface, Galaxy.
 GSAP 3.15.0 and @gsap/react 2.1.2: GSAP Standard No-Charge License.
 
 

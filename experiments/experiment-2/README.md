@@ -1,6 +1,6 @@
-# 李承三 · 实验2 · 矿色雾面
+# 李承三 · 实验2 · 星河学脉
 
-以 V7 为基础的独立背景与材质升级。接入真实 React Bits Grainient 颗粒渐变和 GlassSurface 磨砂展签，保留人物介绍、24 个圆形关系节点及分类、完整史料、V7 翻页转场与所有旧版本。
+在矿色雾面实验2之上，仅为“学脉相连”接入真实 React Bits Galaxy。深群青、银蓝星点和青蓝极光弧带与紫色云海营造安静的纪念氛围。星河是装饰意象，不是历史坐标或事实陈述。人物资料、24个圆形节点、分类、证据与原始图像均保留。
 
 ## Run and verify
 
@@ -11,8 +11,8 @@ npm run build
 node scripts/build-standalone.mjs
 ```
 
-公开预览目录：`previews/experiment-2/`；源代码：`experiments/experiment-2/`。单文件输出：`../李承三-实验2-矿色雾面.html`。
+公开预览：`previews/experiment-2/`；源代码：`experiments/experiment-2/`。原矿色预览原样另存于 `previews/experiment-2-mineral/`。单文件输出：`../李承三-实验2-星河学脉.html`。
 
-组件上游来源、适配与许可见 `docs/V8-MATERIALS.md`；测试和浏览器/GPU 验证边界见 `V8-VERIFICATION.md`。移动端与无 WebGL 时使用同一 Grainient shader 的静态渲染底图；底图不冒充浏览器实时 GPU 渲染。
+Galaxy 的原始 shader 保留；默认静止一帧，关闭穿越、闪烁、旋转、交互扰动。手机与减少动态模式不创建 Galaxy canvas；无 WebGL 时使用同一 shader 原生离屏生成的静态 WebP。旧首页的真实 Grainient 和小面积 GlassSurface 维持原样。
 
-历史图片来源与许可状态保留。公开可见不等于可自由复用；未经公开的年谱 PDF 不随站点发布。数学地形是装饰，不是历史路线复原。
+组件来源、许可、性能适配、测试边界见 `docs/V9-GALAXY.md`。前轮材质与转场说明仍保留。历史图片与文字依据不变；未公开年谱 PDF 不随站点发布。

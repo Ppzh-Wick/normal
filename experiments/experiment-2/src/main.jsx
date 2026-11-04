@@ -7,6 +7,7 @@ import './contour.css';
 import './mineral.css';
 import './motion.css';
 import './frost.css';
+import './galaxy.css';
 class ExhibitionBoundary extends React.Component{
  constructor(props){super(props);this.state={failed:false};}
  static getDerivedStateFromError(){return {failed:true};}

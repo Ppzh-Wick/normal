@@ -47,6 +47,6 @@ test('new spatial styling contains mobile and reduced-motion fallback, no perpet
  assert.match(css,/animation:none!important/);
  assert.doesNotMatch(css,/\binfinite\b|backdrop-filter|will-change/);
  const builder=readFileSync(new URL('../scripts/build-standalone.mjs',import.meta.url),'utf8');
- assert.match(builder,/矿色雾面\.html/);
+ assert.match(builder,/星河学脉\.html/);
  assert.doesNotMatch(builder,/深化候选\.html/);
 });
