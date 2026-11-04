@@ -1,0 +1,8 @@
+.artifact.has-lens{transform:none!important;transition:none!important;cursor:crosshair;z-index:8!important}
+.artifact-lens{position:absolute;z-index:6;pointer-events:none;border:1px solid #d9bd88;border-radius:50%;background-color:#e9e1cf;background-repeat:no-repeat;box-shadow:0 0 0 7px #101617b8,0 14px 38px #0007;filter:none;transform:none}
+.artifact-lens:before,.artifact-lens:after{content:'';position:absolute;background:#b3986677;pointer-events:none}.artifact-lens:before{width:14px;height:1px;left:calc(50% - 7px);top:50%}.artifact-lens:after{height:14px;width:1px;top:calc(50% - 7px);left:50%}
+.artifact-lens>span{position:absolute;right:10px;bottom:9px;padding:3px 6px;background:#111a1bdc;color:#e5d5b9;font:10px/1.2 Georgia,serif;letter-spacing:.08em}
+.artifact-lens-instruction{display:block;position:absolute;left:0;top:calc(100% + 45px);font:12px/1.7 var(--sans);color:#d5c6ac;max-width:100%;padding:6px 10px;background:#11191be8;pointer-events:none}
+.artifact.has-lens:focus-visible{outline:2px solid #ce9d67;outline-offset:10px}
+@media(pointer:coarse){.artifact-lens-toggle{display:none}}
+@media(prefers-reduced-motion:reduce){.artifact-lens{transition:none!important}}
