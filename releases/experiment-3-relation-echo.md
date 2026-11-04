@@ -1,5 +1,7 @@
 # 实验3 · 关系回响
 
+状态：构建与测试已完成，独立 Git 版本已保存。GitHub Pages 尚未发布，以下实验3网址为计划地址。
+
 独立预览：https://ppzh-wick.github.io/normal/previews/experiment-3/
 源代码：experiments/experiment-3/
 保留分支：experiment-3-relation-reveal
@@ -21,4 +23,4 @@ CI：https://github.com/Ppzh-Wick/normal/actions/runs/41809145471
 
 已审查桌面关系动作、静止纸面、章节转场、手机图谱与弹窗截图。JS从实验2的552979字节减至513720字节。CSS为187516字节。
 
-这些是无界面的CI Chromium结果，不是实体手机、Safari或硬件帧率保证。新增关系与章节动作是原创实现，并非Active Theory代码；组件原始许可与改动说明保留于licenses和docs。
+这些是无GPU要求的CI Chromium结果，不是实体手机、Safari或硬件帧率保证。新增关系与章节动作是原创实现，并非Active Theory代码；组件原始许可与改动说明保留于licenses和docs。

@@ -1,5 +1,7 @@
 # 李承三 · 实验3 · 关系回响
 
+状态：构建与测试已完成，独立 Git 版本已保存。GitHub Pages 尚未发布，以下实验3网址为计划地址。
+
 基于已单独保存的实验2聚焦版本，探索有限的关系描线、节点回响、证据纸面展开和章节纵深转场。原实验2不覆盖。
 
 公开预览：`previews/experiment-3/`；源代码：`experiments/experiment-3/`。原聚焦版：`previews/experiment-2/`，Git分支：`experiment-2-pair-focus`。原矿色版：`previews/experiment-2-mineral/`。
