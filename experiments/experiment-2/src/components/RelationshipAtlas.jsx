@@ -1,9 +1,10 @@
 import React, { useMemo, useRef, useState, useId, useEffect } from 'react';
 import './RelationshipAtlas.css';
+import { portraitScale, centerPortraitScale, portraitTransform, pairCamera, overviewLabelY } from './relationFocus.mjs';
 
 const CURATED = ['stille', 'berlin', 'chengdu', 'sichuan-map', 'jialing', 'guo-lingzhi', 'zhou-tingru', 'arnold-heim'];
 const SLOTS = [[480,70],[750,105],[840,255],[740,400],[480,425],[220,400],[120,255],[210,105]];
-const radialSlot = (i, compact=false) => { const inner=i<8; const angle=-Math.PI/2+(inner?i*Math.PI/4:(i-8)*Math.PI/8+Math.PI/16); return [620+Math.cos(angle)*(compact?(inner?180:320):(inner?290:530)),205+Math.sin(angle)*(compact?(inner?105:175):(inner?100:185))]; };
+const radialSlot = (i, compact=false) => { const inner=i<8; const angle=-Math.PI/2+(inner?i*Math.PI/4:(i-8)*Math.PI/8+Math.PI/16); return [620+Math.cos(angle)*(compact?(inner?180:320):(inner?290:530)),205+Math.sin(angle)*(compact?(inner?125:175):(inner?100:185))]; };
 const CATEGORY_MARKS = {people:'人',institutions:'校',research:'野',works:'著'};
 const HOME_VIEW = { x:0, y:0, scale:1 };
 
@@ -28,9 +29,10 @@ const SurveyPlate = React.memo(function SurveyPlate({ count }) {
 
 // Reserve portrait/name boxes before placing edge captions, so the optional
 // full-caption view remains useful instead of covering another person's name.
-function layoutEdgeLabels(nodes, compact=false){
- const boxes=[{x:558,y:146,w:124,h:142}];
- nodes.forEach((n,i)=>{const[x,y]=radialSlot(i,compact);boxes.push({x:x-30,y:y-30,w:60,h:60});const chars=n.id==='tectonics-textbook'?6:n.id==='chengdu'?4:Math.min(n.name.length,7);boxes.push({x:x-chars*9-5,y:y+25,w:chars*18+10,h:n.id==='chengdu'?42:24});});
+function layoutEdgeLabels(nodes, compact=false, selectedId=null){
+ const centerScale=centerPortraitScale(selectedId),centerRadius=66*centerScale;
+ const boxes=[{x:620-centerRadius,y:205-centerRadius,w:centerRadius*2,h:centerRadius*2+30}];
+ nodes.forEach((n,i)=>{const[x,y]=radialSlot(i,compact),radius=28*portraitScale(selectedId,n.id)+3;boxes.push({x:x-radius,y:y-radius,w:radius*2,h:radius*2});const chars=n.id==='tectonics-textbook'?6:n.id==='chengdu'?4:Math.min(n.name.length,7),lineCount=n.id==='chengdu'||n.name.length>7?2:1,labelY=overviewLabelY(x,y,lineCount,selectedId===n.id,compact);boxes.push({x:x-chars*9-5,y:labelY-17,w:chars*18+10,h:lineCount*17+5});});
  const overlap=(a,b)=>Math.max(0,Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x))*Math.max(0,Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y));
  return nodes.map((n,i)=>{const[x,y]=radialSlot(i,compact),dx=x-620,dy=y-205,len=Math.hypot(dx,dy),w=n.relation.length*14+8;let best=null;
   for(const t of (i<8?[.57,.43,.7,.33,.8]:[.68,.78,.58,.87,.48,.38]))for(const shift of [-12,12,-24,24,-42,42,-60,60,-84,84,-108,108,0]){const px=620+dx*t-dy/len*shift,py=205+dy*t+dx/len*shift;const box={x:px-w/2,y:py-12,w,h:19};const score=boxes.reduce((s,b)=>s+overlap(box,b),0)*100+Math.abs(shift)*.15+Math.abs(t-(i<8?.57:.68))*10;if(!best||score<best.score)best={x:px,y:py,anchorX:620+dx*t,anchorY:205+dy*t,shift,box,score};}
@@ -88,19 +90,18 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
   const pages = isOverview ? 1 : Math.max(1, Math.ceil(filtered.length/8));
   const shown = isOverview ? filtered : filtered.slice(Math.min(page,pages-1)*8,Math.min(page,pages-1)*8+8);
   const overviewNodes = useMemo(() => [...filtered].sort((a,b) => categories.findIndex(c=>c.id===a.category)-categories.findIndex(c=>c.id===b.category)), [filtered,categories]);
-  const edgeLabels=useMemo(()=>layoutEdgeLabels(overviewNodes,compact),[overviewNodes,compact]);
+  const edgeLabels=useMemo(()=>layoutEdgeLabels(overviewNodes,compact,selected?.id),[overviewNodes,compact,selected?.id]);
   const focusRelation = (node=selected) => {
     if(!desktop||!node)return;
     const index=(isOverview?overviewNodes:shown).findIndex(n=>n.id===node.id);
     if(index<0)return;
     const [x,y]=isOverview?radialSlot(index,true):SLOTS[index];
-    const cx=isOverview?620:480,cy=isOverview?205:260,scale=1.55;
-    // Frame the midpoint of the selected record and Li Chengsan, not one
-    // isolated portrait. The remaining records stay in the pannable world.
-    setView({x:-(x-cx)*scale/2,y:(isOverview?20:0)-(y-cy)*scale/2,scale});
+    // Pan the pair into view without enlarging the rest of the graph.
+    // Only the selected portrait and the central portrait scale locally.
+    setView(pairCamera(x,y,isOverview));
     setFocusedRelation(true);
   };
-  useEffect(()=>{if(selected&&desktop)focusRelation();},[selected?.id,desktop,isOverview]);
+  useEffect(()=>{if(selected&&desktop)focusRelation();},[selected?.id,desktop,isOverview,selectionNonce]);
   const EvidencePanel = isOverview || selected ? 'dialog' : 'aside';
   useEffect(() => {
     const panel=detailRef.current;
@@ -110,7 +111,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
     if(panel.open)panel.close();
     if(selected){if(desktop)panel.show();else panel.showModal();}
   }, [desktop,isOverview,!!selected]);
-  const active = hovered || selected?.id;
+  const active = selected?.id || hovered;
   const portrait = data?.media?.['li-chengsan'];
   const reset = () => {if(!selected)returnViewRef.current=HOME_VIEW;setView(HOME_VIEW);setFocusedRelation(false);};
   const zoom = delta => {setFocusedRelation(false);setView(v => ({...v,scale:Math.max(.7,Math.min(1.8,+(v.scale+delta).toFixed(2)))}));};
@@ -125,7 +126,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
     if(isOverview || event?.type==='keydown' || event?.detail===0 || matchMedia('(max-width:999px)').matches) focusEvidence();
   };
   const closeDetail = () => {
-    setSelected(null);setHovered(null);
+    setSelected(null);setHovered(null);setFocusedRelation(false);
     setView(returnViewRef.current);
     const opener = openerRef.current;
     requestAnimationFrame(()=>{
@@ -196,17 +197,21 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
               <defs><clipPath id={`${uid}-all-portrait`}><circle cx="620" cy="205" r="45"/></clipPath>{overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact);return <clipPath key={n.id} id={`${uid}-all-${n.id}`}><circle cx={x} cy={y} r="22"/></clipPath>;})}</defs>
               <ellipse className="atlas-orbit" cx="620" cy="205" rx={compact?320:530} ry={compact?175:185}/><ellipse className="atlas-orbit" cx="620" cy="205" rx={compact?180:290} ry={compact?105:100}/>
               {overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact);const caption=edgeLabels[i];return <g key={'edge-'+n.id} className={`atlas-radial-link ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`}><path className="atlas-complete-edge" d={`M620 205 L${x} ${y}`}/><path className="atlas-caption-leader" d={Math.abs(caption.shift)>40?`M${caption.anchorX} ${caption.anchorY}L${caption.x} ${caption.y-9}`:undefined}/><text className="atlas-radial-relation" x={caption.x} y={caption.y} aria-hidden="true" textAnchor="middle">{n.relation}</text></g>;})}
+              <g className="atlas-core-portrait" transform={portraitTransform(620,205,centerPortraitScale(selected?.id))}>
               <circle cx="620" cy="205" r="66" className="atlas-core-aura"/><circle cx="620" cy="205" r="54" className="atlas-core-ring"/><circle cx="620" cy="205" r="46" fill="#172657"/>
               {portrait?.path&&<image href={portrait.path} x="575" y="160" width="90" height="90" clipPath={`url(#${uid}-all-portrait)`} preserveAspectRatio="xMidYMin slice"/>}
-              <text className="atlas-core-name" x="620" y="275" textAnchor="middle">李承三</text>
-              {overviewNodes.map((n,i)=>{const [x,y]=radialSlot(i,compact);const media=n.media||data?.media?.[n.id];const label=n.id==='tectonics-textbook'?'构造地质教材':n.name;const lines=n.id==='chengdu'?['成都地质','勘探学院']:label.length>7?[label.slice(0,7),label.slice(7)]:[label];return <g key={n.id} data-node="true" data-relation-id={n.id} role="button" tabIndex="0" aria-label={`${n.name}，${n.relation}，查看史料`} aria-pressed={selected?.id===n.id} className={`atlas-node atlas-complete-node ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`} onClick={e=>choose(n,e)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();choose(n,e);}}} onMouseEnter={()=>setHovered(n.id)} onMouseLeave={()=>setHovered(null)} onFocus={()=>{setHovered(n.id);if(compact){focusRelation(n);onNavigateWithin?.();}}} onBlur={()=>setHovered(null)}>
+              </g>
+              <text className="atlas-core-name" x="620" y={275+(selected?10:0)} textAnchor="middle">李承三</text>
+              {overviewNodes.map((n,i)=>{const [x,y]=radialSlot(i,compact);const media=n.media||data?.media?.[n.id];const label=n.id==='tectonics-textbook'?'构造地质教材':n.name;const lines=n.id==='chengdu'?['成都地质','勘探学院']:label.length>7?[label.slice(0,7),label.slice(7)]:[label];return <g key={n.id} data-node="true" data-relation-id={n.id} role="button" tabIndex="0" aria-label={`${n.name}，${n.relation}，查看史料`} aria-pressed={selected?.id===n.id} className={`atlas-node atlas-complete-node ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''} ${selected&&selected.id!==n.id?'is-defocused':''}`} onClick={e=>choose(n,e)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();choose(n,e);}}} onMouseEnter={()=>setHovered(n.id)} onMouseLeave={()=>setHovered(null)} onFocus={()=>{setHovered(n.id);if(compact){focusRelation(n);onNavigateWithin?.();}}} onBlur={()=>setHovered(null)}>
+                <g className="atlas-node-portrait" transform={portraitTransform(x,y,portraitScale(selected?.id,n.id))}>
                 <circle className="atlas-node-halo" cx={x} cy={y} r="28"/><circle className="atlas-node-disc" cx={x} cy={y} r="23"/>
                 {media?.path?<image href={media.path} x={x-22} y={y-22} width="44" height="44" preserveAspectRatio={media.fit||'xMidYMin slice'} clipPath={`url(#${uid}-all-${n.id})`}/>:<text className="atlas-node-symbol" x={x} y={y+8} textAnchor="middle">{CATEGORY_MARKS[n.category]}</text>}
-                {lines.map((line,j)=><text key={j} className="atlas-complete-name" x={x} y={y+39+j*17} textAnchor="middle">{line}</text>)}
+                </g>
+                {lines.map((line,j)=><text key={j} className="atlas-complete-name" x={x} y={overviewLabelY(x,y,lines.length,selected?.id===n.id,compact)+j*17} textAnchor="middle">{line}</text>)}
                 <title>{`${n.name} · ${n.relation}`}</title>
               </g>;})}
               </g></g>
-              {compact&&!list&&(()=>{const index=overviewNodes.findIndex(n=>n.id===selected.id);if(index<0)return null;const[x,y]=radialSlot(index,true);const px=620+(x-620)*view.scale+view.x,py=205+(y-205)*view.scale+view.y;return <g key={selected.id} className="atlas-folio-thread" aria-hidden="true" pointerEvents="none"><path pathLength="1" d={`M${px+29} ${py} H${Math.max(px+45,945)} V205 H980`}/><circle cx={px} cy={py} r="31"/><text x="972" y="192" textAnchor="end">文字依据 →</text></g>;})()}
+              {compact&&!list&&(()=>{const index=overviewNodes.findIndex(n=>n.id===selected.id);if(index<0)return null;const[x,y]=radialSlot(index,true);const px=620+(x-620)*view.scale+view.x,py=205+(y-205)*view.scale+view.y,radius=(28*portraitScale(selected.id,selected.id)+3)*view.scale;return <g key={selected.id} className="atlas-folio-thread" aria-hidden="true" pointerEvents="none"><path pathLength="1" d={`M${px+radius} ${py} H${Math.max(px+radius+15,945)} V205 H980`}/><circle cx={px} cy={py} r={radius}/><text x="972" y="192" textAnchor="end">文字依据 →</text></g>;})()}
             </svg>
             <div className="atlas-complete-list" aria-label="全部学术关系列表">{overviewNodes.map(n=><button key={n.id} aria-pressed={selected?.id===n.id} onClick={e=>choose(n,e)}><span><strong>{n.name}</strong><small>{n.relation} · {n.date}</small></span><i aria-hidden="true">↗</i></button>)}</div>
             <div className="atlas-complete-controls"><div className="atlas-curated-entries" aria-label="从三段关系开始读">{[['stille','师从施蒂勒'],['guo-lingzhi','与郭令智同行'],['xu-kaili','指导徐开礼']].map(([id,label])=><button key={id} onClick={e=>choose(nodes.find(n=>n.id===id),e)}>{label}<svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 13 13 3M4 3h9v9" stroke="currentColor"/></svg></button>)}</div><div><button aria-label="缩小全部关系图" onClick={()=>zoom(-.15)}>−</button><output>{Math.round(view.scale*100)}%</output><button aria-label="放大全部关系图" onClick={()=>zoom(.15)}>+</button><button aria-label="复位全部关系图" onClick={reset}>复位</button></div></div>
@@ -223,18 +228,22 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
               <circle className="atlas-orbit" cx="480" cy="260" r="142"/><ellipse className="atlas-orbit" cx="480" cy="260" rx="340" ry="187"/>
               <path className="atlas-crosshair" d="M480 18V525 M22 260H938"/>
               {shown.map((n,i)=>{const[x,y]=SLOTS[i]; const lit=active===n.id;return <g key={`edge-${n.id}`} className={`atlas-edge ${lit?'is-active':''} ${active&&!lit?'is-muted':''}`}><path d={`M480 260 Q${(480+x)/2 + (y>260?24:-24)} ${(260+y)/2} ${x} ${y}`}/><text x={i===0?(n.name.length>10?565:425):i===1?630:i===7?330:i===4?620:480+(x-480)*.61} y={i===0?170:(i===1||i===7)?220:i===4?390:260+(y-260)*.61-9} textAnchor="middle">{n.relation}</text></g>;})}
+              <g className="atlas-core-portrait" transform={portraitTransform(480,250,centerPortraitScale(selected?.id))}>
               <circle className="atlas-core-ring" cx="480" cy="250" r="76"/>
               <circle cx="480" cy="250" r="65" fill="#172657"/>
               {portrait?.path&&<image href={portrait.path} x="416" y="186" width="128" height="128" preserveAspectRatio="xMidYMin slice" clipPath={`url(#${uid}-portrait)`}/>}
-              <rect x="416" y="304" width="128" height="70" rx="2" fill="#111b42"/>
-              <text className="atlas-core-name" x="480" y="333" textAnchor="middle">李承三</text><text className="atlas-core-date" x="480" y="359" textAnchor="middle">1899 — 1967</text>
-              {shown.map((n,i)=>{const[x,y]=SLOTS[i];const media=n.media||data?.media?.[n.id]; const lines=n.name.length>10?(n.lines||[n.name.slice(0,8),n.name.slice(8)]):[n.name];return <g key={n.id} data-node="true" role="button" tabIndex="0" aria-label={`${n.name}，${n.relation}，查看史料`} aria-pressed={selected?.id===n.id} className={`atlas-node ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`} onClick={e=>choose(n,e)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();choose(n,e);}}} onMouseEnter={()=>setHovered(n.id)} onMouseLeave={()=>setHovered(null)} onFocus={()=>{setHovered(n.id);if(compact){focusRelation(n);onNavigateWithin?.();}}} onBlur={()=>setHovered(null)}>
+              </g>
+              <rect x="416" y={304+(selected?14:0)} width="128" height="70" rx="2" fill="#111b42"/>
+              <text className="atlas-core-name" x="480" y={333+(selected?14:0)} textAnchor="middle">李承三</text><text className="atlas-core-date" x="480" y={359+(selected?14:0)} textAnchor="middle">1899 — 1967</text>
+              {shown.map((n,i)=>{const[x,y]=SLOTS[i];const media=n.media||data?.media?.[n.id]; const lines=n.name.length>10?(n.lines||[n.name.slice(0,8),n.name.slice(8)]):[n.name];return <g key={n.id} data-node="true" role="button" tabIndex="0" aria-label={`${n.name}，${n.relation}，查看史料`} aria-pressed={selected?.id===n.id} className={`atlas-node ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''} ${selected&&selected.id!==n.id?'is-defocused':''}`} onClick={e=>choose(n,e)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();choose(n,e);}}} onMouseEnter={()=>setHovered(n.id)} onMouseLeave={()=>setHovered(null)} onFocus={()=>{setHovered(n.id);if(compact){focusRelation(n);onNavigateWithin?.();}}} onBlur={()=>setHovered(null)}>
+                <g className="atlas-node-portrait" transform={portraitTransform(x,y,portraitScale(selected?.id,n.id))}>
                 <circle className="atlas-node-halo" cx={x} cy={y} r="47"/><circle className="atlas-node-disc" cx={x} cy={y} r="40"/>
                 {media?.path?<image href={media.path} x={x-39} y={y-39} width="78" height="78" preserveAspectRatio={media.fit||'xMidYMin slice'} clipPath={`url(#${uid}-${n.id})`}/>:<text className="atlas-node-symbol" x={x} y={y+8} textAnchor="middle">{CATEGORY_MARKS[n.category]||'录'}</text>}
-                {lines.map((line,j)=><text key={j} className="atlas-node-name" x={x} y={y+64+j*25} textAnchor="middle">{line}</text>)}
+                </g>
+                {lines.map((line,j)=><text key={j} className="atlas-node-name" x={x} y={y+64+j*25+(selected?.id===n.id?22:0)} textAnchor="middle">{line}</text>)}
               </g>;})}
             </g>
-            {compact&&!list&&(()=>{const index=shown.findIndex(n=>n.id===selected.id);if(index<0)return null;const[x,y]=SLOTS[index];const px=480+(x-480)*view.scale+view.x,py=260+(y-260)*view.scale+view.y;return <g key={selected.id} className="atlas-folio-thread" aria-hidden="true" pointerEvents="none"><path pathLength="1" d={`M${px+48} ${py} H${Math.max(px+60,925)} V260 H960`}/><text x="952" y="247" textAnchor="end">文字依据 →</text></g>;})()}
+            {compact&&!list&&(()=>{const index=shown.findIndex(n=>n.id===selected.id);if(index<0)return null;const[x,y]=SLOTS[index];const px=480+(x-480)*view.scale+view.x,py=260+(y-260)*view.scale+view.y,radius=(47*portraitScale(selected.id,selected.id)+3)*view.scale;return <g key={selected.id} className="atlas-folio-thread" aria-hidden="true" pointerEvents="none"><path pathLength="1" d={`M${px+radius} ${py} H${Math.max(px+radius+15,925)} V260 H960`}/><text x="952" y="247" textAnchor="end">文字依据 →</text></g>;})()}
           </svg>
           <div className="atlas-list" aria-label="关系节点列表">{shown.map(n=><button key={n.id} onClick={e=>choose(n,e)} className={selected?.id===n.id?'is-active':''}><span className="atlas-list-mark">{CATEGORY_MARKS[n.category]}</span><span><strong>{n.name}</strong><small>{n.relation} · {n.subtitle}</small></span><span aria-hidden="true">↗</span></button>)}</div>
           <div className="atlas-map-controls"><span>拖动探索 · 选择节点读史料</span><div><button aria-label="缩小关系图" onClick={()=>zoom(-.15)}>−</button><output aria-live="polite">{Math.round(view.scale*100)}%</output><button aria-label="放大关系图" onClick={()=>zoom(.15)}>+</button><button aria-label="复位关系图" onClick={reset}>复位</button></div></div>

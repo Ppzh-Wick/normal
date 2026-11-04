@@ -315,3 +315,43 @@ test('trail callbacks advance three steps, finish the fourth, close explicitly, 
   const prior=closed;control('evidence-trail-close').props.onClick();assert.equal(closed,prior+1);
  }
 });
+
+test('selection emphasizes only the selected and center portraits, with restoration across all nodes',()=>{
+ atlasFocusHarness(({render,state,find})=>{
+  let tree=render();state[9]=true;tree=render();
+  const oldView={x:22,y:-15,scale:1.15};state[5]={...oldView};tree=render();
+  for(const record of archiveData.graph.nodes){
+   const node=find(tree,e=>e.props['data-relation-id']===record.id);
+   assert.ok(node,record.id);
+   node.props.onClick({currentTarget:{isConnected:false},type:'click',detail:1});tree=render();
+   assert.equal(state[5].scale,1,'auto focus must not enlarge the camera');
+   for(const other of archiveData.graph.nodes){
+    const n=find(tree,e=>e.props['data-relation-id']===other.id);
+    const avatar=find(n,e=>e.props.className==='atlas-node-portrait');
+    assert.ok(avatar.props.transform.includes('scale('+(other.id===record.id?1.55:1)+')'),other.id);
+    assert.equal(n.props.className.includes('is-defocused'),other.id!==record.id);
+   }
+   const core=find(tree,e=>e.props.className==='atlas-core-portrait');
+   assert.ok(core.props.transform.includes('scale(1.22)'));
+  }
+  find(tree,e=>e.props['aria-label']==='关闭关系详情').props.onClick();tree=render();
+  assert.equal(state[3],null);assert.equal(state[10],false);
+  assert.deepEqual(state[5],oldView);
+  for(const record of archiveData.graph.nodes){
+   const n=find(tree,e=>e.props['data-relation-id']===record.id);
+   assert.ok(!n.props.className.includes('is-defocused'));
+   assert.ok(find(n,e=>e.props.className==='atlas-node-portrait').props.transform.includes('scale(1)'));
+  }
+  assert.ok(find(tree,e=>e.props.className==='atlas-core-portrait').props.transform.includes('scale(1)'));
+ });
+});
+test('hover and keyboard focus do not change the selected pair',()=>{
+ atlasFocusHarness(({render,state,find})=>{
+  let tree=render();state[9]=true;tree=render();
+  find(tree,e=>e.props['data-relation-id']==='stille').props.onClick({currentTarget:{isConnected:false},type:'click',detail:1});
+  tree=render();find(tree,e=>e.props['data-relation-id']==='berlin').props.onMouseEnter();tree=render();
+  const chosen=find(tree,e=>e.props['data-relation-id']==='stille'),other=find(tree,e=>e.props['data-relation-id']==='berlin');
+  assert.ok(chosen.props.className.includes('is-active'));assert.ok(other.props.className.includes('is-defocused'));
+  assert.ok(find(other,e=>e.props.className==='atlas-node-portrait').props.transform.includes('scale(1)'));
+ });
+});
