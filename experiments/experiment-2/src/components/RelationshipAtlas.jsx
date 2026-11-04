@@ -136,6 +136,19 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
       onNavigateWithin?.();
     });
   };
+  const trapEvidenceFocus = e => {
+    if(e.key!=='Tab'||desktop||!selected)return;
+    const panel=e.currentTarget;
+    if(!panel.matches('dialog:modal'))return;
+    const controls=[...panel.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])')].filter(el=>el.getClientRects().length&&!el.closest('[inert]'));
+    const first=controls[0],last=controls.at(-1),current=document.activeElement;
+    if(!first){e.preventDefault();panel.focus({preventScroll:true});return;}
+    if(e.shiftKey&&(current===first||current===panel||!panel.contains(current))){
+      e.preventDefault();last.focus({preventScroll:true});
+    }else if(!e.shiftKey&&(current===last||!panel.contains(current))){
+      e.preventDefault();first.focus({preventScroll:true});
+    }
+  };
   const changeCategory = id => {setCategory(id);setPage(0);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());};
   const startDrag = e => {
     if(e.button!==0 || e.target.closest('[data-node]')) return;
@@ -252,7 +265,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
         </div>
         {isOverview ? <div className="atlas-map-bottom atlas-overview-bottom"><span aria-live="polite">{search.trim()?`找到 ${filtered.length} / ${nodes.length} 条关系`:compact&&focusedRelation?`共 ${nodes.length} 条关系 · 正在聚焦当前联系`:`全部 ${nodes.length} 条关系 · 已完整展开`}</span><span>位置只作阅读排布，不表示亲疏或影响</span></div> : <div className="atlas-map-bottom"><span aria-live="polite">{filtered.length?`${Math.min(page,pages-1)*8+1} — ${Math.min((page+1)*8,filtered.length)}`:'0'} / {filtered.length} 条关系</span><div><button disabled={page===0} aria-label="上一组关系" onClick={()=>{setPage(p=>p-1);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());}}>←</button><span>{page+1} / {pages}</span><button disabled={page>=pages-1} aria-label="下一组关系" onClick={()=>{setPage(p=>p+1);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());}}>→</button></div></div>}
       </div>
-      <EvidencePanel aria-modal={selected&&!desktop?true:undefined} className={`atlas-evidence ${selected?'has-selection':''}`} hidden={isOverview&&!selected} ref={detailRef} tabIndex="-1" data-scroll-lock aria-label={selected?`${selected.name}的关系史料`:'关系史料'} onWheel={e=>e.stopPropagation()} onCancel={e=>{e.preventDefault();closeDetail();}} onClick={e=>{if(isOverview&&e.target===e.currentTarget){const rect=e.currentTarget.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)closeDetail();}}}>
+      <EvidencePanel aria-modal={selected&&!desktop?true:undefined} className={`atlas-evidence ${selected?'has-selection':''}`} hidden={isOverview&&!selected} ref={detailRef} tabIndex="-1" data-scroll-lock aria-label={selected?`${selected.name}的关系史料`:'关系史料'} onWheel={e=>e.stopPropagation()} onKeyDown={trapEvidenceFocus} onCancel={e=>{e.preventDefault();closeDetail();}} onClick={e=>{if(isOverview&&e.target===e.currentTarget){const rect=e.currentTarget.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)closeDetail();}}}>
         <div className="atlas-evidence-eyebrow"><span>关系档案 / EVIDENCE</span>{selected&&<button aria-label="关闭关系详情" onClick={closeDetail}>×</button>}</div>
         {selected?<>
           <p className="atlas-folio-note">图谱仍在左侧 · 可继续选择其他关系</p>

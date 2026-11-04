@@ -355,3 +355,18 @@ test('hover and keyboard focus do not change the selected pair',()=>{
   assert.ok(find(other,e=>e.props.className==='atlas-node-portrait').props.transform.includes('scale(1)'));
  });
 });
+
+test('mobile evidence wraps Tab focus while desktop folio remains nonmodal',()=>{
+ atlasFocusHarness(({render,state,find})=>{
+  let tree=render();find(tree,e=>e.props['data-relation-id']==='stille').props.onClick({currentTarget:{isConnected:false},type:'click',detail:1});tree=render();
+  const calls=[],make=id=>({getClientRects:()=>[{}],closest:()=>null,focus:()=>calls.push(id)});
+  const first=make('first'),last=make('last');
+  const panel={matches:()=>true,querySelectorAll:()=>[first,last],contains:el=>el===first||el===last};
+  const evidence=find(tree,e=>String(e.props.className||'').startsWith('atlas-evidence '));
+  let prevented=0;document.activeElement=first;evidence.props.onKeyDown({key:'Tab',shiftKey:true,currentTarget:panel,preventDefault:()=>prevented++});
+  document.activeElement=last;evidence.props.onKeyDown({key:'Tab',shiftKey:false,currentTarget:panel,preventDefault:()=>prevented++});
+  assert.deepEqual(calls,['last','first']);assert.equal(prevented,2);
+  state[9]=true;tree=render();find(tree,e=>String(e.props.className||'').startsWith('atlas-evidence ')).props.onKeyDown({key:'Tab',shiftKey:false,currentTarget:panel,preventDefault:()=>prevented++});
+  assert.equal(prevented,2,'desktop graph and folio keep native free tab travel');
+ });
+});

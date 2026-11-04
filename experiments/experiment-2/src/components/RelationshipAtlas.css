@@ -381,7 +381,7 @@
   opacity:.3;filter:blur(.8px);
 }
 .network .atlas-atlas.atlas-observatory.atlas-spatial-reader.atlas-has-focus .atlas-node.is-defocused:focus-visible {
-  opacity:.9;filter:none;
+  opacity:1;filter:none;
 }
 .network .atlas-atlas.atlas-observatory.atlas-spatial-reader .atlas-node[aria-pressed=true] {
   opacity:1;filter:none;
