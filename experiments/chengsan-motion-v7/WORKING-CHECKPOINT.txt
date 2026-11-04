@@ -1,0 +1,2 @@
+V7 independent motion experiment, based on V6. Keep all previous directories unchanged.
+Run npm test and npm run build, then standalone builder. See docs/V7-MOTION.md for actual React Bits provenance and performance policy.

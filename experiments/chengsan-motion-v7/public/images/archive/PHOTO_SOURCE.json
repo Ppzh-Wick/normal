@@ -1,0 +1,32 @@
+{
+  "checkedAt": "2026-10-28",
+  "selected": {
+    "file": "extracted-023.jpg",
+    "dimensions": [4446, 3195],
+    "bytes": 1280426,
+    "caption": "石油系学习小组座谈",
+    "recommendedWebCaption": "石油系学习小组座谈 · 校史旧影",
+    "downloadUrl": "https://cdut-history.kengwang.com.cn/history-extracted-images/extracted-023.jpg",
+    "primaryDocument": "成都理工大学校史1956—2016",
+    "documentAuthor": "成都理工大学校史编纂委员会",
+    "documentUrl": "https://cdut-history.kengwang.com.cn/documents/cdut-history-1956-2016.pdf#page=23",
+    "pdfPhysicalPage": 23,
+    "printedPage": 8,
+    "locationOnPage": "左上",
+    "visualVerification": "实际对照原图与PDF渲染页，校园建筑、围坐学习小组、前景人物及位置一致；图下题注清楚可读。",
+    "evidenceFile": "source-page-23.png",
+    "dateAndPeople": "原页没有标注具体拍摄年份或个体姓名。不可声称1956年拍摄，不可指认为十三位学者的合影。",
+    "rights": "文献与照片可公开访问，但未发现开放授权。当前用于用户要求的本地设计预览；公开采用前应由项目方确认校方图片使用许可。",
+    "treatment": "下载的原始扫描照片，无生成式修复、补画、重绘或着色。可以按版式裁切、用CSS调整明暗，但保留纪实属性。"
+  },
+  "alternatives": [
+    {"file":"extracted-017.jpg","dimensions":[957,740],"visual":"多人建设校园的旧照片，适合开山立学，但清晰度较低，未逐项确认原始题注。"},
+    {"file":"extracted-092.jpg","dimensions":[6748,4562],"visual":"野外化石发掘现场的旧照片，清晰度足够，未逐项确认人物与年月。"}
+  ],
+  "rejected": [
+    "65周年MP4为既有网站录屏，含界面及鼠标，不作为历史素材。",
+    "home-fallback.jpg为较近年代博物馆前合影，不符合本轮开山立学首屏主题。",
+    "新闻网1956成理记忆文章将原照与AI动态图并列，且页面当前412无法读取，不将其AI影像作为史料。"
+  ],
+  "note": "给定参考站历史时间线重复将相同图片配在不同年份；年代不依据其事件卡片推断。198MB原书及缩略图只保存在工作研究目录，不纳入网页或git。"
+}

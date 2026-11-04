@@ -1,0 +1,11 @@
+{
+  "commit": "4dc7b5b7772e1217c8fb8d2a7aa074302180e5b4",
+  "retrieved": "2026-11-04",
+  "upstreamSHA256": {
+    "SplitText.jsx": "f3b9433ce28aa703f4ea6c4e7a7d023aa91de3f4b21002fc99477ea095c932b1",
+    "AnimatedContent.jsx": "f18acb24614948733f8351479f03a06d3052ddacfb291e4cbaccead58499bab2",
+    "StaggeredMenu.jsx": "358ebe761c073a657eff79ab8f3647e98b1285594cc14a425c5ec05721c25464",
+    "StaggeredMenu.css": "de0ce6b5424aa9dca06b9d8f70f0916a23df4cdbd716104a5bc14a49eb63da0f",
+    "LICENSE.md": "4bdd1fa59a6b7d5954bc3b213dbc34e455c635a94bbcecf9293553797d0fad02"
+  }
+}
