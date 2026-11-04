@@ -406,6 +406,7 @@ async function motionState(page) {
       direction: document.documentElement.dataset.navDirection || null,
       currentChapter: document.querySelector('section.chapter.is-current')?.id || null,
       hash: location.hash,
+      scrollX, scrollY,
       documentHidden: document.hidden,
       focused: document.activeElement?.getAttribute('aria-label') || document.activeElement?.id || null,
       focusInEvidence: !!panel?.contains(document.activeElement),
@@ -457,27 +458,75 @@ async function expectEchoReleased(page, timeout = 1800) {
   }, timeout);
 }
 async function expectIdle(page, label) {
-  // A long startup wait is bounded by the requirement to establish true rest.
-  // Polling is in Node. No page RAF, screenshot fast-forward, or animation mocking.
-  await eventually('all browser animation work reaches idle: ' + label, async () => {
-    const state = await motionState(page);
-    assert.equal(state.documentHidden, false, 'idle budget must be measured in a visible foreground page');
-    assert.equal(state.raf.pending, 0, 'pending RAF: ' + JSON.stringify(state.raf));
-    assert.deepEqual(live(state), [], 'no running/paused/infinite native animation');
-    assert.equal(state.marker, null);
-    assert.equal(state.transitionKind, null);
-    assert.equal(state.direction, null);
-  }, 10000);
-  const before = await motionState(page);
-  await delay(900);
-  const after = await motionState(page);
-  idleSamples.push({ case: currentCase, label, windowMs: after.now - before.now,
-    before: before.raf, after: after.raf, activeAnimations: live(after) });
-  assert.equal(after.documentHidden, false, 'a background-throttled page is not valid idle evidence');
-  assert.equal(after.raf.requested, before.raf.requested, 'no new RAF requests during idle window');
-  assert.equal(after.raf.fired, before.raf.fired, 'zero RAF callbacks during idle window');
-  assert.equal(after.raf.pending, 0, 'no scheduled RAF retained after idle window');
-  assert.deepEqual(live(after), [], 'no animations restart during idle window');
+  // A moment with no pending RAF can occur between smooth-scroll events.
+  // Establish a full continuous 900ms idle window, within one total 10s budget.
+  // Every interrupted candidate window is retained as evidence; persistent
+  // work still fails. Polling remains in Node and never schedules a page RAF.
+  const budgetStarted = Date.now();
+  const deadline = budgetStarted + 10000;
+  const settleAttempts = [];
+  let lastError;
+  while (deadline - Date.now() >= 900) {
+    let before;
+    try {
+      before = await eventually('quiescent candidate: ' + label, async () => {
+        const state = await motionState(page);
+        assert.equal(state.documentHidden, false, 'measure a visible foreground page');
+        assert.equal(state.raf.pending, 0, 'pending RAF: ' + JSON.stringify(state.raf));
+        assert.deepEqual(live(state), [], 'no running/paused/infinite native animation');
+        assert.equal(state.marker, null);
+        assert.equal(state.transitionKind, null);
+        assert.equal(state.direction, null);
+        return state;
+      }, Math.max(1, deadline - Date.now() - 900));
+    } catch (error) {
+      lastError = error;
+      break;
+    }
+    await delay(900);
+    const after = await motionState(page);
+    const attempt = {
+      windowMs: after.now - before.now,
+      elapsedMs: Date.now() - budgetStarted,
+      requestedDelta: after.raf.requested - before.raf.requested,
+      firedDelta: after.raf.fired - before.raf.fired,
+      pendingBefore: before.raf.pending, pendingAfter: after.raf.pending,
+      scrollBefore: { x: before.scrollX, y: before.scrollY },
+      scrollAfter: { x: after.scrollX, y: after.scrollY },
+      activeAnimations: live(after),
+    };
+    settleAttempts.push(attempt);
+    try {
+      assert.equal(after.documentHidden, false, 'a background-throttled page is not valid idle evidence');
+      assert.equal(after.raf.requested, before.raf.requested, 'no new RAF requests during idle window');
+      assert.equal(after.raf.fired, before.raf.fired, 'zero RAF callbacks during idle window');
+      assert.equal(after.raf.pending, 0, 'no scheduled RAF retained after idle window');
+      assert.deepEqual(live(after), [], 'no animations restart during idle window');
+      assert.equal(after.marker, null);
+      assert.equal(after.transitionKind, null);
+      assert.equal(after.direction, null);
+      assert.equal(after.scrollX, before.scrollX, 'horizontal scrolling has finished');
+      assert.equal(after.scrollY, before.scrollY, 'native smooth scrolling has finished');
+      attempt.status = 'idle';
+      idleSamples.push({
+        case: currentCase, label, status: 'passed', windowMs: attempt.windowMs,
+        elapsedMs: attempt.elapsedMs, before: before.raf, after: after.raf,
+        activeAnimations: live(after), settleAttempts,
+      });
+      return;
+    } catch (error) {
+      attempt.status = 'still-settling';
+      attempt.reason = error.message;
+      lastError = error;
+    }
+  }
+  idleSamples.push({
+    case: currentCase, label, status: 'failed',
+    elapsedMs: Date.now() - budgetStarted, settleAttempts,
+    error: lastError?.message || 'No complete 900ms idle window fit within 10 seconds',
+  });
+  throw new Error('continuous 900ms idle window not established within 10 seconds: ' + label +
+    ': ' + (lastError?.message || 'timed out'), { cause: lastError });
 }
 function assertFinite(records, { mobile = false } = {}) {
   assert.deepEqual(records.map(record => record.part).sort(),
