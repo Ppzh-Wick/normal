@@ -6,7 +6,7 @@ import {chromium} from 'playwright';
 const origin=process.env.REVIEW_ORIGIN||'http://127.0.0.1:4173';
 const output='review/readability',results=[],errors=[];
 let browser,server;
-const check=(name,value)=>{assert.ok(value,name);results.push({name,pass:true});};
+const check=(name,value)=>{assert.ok(value,name);results.push({name,pass:true});console.log("PASS",name);};
 async function contrast(page,selector,minimum=4.5){
  const values=await page.locator(selector).evaluateAll(elements=>{
   const lum=rgb=>rgb.slice(0,3).map(v=>v/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0);
@@ -19,11 +19,11 @@ async function contrast(page,selector,minimum=4.5){
  check(`${selector}: contrast >= ${minimum}`,values.every(v=>v.ratio>=minimum&&v.opacity==='1'));
 }
 async function snap(page,name){await page.screenshot({path:`${output}/${name}.jpg`,type:'jpeg',quality:75,animations:'disabled'});}
-async function go(page,view){await page.goto(origin+'/#archive?view='+view);await page.locator('.archive-room-panel').waitFor();}
+async function go(page,view){await page.goto(origin+'/?review='+view+'#archive?view='+view);await page.locator('.archive-room-panel[id$="-panel-'+view+'"]').waitFor();}
 try{
  await mkdir(output,{recursive:true});
  if(!process.env.REVIEW_ORIGIN){
-  server=spawn('npm',['run','preview','--','--port','4173','--strictPort'],{stdio:'pipe'});
+  server=spawn('npm',['run','preview','--','--port','4173','--strictPort'],{stdio:'ignore',detached:process.platform!=='win32'});
   for(let i=0;i<80;i++){try{if((await fetch(origin)).ok)break;}catch{}await delay(100);}
  }
  browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_EXECUTABLE?{executablePath:process.env.CHROMIUM_EXECUTABLE}:{})});
@@ -63,4 +63,4 @@ try{
  await go(mobile,'images');await contrast(mobile,'.archive-gallery-provenance dd, .archive-gallery-object h4');
  check('no browser page errors',errors.length===0);
 } catch(error){console.error(error);results.push({name:'browser validation',pass:false,error:String(error)});process.exitCode=1;}
-finally{await browser?.close();server?.kill();await writeFile(`${output}/report.json`,JSON.stringify({results,errors},null,2));console.log(JSON.stringify({assertions:results.length,passed:results.filter(x=>x.pass).length,errors},null,2));}
+finally{await browser?.close();if(server?.pid){try{if(process.platform==='win32')server.kill();else process.kill(-server.pid,'SIGTERM');}catch{}}await writeFile(`${output}/report.json`,JSON.stringify({results,errors},null,2));console.log(JSON.stringify({assertions:results.length,passed:results.filter(x=>x.pass).length,errors},null,2));}

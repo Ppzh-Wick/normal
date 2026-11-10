@@ -2,6 +2,9 @@ name: Validate Experiment 2 archive readability
 on:
   push:
     branches: [experiment-2-readability]
+concurrency:
+  group: experiment-2-readability-review
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -29,6 +32,7 @@ jobs:
           path: experiments/experiment-2/review
           retention-days: 7
   inspect:
+    if: always()
     needs: verify
     runs-on: ubuntu-latest
     strategy:
