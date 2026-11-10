@@ -37,6 +37,7 @@ try{
  await contrast(page,'.archive-room-event-detail>p');
  await snap(page,'timeline-desktop');
  await page.locator('.archive-room-tabs>button').first().hover();await contrast(page,'.archive-room-tabs>button');
+ await page.keyboard.press('Tab');
  await page.locator('.archive-room-events summary').first().focus();
  check('keyboard focus ring visible',await page.locator('.archive-room-events summary').first().evaluate(e=>getComputedStyle(e).outlineStyle==='solid'));
  const samples={biography:'.archive-room-chapter h3, .archive-room-chapter>p, .archive-room-references',places:'.archive-room-place-feature h3, .archive-room-place-feature>p, .archive-room-place-index button',works:'.archive-room-work-list h3, .archive-room-work-list p, .archive-room-results',images:'.archive-gallery-object h4, .archive-gallery-provenance dd, .archive-gallery-index-list button',reports:'.archive-room-report-list h3, .archive-room-references'};
