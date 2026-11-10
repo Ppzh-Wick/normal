@@ -1,19 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
 <defs>
- <linearGradient id="ribbon" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#214f92" stop-opacity="0"/><stop offset=".24" stop-color="#237ca8"/><stop offset=".48" stop-color="#56d6cb"/><stop offset=".7" stop-color="#5c9ad7"/><stop offset="1" stop-color="#8e68bd" stop-opacity=".2"/></linearGradient>
  <linearGradient id="violet"><stop stop-color="#384f9c" stop-opacity="0"/><stop offset=".45" stop-color="#696bc7"/><stop offset=".7" stop-color="#9a77bd"/><stop offset="1" stop-color="#395da8" stop-opacity="0"/></linearGradient>
- <linearGradient id="veil" x1="0" y1="1" x2="0" y2="0"><stop stop-color="#52cec4" stop-opacity="0"/><stop offset=".6" stop-color="#6cdbc6" stop-opacity=".25"/><stop offset="1" stop-color="#9ae2de" stop-opacity="0"/></linearGradient>
  <filter id="soft" x="-25%" y="-70%" width="150%" height="240%"><feGaussianBlur stdDeviation="28"/></filter>
- <filter id="edge" x="-25%" y="-70%" width="150%" height="240%"><feGaussianBlur stdDeviation="8"/></filter>
  <filter id="mist" x="-25%" y="-70%" width="150%" height="240%"><feGaussianBlur stdDeviation="55"/></filter>
 </defs>
 <g fill="none">
- <path d="M-180 430 C180 490 375 115 690 165 S1090 370 1580 85" stroke="url(#ribbon)" stroke-width="160" opacity=".43" filter="url(#mist)"/>
- <path d="M-180 430 C180 490 375 115 690 165 S1090 370 1580 85" stroke="url(#ribbon)" stroke-width="68" opacity=".48" filter="url(#soft)"/>
- <path d="M-180 445 C180 500 375 145 690 188 S1090 393 1580 108" stroke="url(#ribbon)" stroke-width="17" opacity=".7" filter="url(#edge)"/>
  <path d="M-120 850 C250 490 470 720 790 610 S1180 465 1550 590" stroke="url(#violet)" stroke-width="135" opacity=".34" filter="url(#mist)"/>
  <path d="M-120 850 C250 490 470 720 790 610 S1180 465 1550 590" stroke="url(#violet)" stroke-width="34" opacity=".3" filter="url(#soft)"/>
- <path d="M650 60 C760 70 780 300 1020 265 S1350 70 1520 30" stroke="url(#ribbon)" stroke-width="60" opacity=".26" filter="url(#soft)"/>
 </g>
-<path d="M-80 435 C180 500 375 145 690 188 S1090 393 1520 108 L1520 0 C1100 130 970 110 720 0 S200 150 -80 210Z" fill="url(#veil)" opacity=".4" filter="url(#edge)"/>
 </svg>

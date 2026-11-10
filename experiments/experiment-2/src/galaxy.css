@@ -31,12 +31,12 @@
 .network-intro-glass.glass-surface--fallback{background:#15243e9e;box-shadow:inset 0 1px 0 #d7e5f32b,inset 0 -1px 0 #8da7c91a}
 @media(max-width:999px){.galaxy-static{background-size:auto 100%;opacity:.75}.galaxy-reading-shade{background:linear-gradient(180deg,#050c1c55,transparent 30%,transparent 70%,#050c1c88)}.network-heading h2 em{color:#c7d7ee}.network-intro-glass.glass-surface--fallback{background:#101e34f2}}
 @media(prefers-reduced-motion:reduce){.galaxy-atmosphere *{animation:none!important;transition:none!important}.network-intro-glass.glass-surface--fallback{background:#101e34f2}}
-/* Custom static auroral cloud ribbons around the true React Bits star field. */
-.galaxy-nebula{background:url('/images/materials/memorial-aurora.svg') center/cover no-repeat,radial-gradient(ellipse 70% 44% at 75% 18%,#153b60,transparent 80%),radial-gradient(ellipse 65% 50% at 25% 75%,#24254e,transparent 80%),linear-gradient(145deg,#050b1c,#0b1831 50%,#071023)}
+/* Subdued lower violet mist only: the attention-grabbing upper cyan ribbon is removed. */
+.galaxy-nebula{background:url('/images/materials/memorial-aurora.svg') center/cover no-repeat,radial-gradient(ellipse 65% 50% at 25% 75%,#24254e,transparent 80%),linear-gradient(145deg,#050b1c,#0b1831 50%,#071023)}
 .galaxy-static,.memorial-galaxy{opacity:.62}
 .galaxy-reading-shade{background:linear-gradient(180deg,#040a1c44,transparent 25%,transparent 72%,#040a1c77),radial-gradient(ellipse 44% 30% at 50% 56%,#040b1c8f,transparent 100%)}
 .network .atlas-observatory .atlas-complete-name,.network .atlas-observatory .atlas-node-name{fill:#f0f2f7;stroke:#061024;stroke-width:3.2px;paint-order:stroke fill}
-@media(max-width:999px){.galaxy-nebula{background-size:auto 100%,auto,auto,auto}.galaxy-static{opacity:.55}}
+@media(max-width:999px){.galaxy-nebula{background-size:auto 100%,auto,auto}.galaxy-static{opacity:.55}}
 .network .atlas-observatory .atlas-filters button{color:#e4edf9;text-shadow:0 1px 3px #020817}
 .network .atlas-observatory .atlas-search{color:#e4edf9;background:#06142942}
 .network .atlas-observatory .atlas-search input::placeholder{color:#d4e2f4;opacity:1}

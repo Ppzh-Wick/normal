@@ -58,3 +58,26 @@
 }
 /* Small text stays luminous over the warm edge of the mineral field. */
 .opening-topline span:last-child{color:#f6e8dc}.opening .prelude-coordinate b{color:#ffe1c5}.opening .prelude-coordinate span,.opening .prelude-coordinate{color:#e8e9f1}
+
+/* Open archives share the paper surface, never the previous dark-room ink.
+   Scope the theme so historical image pixels and dark image-stage labels stay intact. */
+.archive-chapter.archive-is-open{color:#243153;color-scheme:light}
+.archive-is-open .archive-heading h2{color:#243153}
+.archive-is-open .archive-heading>p{color:#54586a}
+.archive-is-open .archive-heading .eyebrow,.archive-is-open .archive-back{color:#784c36}
+.archive-is-open .archive-back{border-color:#9b8174}
+.archive-is-open .archive-back:focus-visible{outline:2px solid #784c36;outline-offset:5px}
+.archive-is-open .archive-room{
+ --ar-ink:#243153;--ar-muted:#54586a;--ar-accent:#784c36;
+ --ar-line:#c7c0b7;--ar-control-line:#8a8075;--ar-control-bg:#f8f3eb;
+ --ar-placeholder:#54586a;--ar-focus:#784c36;color:var(--ar-ink)
+}
+.archive-is-open .archive-room-place-controls button,.archive-is-open .archive-room-actions button{border-color:var(--ar-control-line)}
+.archive-is-open .archive-room a{border-bottom-color:#9b8174}
+.archive-is-open .archive-room-tabs{scrollbar-color:#8a8075 #e1dbd2}
+.archive-is-open .archive-gallery{
+ --gallery-paper:#243153;--gallery-muted:#54586a;--gallery-accent:#784c36;
+ --gallery-rule:#c7c0b7;--gallery-provenance:#243153
+}
+.archive-is-open .archive-gallery .archive-gallery-controls button{border-color:#8a8075}
+.archive-is-open .archive-gallery .archive-gallery-index-list{scrollbar-color:#8a8075 #e1dbd2}
