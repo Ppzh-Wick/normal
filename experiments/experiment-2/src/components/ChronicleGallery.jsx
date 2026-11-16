@@ -49,8 +49,8 @@ export default function ChronicleGallery({data,onExit,onOpenRelation,active}){
  <div className="gallery-caption"><span>{String(route.index+1).padStart(2,'0')} / {records.length} <i>{current.phase}</i></span><p>{showDetail?'向上滚动，沿原路退回展厅。':'滚动穿行年份 · 选择近读查看原始记述'}</p></div>
  <nav className="gallery-years" aria-label="年谱年份直达">{records.map((r,i)=><button key={r.year} aria-label={`${r.year} ${r.title}`} aria-current={i===route.index?'step':undefined} onClick={()=>go(i)}><span>{r.year}</span><i/></button>)}</nav>
  <footer className="gallery-footer"><p>{current.year} <span>{current.title}</span></p><div><button onClick={()=>go(route.index-1)} disabled={route.index===0} aria-label="上一年谱记录">↑</button><button onClick={()=>go(route.index,true)}>近读此年</button><button onClick={()=>go(route.index+1)} disabled={route.index===records.length-1} aria-label="下一年谱记录">↓</button></div><small>空间与矿物为抽象展陈 · 历史图像保持原貌</small></footer>
+ {reading&&!text&&<div className="gallery-read-scroll" ref={readScroll} onScroll={readMovement} tabIndex={0} aria-label="向上滚动退回展厅"><div style={{height:'170vh'}}/><button onClick={leaveReading}>返回展厅（或向上滚动）</button></div>}
  <span className="gallery-live" role="status">{current.date}，{current.title}</span>
  </div></div></div>}
- {reading&&!text&&<div className="gallery-read-scroll" ref={readScroll} onScroll={readMovement} tabIndex={0} aria-label="向上滚动退回展厅"><div style={{height:'170vh'}}/><button onClick={leaveReading}>返回展厅（或向上滚动）</button></div>}
  </dialog>
 }
