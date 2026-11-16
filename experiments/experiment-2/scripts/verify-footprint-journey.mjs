@@ -32,6 +32,7 @@ try{
    if(motion==='reduce')check(`${width} no 3D transform ${index}`,await page.locator('.journey-card.is-current').evaluate(e=>getComputedStyle(e).transform==='none'));
    if(width===1440&&index===7)await snap(page,'journey-berlin');if(width===1440&&index===9)await snap(page,'journey-jialing');if(width===390&&index===9)await snap(page,'journey-mobile');
   }
+  if(motion==='reduce'){await page.locator('.journey-scroll').evaluate(e=>e.scrollTo({top:e.clientHeight*.78*.5,behavior:'instant'}));await delay(100);check(`${width} reduced midpoint remains visible`,await page.locator('.journey-card.is-current').evaluate(e=>getComputedStyle(e).opacity==='1'));await at(page,19);}
   check(`${width} final stop keeps 1967 boundary`,await page.locator('.journey-year b').first().innerText()==='1967');
   await page.getByRole('button',{name:'文字年表',exact:true}).click();check(`${width} full readable list`,await page.locator('.journey-reading li').count()===20);
   check(`${width} not a fabricated route disclosure`,(await page.locator('.journey-method').innerText()).includes('不代表完整路线'));

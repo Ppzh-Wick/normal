@@ -21,7 +21,7 @@ test('historical images have existing files and date-disambiguating captions',()
 });
 test('scroll index clamps and reduced-motion poses do not use perspective motion',()=>{
  assert.equal(footprintIndex(-100),0);assert.equal(footprintIndex(999),19);assert.equal(footprintIndex(NaN),0);assert.equal(footprintIndex(5.6),6);
- assert.deepEqual(footprintPose(0,false,true),{transform:'none',opacity:1});assert.equal(footprintPose(1,false,true).opacity,0);
+ assert.deepEqual(footprintPose(0,false,true),{transform:'none',opacity:1});assert.equal(footprintPose(1,false,true).opacity,0);assert.equal(footprintPose(.5,false,true).opacity,1);
  assert.doesNotMatch(footprintPose(.2,true).transform,/rotate/);
 });
 test('journey uses a bounded scroll frame, not a perpetual render loop',()=>{

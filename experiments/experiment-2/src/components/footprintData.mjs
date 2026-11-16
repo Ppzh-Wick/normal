@@ -24,7 +24,7 @@ export const footprintStops = [
 ];
 export function footprintIndex(progress,length=footprintStops.length){return Math.max(0,Math.min(length-1,Math.round(Number.isFinite(progress)?progress:0)))}
 export function footprintPose(offset,compact=false,reduced=false){
- if(reduced)return{transform:'none',opacity:Math.abs(offset)<.5?1:0};
+ if(reduced)return{transform:'none',opacity:Math.abs(offset)<=.5?1:0};
  const distance=Math.abs(offset);
  return{transform:compact?`translate3d(0,${offset*65}px,0) scale(${1-distance*.08})`:`translate3d(${offset*330}px,${distance*18}px,${-distance*400}px) rotateY(${-offset*23}deg) rotateZ(${offset*2}deg)`,opacity:Math.max(0,1-distance*.77)};
 }
