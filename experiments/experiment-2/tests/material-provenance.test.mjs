@@ -30,6 +30,6 @@ test('the Galaxy poster uses exactly the production shaders and ships within its
 });
 test('the memorial wrapper is static, decorative, mobile-safe and limited to the network',()=>{
  const s=read('src/components/GalaxyAtmosphere.jsx');assert.match(s,/desktop&&!reduced&&/);assert.match(s,/aria-hidden="true"/);assert.match(s,/disableAnimation=\{true\}/);assert.match(s,/intro=\{false\}/);assert.match(s,/twinkleIntensity=\{0\}/);assert.match(s,/maxPixels=\{600000\}/);
- const app=read('src/App.jsx');assert.match(app,/id="network"[\s\S]*?<GalaxyAtmosphere active=\{nav.active===3&&!menu&&!media\}/);
+ const app=read('src/App.jsx');assert.match(app,/id="network"[\s\S]*?<GalaxyAtmosphere active=\{nav.active===3&&!menu&&!media&&!footprintsOpen\}/);
  assert.match(read('src/galaxy.css'),/pointer-events:none/);assert.match(read('src/galaxy.css'),/prefers-reduced-motion:reduce/);
 });
