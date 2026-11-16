@@ -18,7 +18,7 @@ export const OrbitTheatre=React.memo(function OrbitTheatre({uid,compact}){
  return <g className="atlas-orbit-theatre" aria-hidden="true" pointerEvents="none">
   <ellipse className="atlas-star-ground" cx="620" cy="257" rx="144" ry="38" fill={`url(#${uid}-planet-shadow)`}/>
   <ellipse cx="620" cy="205" rx="190" ry="132" fill={`url(#${uid}-star-light)`}/>
-  {[['2',rings.people],['3',rings.other]].map(([tier,{rx,ry}])=><g key={tier} className={`atlas-orbit-plane tier-${tier}`} transform={`rotate(${ORBIT_TILT} 620 205)}`}>
+  {[['2',rings.people],['3',rings.other]].map(([tier,{rx,ry}])=><g key={tier} className={`atlas-orbit-plane tier-${tier}`} transform={`rotate(${ORBIT_TILT} 620 205)`}>
    <ellipse className="atlas-orbit-measure" data-tier-ring={tier} data-orbit-angle={ORBIT_TILT} cx="620" cy="205" rx={rx} ry={ry}/>
    <path className="atlas-orbit-back" d={`M${620-rx} 205 A${rx} ${ry} 0 0 1 ${620+rx} 205`} stroke={`url(#${uid}-orbit-far)`}/>
    <path className="atlas-orbit-front-bed" d={`M${620-rx} 207 A${rx} ${ry} 0 0 0 ${620+rx} 207`}/>

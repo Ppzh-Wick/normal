@@ -456,6 +456,7 @@ try {
       (event.kind === 'http-error' && event.url.startsWith(origin)) ||
       (event.kind === 'requestfailed' && event.url.startsWith(origin) &&
         !/ERR_ABORTED/.test(event.message || '')));
+    if(errors.length)console.error(JSON.stringify({browserErrors:errors}));
     assert.deepEqual(errors, [], 'actual browser errors are recorded in browser-events.json');
   });
 } catch (error) {

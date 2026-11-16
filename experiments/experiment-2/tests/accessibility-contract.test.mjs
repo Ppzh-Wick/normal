@@ -370,3 +370,7 @@ test('mobile evidence wraps Tab focus while desktop folio remains nonmodal',()=>
   assert.equal(prevented,2,'desktop graph and folio keep native free tab travel');
  });
 });
+
+test('all SVG transform attributes are free of template delimiters',()=>{
+ for(const match of html.matchAll(/\btransform="([^"]*)"/g))assert.doesNotMatch(match[1],/[{}]/);
+});
