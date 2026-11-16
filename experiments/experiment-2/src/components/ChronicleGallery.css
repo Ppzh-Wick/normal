@@ -14,3 +14,8 @@
 .gallery-title:focus-visible{outline:none}
 .gallery-background{background:radial-gradient(ellipse at 61% 48%,#51486e58,transparent 48%),radial-gradient(ellipse at 78% 75%,#21516c3a,transparent 38%),radial-gradient(ellipse at 13% 86%,#895a4035,transparent 42%),linear-gradient(115deg,#06131f,#0c111a 68%,#171722)}
 @media(max-height:800px){.gallery-plate-text{padding:10px 13px}.gallery-image-note{font-size:10px}}
+
+.gallery-image-shade{background:linear-gradient(90deg,#05101d99 0%,#05101d50 40%,transparent 68%),linear-gradient(0deg,#06111cdc,transparent 35%,#05101d25)}
+.gallery-image-source{display:block;font-size:11px;color:#c9d5d8;margin:10px 0}
+.gallery-years button{font-size:11px}
+@media(max-height:800px){.gallery-years button{font-size:10px}}
