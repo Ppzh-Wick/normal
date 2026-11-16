@@ -1,6 +1,6 @@
 /* Original procedural sculpture and particles. No Active Theory mesh, project asset, or shader.
  * Genuine r3f-scroll-rig canvas; a continuous scroll parameter drives the sculpture.
- * Three draw calls, demand rendered, no elapsed-time animation or postprocessing. */
+ * Three scene objects, demand rendered, no elapsed-time animation or postprocessing. */
 import React,{Component,useEffect,useLayoutEffect,useMemo,useRef} from 'react';
 import {GlobalCanvas,useScrollRig} from '@14islands/r3f-scroll-rig';
 import {useThree,useFrame} from '@react-three/fiber';
@@ -13,8 +13,8 @@ function dustGeometry(){const p=[],c=[];for(let i=0;i<14000;i++){const a=i*2.399
 function Sculpture({orbit,focus,host}){const{requestRender}=useScrollRig(),invalidate=useThree(s=>s.invalidate),size=useThree(s=>s.size),frames=useRef(0);const body=useMemo(sculptureGeometry,[]),dust=useMemo(dustGeometry,[]),uniforms=useMemo(()=>({uTurn:{value:orbit}}),[]);uniforms.uTurn.value=orbit;
 useEffect(()=>()=>{body.dispose();dust.dispose()},[body,dust]);useLayoutEffect(()=>{requestRender();invalidate()},[orbit,focus,size.width,size.height,requestRender,invalidate]);useFrame(({gl})=>{if(host.current){host.current.dataset.renderCount=String(++frames.current);host.current.dataset.drawCalls=String(gl.info.render.calls)}});
 return <group position={[size.width*.0011,(orbit%1)*.55,-3]} rotation={[.04,orbit*.35,-.08]} scale={1-focus*.11}>
-<mesh geometry={body}><shaderMaterial vertexShader={vertex} fragmentShader={fragment} uniforms={uniforms} transparent side={DoubleSide} depthWrite={false}/></mesh>
-<mesh geometry={body} scale={[.64,1.02,.64]} rotation={[0,.45,.03]}><shaderMaterial vertexShader={vertex} fragmentShader={fragment} uniforms={uniforms} transparent side={DoubleSide} depthWrite={false}/></mesh>
+<mesh geometry={body}><shaderMaterial vertexShader={vertex} fragmentShader={fragment} uniforms={uniforms} transparent side={DoubleSide} forceSinglePass depthWrite={false}/></mesh>
+<mesh geometry={body} scale={[.64,1.02,.64]} rotation={[0,.45,.03]}><shaderMaterial vertexShader={vertex} fragmentShader={fragment} uniforms={uniforms} transparent side={DoubleSide} forceSinglePass depthWrite={false}/></mesh>
 <points geometry={dust} rotation={[0,orbit*.12,0]}><pointsMaterial vertexColors size={.018} transparent opacity={.68*(1-focus*.65)} depthWrite={false} sizeAttenuation/></points>
 </group>}
 export default function ChronicleMineral({orbit,focus,onFailure}){const host=useRef(null),canvas=useRef(null);useEffect(()=>()=>{canvas.current?.removeEventListener('webglcontextlost',onFailure);document.documentElement.classList.remove('js-has-global-canvas','js-global-canvas-error')},[]);return <div className="gallery-mineral" ref={host} aria-hidden="true" data-renderer="r3f-scroll-rig"><Boundary onFailure={onFailure}><GlobalCanvas frameloop="demand" dpr={1} scaleMultiplier={.01} camera={{fov:45}} gl={{antialias:true,alpha:true,powerPreference:'low-power'}} style={{position:'absolute',height:'100%',pointerEvents:'none'}} onError={onFailure} onCreated={({gl})=>{canvas.current=gl.domElement;gl.domElement.addEventListener('webglcontextlost',onFailure,{once:true})}}><Sculpture orbit={orbit} focus={focus} host={host}/></GlobalCanvas></Boundary></div>}
