@@ -21,6 +21,8 @@ try{
   check(`${width} no horizontal document overflow`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
   if(width>=1000){
    check(`${width} desktop sidebar visible`,await nav.isVisible());check(`${width} seven accessible anchors`,await links.count()===7);
+   console.log('INITIAL_CHAPTER',width,await page.evaluate(()=>({hash:location.hash,current:document.querySelector('.museum-tab[aria-current]')?.getAttribute('href'),networkTop:document.getElementById('network').getBoundingClientRect().top,scrollY})));
+   await nav.locator('[href="#network"]').click();await delay(800);
    const current=nav.locator('[aria-current="location"]');check(`${width} current network`,await current.getAttribute('href')==='#network');
    const opening=links.nth(0);await page.mouse.move(width/2,70);await delay(400);
    check(`${width} inactive bookmark collapsed`,(await style(opening)).opacity==='0');check(`${width} active bookmark visible`,(await style(current)).opacity==='1');
