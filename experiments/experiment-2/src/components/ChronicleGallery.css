@@ -19,3 +19,20 @@
 .gallery-image-source{display:block;font-size:11px;color:#c9d5d8;margin:10px 0}
 .gallery-years button{font-size:11px}
 @media(max-height:800px){.gallery-years button{font-size:10px}}
+/* Recording-aligned pass: smaller plates, offset axis, full-length continuous orbit. */
+.gallery-background{background:radial-gradient(ellipse at 88% 4%,#367a6e55,transparent 48%),radial-gradient(ellipse at 12% 94%,#5024aa55,transparent 42%),radial-gradient(ellipse at 65% 90%,#63345a48,transparent 48%),#101e26}
+.gallery-world{perspective-origin:43% 46%}
+.gallery-mineral{opacity:1}
+.gallery-plate{left:43%;top:46%;width:46vw;height:57vh;max-width:none;max-height:none;border-radius:15px;border-color:#bcd6dc69;background:#172b3866;box-shadow:inset 0 0 18px #aec2cf24,0 12px 55px #0003;backface-visibility:visible}
+.gallery-plate-image{opacity:calc(.87 - var(--plate-focus)*.35);mask-image:none}
+.gallery-plate-key{top:21%;left:8%;right:7%}.gallery-plate-key time{font-size:clamp(70px,7vw,126px);margin:14px 0 8px}.gallery-plate-key h3{font-size:clamp(18px,1.6vw,30px);max-width:90%}.gallery-plate-key>p{font-size:11px}
+.gallery-reading .is-selected .gallery-plate-key{top:16%}.gallery-reading .is-selected .gallery-plate-key h3{max-width:42%}.gallery-reading .gallery-world{z-index:6}
+.gallery-plate-text{font-size:14px;left:47%;right:4%;padding:15px;top:9%;bottom:16%;background:#081624f5}.gallery-plate-text>p{font-size:14px;line-height:1.7}
+.gallery-plate-edge{inset:3px;border-radius:12px;border-color:#cbdfff22}.gallery-image-note{opacity:calc(.25 + var(--plate-focus)*.75);font-size:10px;bottom:3%;background:#07131bcc}.is-selected .gallery-image-note{opacity:.9}
+.gallery-read-scroll{position:absolute;inset:0;z-index:4;overflow:auto;overscroll-behavior:contain;scrollbar-width:none;outline:none}.gallery-read-scroll>button{position:fixed;left:42px;bottom:115px;font-size:12px;background:#0a172ddd}
+.gallery-reading .gallery-plate.is-selected{pointer-events:none}.gallery-reading .gallery-plate.is-selected .gallery-plate-text{pointer-events:auto}.gallery-reading .gallery-caption{opacity:0}
+.gallery-axis{display:none}.gallery-caption{bottom:135px}.gallery-caption p{max-width:240px;line-height:1.8}.gallery-header,.gallery-years,.gallery-footer{z-index:10}
+.gallery-lite .gallery-plate{left:50%;top:47%;width:78vw;height:54vh}.gallery-lite .gallery-plate-key h3{max-width:42%}.gallery-lite .gallery-plate-image{opacity:.35}
+@media(max-height:800px){.gallery-plate{width:46vw;height:58vh;top:46%}.gallery-plate-key{top:21%}.gallery-plate-key time{font-size:80px}.gallery-plate-text{padding:10px 12px}.gallery-plate-text>p{font-size:12px;line-height:1.65}.gallery-image-note{font-size:9px}.gallery-caption{bottom:122px}}
+
+.gallery-plate{left:calc(40% + var(--orbit-drift,0vw))}.gallery-world{perspective-origin:47% 46%}.gallery-lite .gallery-plate{left:50%}

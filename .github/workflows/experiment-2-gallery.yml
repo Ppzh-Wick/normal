@@ -1,9 +1,9 @@
-name: Validate archive chronology gallery
+name: Validate recording-aligned chronology gallery
 on:
   push:
-    branches: [experiment-2-chronicle-gallery]
+    branches: [experiment-2-chronicle-match]
 concurrency:
-  group: experiment-2-chronicle-gallery-review
+  group: experiment-2-chronicle-match-review
   cancel-in-progress: true
 permissions:
   contents: read
@@ -34,7 +34,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: experiment-2-chronicle-gallery-review
+          name: experiment-2-chronicle-match-review
           path: experiments/experiment-2/review
           retention-days: 7
   inspect:
@@ -44,11 +44,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [gallery-1440-1940, gallery-1440-reading, gallery-1440-passing, gallery-1440-birth, gallery-teaching, gallery-1280-reading, gallery-1920-reading, chronicle-scroll-demo, gallery-failure]
+        image: [gallery-1440-1940, gallery-1440-reading, gallery-1440-passing, gallery-1440-birth, gallery-teaching, gallery-1280-reading, gallery-1920-reading, chronicle-scroll-demo, gallery-failure, phase-10.00, phase-10.25, phase-10.50, phase-10.75, phase-11.00]
     steps:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
-          name: experiment-2-chronicle-gallery-review
+          name: experiment-2-chronicle-match-review
           path: review
       - name: Export bounded public review screenshot
         env:

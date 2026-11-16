@@ -1,21 +1,20 @@
-/* Original geological sculpture, not an Active Theory asset or historical reconstruction.
- * Genuine r3f-scroll-rig GlobalCanvas; demand-rendered only on scroll and resize. */
+/* Original procedural sculpture and particles. No Active Theory mesh, project asset, or shader.
+ * Genuine r3f-scroll-rig canvas; a continuous scroll parameter drives the sculpture.
+ * Three draw calls, demand rendered, no elapsed-time animation or postprocessing. */
 import React,{Component,useEffect,useLayoutEffect,useMemo,useRef} from 'react';
 import {GlobalCanvas,useScrollRig} from '@14islands/r3f-scroll-rig';
 import {useThree,useFrame} from '@react-three/fiber';
-import {BufferGeometry,Float32BufferAttribute} from 'three';
+import {BufferGeometry,Float32BufferAttribute,DoubleSide} from 'three';
 class Boundary extends Component{state={failed:false};static getDerivedStateFromError(){return{failed:true}}componentDidCatch(){this.props.onFailure()}render(){return this.state.failed?null:this.props.children}}
-function Sculpture({orbit,focus,host}){
- const {requestRender}=useScrollRig(),invalidate=useThree(s=>s.invalidate),size=useThree(s=>s.size),frames=useRef(0);
- const points=useMemo(()=>{let a=[];for(let i=0;i<1300;i++){const t=i*.17,r=.7+1.6*((i*73%313)/313),y=((i*127%701)/701-.5)*18;a.push(Math.sin(t)*r,y,Math.cos(t)*r)}const g=new BufferGeometry();g.setAttribute('position',new Float32BufferAttribute(a,3));return g},[]);
- useEffect(()=>()=>points.dispose(),[points]);
- useLayoutEffect(()=>{requestRender();invalidate()},[orbit,focus,size.width,size.height,requestRender,invalidate]);
- useFrame(({gl})=>{if(host.current){host.current.dataset.renderCount=String(++frames.current);host.current.dataset.drawCalls=String(gl.info.render.calls)}});
- const turn=orbit*.22,offset=(orbit%1)*.65;
- return <group position={[.65,offset,-3]} rotation={[.07,turn,-.16]} scale={1-focus*.12}>
- <ambientLight intensity={2.2}/><directionalLight position={[5,4,5]} intensity={3.5} color="#b7d9e8"/><directionalLight position={[-3,-2,3]} intensity={2} color="#dba7bc"/>
- {Array.from({length:24},(_,i)=><group key={i} position={[Math.sin(i*.36)*.36,(i-11.5)*.47,Math.cos(i*.36)*.23]} rotation={[.12, i*.29,.16*Math.sin(i)]}><mesh><cylinderGeometry args={[.7+(i%3)*.06,.96,.18,5,1]}/><meshStandardMaterial color={i%4===0?'#d5af9b':i%3===0?'#69a5bb':'#aca3cf'} roughness={.2} metalness={.3} transparent opacity={.8-focus*.25}/></mesh><mesh rotation={[0,0,.23]} scale={[1.025,1.05,1.025]}><cylinderGeometry args={[.7+(i%3)*.06,.96,.18,5,1]}/><meshBasicMaterial color={i%5===0?'#c17f66':'#718fa2'} wireframe transparent opacity={.32}/></mesh></group>)}
- <points geometry={points} rotation={[0,orbit*.15,0]}><pointsMaterial color="#99b0c3" size={.015} transparent opacity={.34*(1-focus*.6)} depthWrite={false}/></points>
- </group>;
-}
+const vertex=`varying vec3 vNormal;varying vec3 vView;varying vec3 vPos;void main(){vNormal=normalize(normalMatrix*normal);vec4 p=modelViewMatrix*vec4(position,1.);vView=normalize(-p.xyz);vPos=position;gl_Position=projectionMatrix*p;}`;
+const fragment=`varying vec3 vNormal;varying vec3 vView;varying vec3 vPos;uniform float uTurn;void main(){vec3 n=normalize(vNormal);float f=pow(1.-abs(dot(n,normalize(vView))),2.0);float h=sin(vPos.y*2.5+vPos.x*3.+uTurn*.4)*.5+.5;vec3 a=vec3(.08,.4,.55),b=vec3(.74,.16,.46),c=vec3(.53,.7,.86);vec3 col=mix(a,b,h);col=mix(col,c,pow(h,6.)*.65);float light=pow(max(0.,dot(n,normalize(vec3(-.6,.7,1.)))),12.);float rib=pow(.5+.5*sin(vPos.y*12.+vPos.x*.4),9.);col=col*(.35+f*1.1)+vec3(.7,.9,1.)*light*.75+vec3(.36,.75,.73)*rib*.3;gl_FragColor=vec4(col,.38+f*.5+light*.15);}`;
+function sculptureGeometry(){const g=new BufferGeometry(),v=[],idx=[],rings=240,sides=40;for(let j=0;j<=rings;j++){const y=(j/rings-.5)*17;for(let k=0;k<=sides;k++){const a=k/sides*Math.PI*2;const wave=Math.sin(y*5.4+a*.6);const r=.54+.42*Math.pow(.5+.5*wave,2)+.15*Math.sin(y*1.3+a*3);v.push(Math.cos(a)*r+Math.sin(y*.43)*.2,y,Math.sin(a)*r*.68+Math.cos(y*.5)*.15);if(j<rings&&k<sides){const n=j*(sides+1)+k;idx.push(n,n+sides+1,n+1,n+1,n+sides+1,n+sides+2)}}}g.setAttribute('position',new Float32BufferAttribute(v,3));g.setIndex(idx);g.computeVertexNormals();return g}
+function dustGeometry(){const p=[],c=[];for(let i=0;i<14000;i++){const a=i*2.399963,r=((i*127%997)/997),u=((i*241%997)/997),t=(i/14000)*Math.PI*5;const side=i%2?1:-1;const y=(u-.5)*14,x=side*(1.6+Math.sin(y*.65)*.9)+Math.cos(a)*r*1.65,z=Math.sin(a)*r*1.9-1.2;p.push(x,y,z);const pink=(Math.sin(y*.6)+1)*.5;c.push(.28+pink*.55,.22+(1-pink)*.4,.67+Math.sin(t)*.15)}const g=new BufferGeometry();g.setAttribute('position',new Float32BufferAttribute(p,3));g.setAttribute('color',new Float32BufferAttribute(c,3));return g}
+function Sculpture({orbit,focus,host}){const{requestRender}=useScrollRig(),invalidate=useThree(s=>s.invalidate),size=useThree(s=>s.size),frames=useRef(0);const body=useMemo(sculptureGeometry,[]),dust=useMemo(dustGeometry,[]),uniforms=useMemo(()=>({uTurn:{value:orbit}}),[]);uniforms.uTurn.value=orbit;
+useEffect(()=>()=>{body.dispose();dust.dispose()},[body,dust]);useLayoutEffect(()=>{requestRender();invalidate()},[orbit,focus,size.width,size.height,requestRender,invalidate]);useFrame(({gl})=>{if(host.current){host.current.dataset.renderCount=String(++frames.current);host.current.dataset.drawCalls=String(gl.info.render.calls)}});
+return <group position={[size.width*.0011,(orbit%1)*.55,-3]} rotation={[.04,orbit*.35,-.08]} scale={1-focus*.11}>
+<mesh geometry={body}><shaderMaterial vertexShader={vertex} fragmentShader={fragment} uniforms={uniforms} transparent side={DoubleSide} depthWrite={false}/></mesh>
+<mesh geometry={body} scale={[.64,1.02,.64]} rotation={[0,.45,.03]}><shaderMaterial vertexShader={vertex} fragmentShader={fragment} uniforms={uniforms} transparent side={DoubleSide} depthWrite={false}/></mesh>
+<points geometry={dust} rotation={[0,orbit*.12,0]}><pointsMaterial vertexColors size={.018} transparent opacity={.68*(1-focus*.65)} depthWrite={false} sizeAttenuation/></points>
+</group>}
 export default function ChronicleMineral({orbit,focus,onFailure}){const host=useRef(null),canvas=useRef(null);useEffect(()=>()=>{canvas.current?.removeEventListener('webglcontextlost',onFailure);document.documentElement.classList.remove('js-has-global-canvas','js-global-canvas-error')},[]);return <div className="gallery-mineral" ref={host} aria-hidden="true" data-renderer="r3f-scroll-rig"><Boundary onFailure={onFailure}><GlobalCanvas frameloop="demand" dpr={1} scaleMultiplier={.01} camera={{fov:45}} gl={{antialias:true,alpha:true,powerPreference:'low-power'}} style={{position:'absolute',height:'100%',pointerEvents:'none'}} onError={onFailure} onCreated={({gl})=>{canvas.current=gl.domElement;gl.domElement.addEventListener('webglcontextlost',onFailure,{once:true})}}><Sculpture orbit={orbit} focus={focus} host={host}/></GlobalCanvas></Boundary></div>}
