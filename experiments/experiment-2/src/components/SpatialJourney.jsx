@@ -54,9 +54,9 @@ function Scene({progress,index,data,records,track,host,onReady}){
  return <><fog attach="fog" args={['#091321',15,45]}/><group position={[0,0,-Math.floor(progress/6)*48]}><Terrain/></group>{plates.map(i=><RecordPlate key={i} index={i} data={data} records={records} width={width} height={height}/>)}</>;
 }
 export default function SpatialJourney({progress,index,data,records,track,onReady,onFailure}){
- const host=useRef(null),[visible,setVisible]=useState(!document.hidden);
- useEffect(()=>{const change=()=>setVisible(!document.hidden);document.addEventListener('visibilitychange',change);return()=>{document.removeEventListener('visibilitychange',change);document.documentElement.classList.remove('js-has-global-canvas','js-global-canvas-error')}},[]);
+ const host=useRef(null),canvas=useRef(null),[visible,setVisible]=useState(!document.hidden);
+ useEffect(()=>{const change=()=>setVisible(!document.hidden);document.addEventListener('visibilitychange',change);return()=>{document.removeEventListener('visibilitychange',change);canvas.current?.removeEventListener('webglcontextlost',onFailure);document.documentElement.classList.remove('js-has-global-canvas','js-global-canvas-error')}},[]);
  return <div className="journey-webgl" ref={host} aria-hidden="true" data-renderer="r3f-scroll-rig" data-active={visible}>
- <SceneBoundary onFailure={onFailure}><GlobalCanvas frameloop={visible?'demand':'never'} dpr={1} scaleMultiplier={.01} camera={{fov:50,far:220}} gl={{antialias:true,alpha:true,powerPreference:'low-power'}} style={{position:'absolute',height:'100%',pointerEvents:'none'}} onError={onFailure} onCreated={({gl})=>{gl.setClearColor('#091321',0);gl.domElement.addEventListener('webglcontextlost',onFailure,{once:true})}}><Suspense fallback={null}><Scene progress={progress} index={index} data={data} records={records} track={track} host={host} onReady={onReady}/></Suspense></GlobalCanvas></SceneBoundary>
+ <SceneBoundary onFailure={onFailure}><GlobalCanvas frameloop={visible?'demand':'never'} dpr={1} scaleMultiplier={.01} camera={{fov:50,far:220}} gl={{antialias:true,alpha:true,powerPreference:'low-power'}} style={{position:'absolute',height:'100%',pointerEvents:'none'}} onError={onFailure} onCreated={({gl})=>{canvas.current=gl.domElement;gl.setClearColor('#091321',0);gl.domElement.addEventListener('webglcontextlost',onFailure,{once:true})}}><Suspense fallback={null}><Scene progress={progress} index={index} data={data} records={records} track={track} host={host} onReady={onReady}/></Suspense></GlobalCanvas></SceneBoundary>
  </div>;
 }
