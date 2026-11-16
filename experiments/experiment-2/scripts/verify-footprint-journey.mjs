@@ -28,6 +28,7 @@ try{
    check(`${width} bounded live deck ${index}`,await page.locator('.journey-card').count()<=3);
    check(`${width} current card within viewport ${index}`,await page.locator('.journey-card.is-current').evaluate(e=>{const r=e.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth+1&&r.top>=70&&r.bottom<=innerHeight-40}));
    check(`${width} readable main copy ${index}`,await page.locator('.journey-card.is-current .journey-record-copy>p').first().evaluate(e=>parseFloat(getComputedStyle(e).fontSize)>=12&&parseFloat(getComputedStyle(e).lineHeight)>=20));
+   if(width<1000){check(`${width} year and place clear the card ${index}`,await page.locator('.journey-year').evaluate(e=>e.getBoundingClientRect().bottom<document.querySelector('.journey-card.is-current').getBoundingClientRect().top-8));check(`${width} place stays readable ${index}`,await page.locator('.journey-year h3').evaluate(e=>e.getBoundingClientRect().height<60));}
    if(motion==='reduce')check(`${width} no 3D transform ${index}`,await page.locator('.journey-card.is-current').evaluate(e=>getComputedStyle(e).transform==='none'));
    if(width===1440&&index===7)await snap(page,'journey-berlin');if(width===1440&&index===9)await snap(page,'journey-jialing');if(width===390&&index===9)await snap(page,'journey-mobile');
   }
