@@ -6,3 +6,6 @@
 @media(prefers-reduced-motion:reduce){.life-chronicle *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 .chronicle-status{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+
+/* Keep tiny year controls legible even while a pale archive passes behind. */
+.chronicle-years{background:#091321f2;padding:10px 12px;border-left:1px solid #a6b9cb33;right:2.2%;min-width:70px}

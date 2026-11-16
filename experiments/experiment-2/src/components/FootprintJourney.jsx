@@ -26,7 +26,7 @@ export default function FootprintJourney({open,onClose,data,reduced=false,deskto
   const observer=new ResizeObserver(resize);observer.observe(view);resize();view.addEventListener('scroll',onScroll,{passive:true});document.addEventListener('visibilitychange',onScroll);
   return()=>{disposed=true;observer.disconnect();view.removeEventListener('scroll',onScroll);document.removeEventListener('visibilitychange',onScroll);if(frame.current)cancelAnimationFrame(frame.current);frame.current=0};
  },[open,list]);
- const go=i=>{const target=Math.max(0,Math.min(footprintStops.length-1,i));viewport.current?.scrollTo({top:target*step.current,behavior:reduced||compact?'instant':'smooth'})};
+ const go=i=>{const target=Math.max(0,Math.min(footprintStops.length-1,i));progressRef.current=target;viewport.current?.scrollTo({top:target*step.current,behavior:reduced||compact?'instant':'smooth'})};
  if(!open)return null;
  return <dialog ref={dialog} className={`journey-dialog ${list?'journey-list-mode':''} ${reduced?'journey-reduced':''}`} aria-labelledby="journey-title" onCancel={e=>{e.preventDefault();onClose()}}>
   <header className="journey-header"><div><span>CHENGSAN / 人物足迹</span><h2 id="journey-title" tabIndex={-1}>循年，行于山河。</h2></div><div className="journey-header-actions"><button onClick={()=>setList(v=>!v)} aria-pressed={list}>{list?'返回空间漫游':'文字年表'}</button><button className="journey-close" onClick={onClose} aria-label="关闭人物足迹">关闭 <span aria-hidden="true">×</span></button></div></header>

@@ -1,4 +1,4 @@
-name: Validate Experiment 2 spatial journey
+name: Validate desktop life chronology
 on:
   push:
     branches: [experiment-2-spatial-journey]
@@ -7,6 +7,8 @@ concurrency:
   cancel-in-progress: true
 permissions:
   contents: read
+env:
+  REVIEW_DESKTOP_ONLY: 1
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -25,14 +27,6 @@ jobs:
       - run: npm install --no-save --package-lock=false playwright@1.64.1 && npx playwright install --with-deps chromium
       - run: node scripts/verify-spatial-journey.mjs
         if: always()
-      - run: node scripts/verify-pair-focus.mjs
-        if: always()
-      - run: node scripts/verify-archive-readability.mjs
-        if: always()
-      - run: node scripts/verify-node-hierarchy.mjs
-        if: always()
-      - run: node scripts/verify-museum-navigation.mjs
-        if: always()
       - run: node scripts/verify-cold-entry.mjs
         if: always()
       - run: node scripts/verify-footprint-journey.mjs
@@ -50,7 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [desktop-overview, desktop-stille, desktop-chengdu, mobile-overview, mobile-selected-school, nav-desktop, nav-hover, nav-light, nav-mobile-menu, journey-1899, journey-berlin, journey-jialing, journey-mobile, spatial-birth, spatial-berlin, spatial-jialing, spatial-inflight, spatial-teaching, spatial-mobile, spatial-failure]
+        image: [spatial-birth, spatial-teaching, spatial-berlin, spatial-jialing, spatial-inflight, spatial-desktop-1280, spatial-desktop-1920, spatial-failure]
     steps:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:

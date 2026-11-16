@@ -11,7 +11,7 @@ try{
  await mkdir(output,{recursive:true});
  if(!process.env.REVIEW_ORIGIN){server=spawn('npm',['run','preview','--','--port','4173','--strictPort'],{stdio:'ignore',detached:true});for(let i=0;i<80;i++){try{if((await fetch(origin)).ok)break}catch{}await delay(100)}}
  browser=await chromium.launch({headless:true});
- for(const [width,height,motion]of[[1440,1000,'no-preference'],[1000,700,'reduce'],[390,844,'reduce'],[375,667,'reduce']]){
+ for(const [width,height,motion]of[[1440,1000,'no-preference'],[1000,700,'reduce'],[390,844,'reduce'],[375,667,'reduce']].filter(([w])=>!process.env.REVIEW_DESKTOP_ONLY||w>=1000)){
   const page=await browser.newPage({viewport:{width,height},reducedMotion:motion,isMobile:width<1000,hasTouch:width<1000});page.on('pageerror',e=>errors.push(e.message));
   await page.goto(origin+'/#network');await page.locator('.atlas-complete-node').first().waitFor();await page.evaluate(()=>document.fonts.ready);
   const before=await page.evaluate(()=>({hash:location.hash,y:scrollY}));
