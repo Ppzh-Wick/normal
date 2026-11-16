@@ -59,3 +59,8 @@
 
 .atlas-mobile-pan-hint{display:none}
 @media(max-width:999px){.network .atlas-mobile-pan-hint{display:block;font-size:11px;line-height:1.6;color:#bdcade;margin:5px 0 8px}}
+
+/* The two data rings are the only circular guides in the overview. */
+.network .atlas-survey-rim,.network .atlas-survey-tick{display:none}
+.network .atlas-observatory .atlas-orbit[data-tier-ring="2"]{stroke:#c3d0e4;stroke-opacity:.38;stroke-width:1;stroke-dasharray:2 7}
+.network .atlas-observatory .atlas-orbit[data-tier-ring="3"]{stroke:#93aacb;stroke-opacity:.35;stroke-width:1;stroke-dasharray:2 7}

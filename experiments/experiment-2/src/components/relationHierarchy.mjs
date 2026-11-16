@@ -5,28 +5,32 @@ export const HIERARCHY = Object.freeze({
 });
 export const nodeTier = node => node.category === 'people' ? 2 : 3;
 export const nodeGeometry = (node, overview=true) => HIERARCHY[overview?'overview':'category'][nodeTier(node)===2?'person':'entity'];
-// Interleave the five outer people with smaller records to avoid crowded faces.
-const OUTER_SLOTS=[0,3,6,9,12,1,2,4,5,7,8,10,11,13,14,15];
-export function radialSlot(i, compact=false){
- const inner=i<8,slot=inner?i:OUTER_SLOTS[i-8];
- const angle=-Math.PI/2+(inner?slot*Math.PI/4:slot*Math.PI/8+Math.PI/16);
- return [620+Math.cos(angle)*(compact?(inner?180:360):(inner?290:500)),205+Math.sin(angle)*(compact?(inner?156:220):(inner?154:185))];
+// Each display tier has one shared ellipse: people inside, non-people outside.
+export const RINGS=Object.freeze({
+ full:{people:{rx:330,ry:180},other:{rx:530,ry:280}},
+ compact:{people:{rx:250,ry:190},other:{rx:420,ry:300}}
+});
+export function ringFor(node,compact=false){return RINGS[compact?'compact':'full'][nodeTier(node)===2?'people':'other'];}
+export function radialSlot(i,compact=false,nodes){
+ const person=nodes?nodeTier(nodes[i])===2:i<13;
+ const peers=nodes?nodes.filter(n=>(nodeTier(n)===2)===person):Array(person?13:11);
+ const slot=nodes?nodes.slice(0,i).filter(n=>(nodeTier(n)===2)===person).length:person?i:i-13;
+ const angle=-Math.PI/2+slot*Math.PI*2/Math.max(1,peers.length)+(person?0:Math.PI/Math.max(1,peers.length));
+ const ring=RINGS[compact?'compact':'full'][person?'people':'other'];
+ return[620+Math.cos(angle)*ring.rx,205+Math.sin(angle)*ring.ry];
 }
-export function overviewNameLines(node,index){
+export function overviewNameLines(node){
  const label=node.id==='tectonics-textbook'?'构造地质教材':node.name;
- if(node.id==='chengdu')return ['成都地质','勘探学院'];
- const width=index>=8?4:7;
+ if(node.id==='arnold-heim')return['阿诺德·','海姆'];
+ if(node.id==='chengdu')return['成都地质','勘探学院'];
+ const width=nodeTier(node)===2?7:4;
  return Array.from({length:Math.ceil(label.length/width)},(_,i)=>label.slice(i*width,(i+1)*width));
 }
-export function overviewNameLayout(node,index,compact,selected){
- const[x,y]=radialSlot(index,compact),lines=overviewNameLines(node,index);
+export function overviewNameLayout(node,index,compact,selected,nodes){
+ const[x,y]=radialSlot(index,compact,nodes),lines=overviewNameLines(node),ring=ringFor(node,compact);
  const halo=nodeGeometry(node).halo*(selected?1.55:1),size=nodeTier(node)===2?20:17;
- if(selected&&compact&&Math.abs(x-620)<120&&y>0&&y<205)return{x,y:y-halo-12-(lines.length-1)*20,anchor:'middle',lines,size};
- if(index===2||index===6){const right=x>620;return{x:x+(right?1:-1)*(halo+12),y:y+size*.35,anchor:right?'start':'end',lines,size};}
- if(index<8&&y>206&&Math.abs(x-620)>100)return{x,y:y-halo-12-(lines.length-1)*20,anchor:'middle',lines,size};
- if(index>=8&&Math.abs(x-620)>(compact?360:500)*.68){
-  const right=x>620;return{x:x+(right?1:-1)*(halo+12),y:y+size*.35-(lines.length-1)*10,anchor:right?'start':'end',lines,size};
- }
+ if(Math.abs(x-620)>ring.rx*.8){const right=x>620;return{x:x+(right?1:-1)*(halo+12),y:y+size*.35-(lines.length-1)*10,anchor:right?'start':'end',lines,size};}
+ if(y<205)return{x,y:y-halo-12-(lines.length-1)*20,anchor:'middle',lines,size};
  return{x,y:y+halo+18,anchor:'middle',lines,size};
 }
-export const overviewCoreNameY = scale => 205+HIERARCHY.overview.center.radius*scale+32;
+export const overviewCoreNameY=scale=>205+HIERARCHY.overview.center.radius*scale+32;

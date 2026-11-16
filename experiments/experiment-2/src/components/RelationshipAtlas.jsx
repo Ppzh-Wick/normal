@@ -4,7 +4,7 @@ import { portraitScale, centerPortraitScale, portraitTransform, pairCamera } fro
 
 const CURATED = ['stille', 'berlin', 'chengdu', 'sichuan-map', 'jialing', 'guo-lingzhi', 'zhou-tingru', 'arnold-heim'];
 const SLOTS = [[480,70],[750,105],[840,255],[740,400],[480,425],[220,400],[120,255],[210,105]];
-import { HIERARCHY, nodeTier, nodeGeometry, radialSlot, overviewNameLayout, overviewCoreNameY } from './relationHierarchy.mjs';
+import { HIERARCHY, nodeTier, nodeGeometry, radialSlot, overviewNameLayout, overviewCoreNameY, RINGS } from './relationHierarchy.mjs';
 const CATEGORY_MARKS = {people:'人',institutions:'校',research:'野',works:'著'};
 const HOME_VIEW = { x:0, y:0, scale:1 };
 
@@ -32,10 +32,10 @@ const SurveyPlate = React.memo(function SurveyPlate({ count }) {
 function layoutEdgeLabels(nodes, compact=false, selectedId=null){
  const centerScale=centerPortraitScale(selectedId),centerRadius=HIERARCHY.overview.center.aura*centerScale;
  const boxes=[{x:620-centerRadius,y:205-centerRadius,w:centerRadius*2,h:centerRadius*2+30}];
- nodes.forEach((n,i)=>{const[x,y]=radialSlot(i,compact),radius=nodeGeometry(n).halo*portraitScale(selectedId,n.id)+3;boxes.push({x:x-radius,y:y-radius,w:radius*2,h:radius*2});const label=overviewNameLayout(n,i,compact,selectedId===n.id),w=Math.max(...label.lines.map(l=>l.length))*label.size+10;boxes.push({x:label.anchor==='start'?label.x-5:label.anchor==='end'?label.x-w+5:label.x-w/2,y:label.y-label.size,w,h:label.lines.length*20+5});});
+ nodes.forEach((n,i)=>{const[x,y]=radialSlot(i,compact,nodes),radius=nodeGeometry(n).halo*portraitScale(selectedId,n.id)+3;boxes.push({x:x-radius,y:y-radius,w:radius*2,h:radius*2});const label=overviewNameLayout(n,i,compact,selectedId===n.id,nodes),w=Math.max(...label.lines.map(l=>l.length))*label.size+10;boxes.push({x:label.anchor==='start'?label.x-5:label.anchor==='end'?label.x-w+5:label.x-w/2,y:label.y-label.size,w,h:label.lines.length*20+5});});
  const overlap=(a,b)=>Math.max(0,Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x))*Math.max(0,Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y));
- return nodes.map((n,i)=>{const[x,y]=radialSlot(i,compact),dx=x-620,dy=y-205,len=Math.hypot(dx,dy),w=n.relation.length*14+8;let best=null;
-  for(const t of (i<8?[.57,.43,.7,.33,.8]:[.68,.78,.58,.87,.48,.38]))for(const shift of [-12,12,-24,24,-42,42,-60,60,-84,84,-108,108,0]){const px=620+dx*t-dy/len*shift,py=205+dy*t+dx/len*shift;const box={x:px-w/2,y:py-12,w,h:19};const score=boxes.reduce((s,b)=>s+overlap(box,b),0)*100+Math.abs(shift)*.15+Math.abs(t-(i<8?.57:.68))*10;if(!best||score<best.score)best={x:px,y:py,anchorX:620+dx*t,anchorY:205+dy*t,shift,box,score};}
+ return nodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,nodes),dx=x-620,dy=y-205,len=Math.hypot(dx,dy),w=n.relation.length*14+8;let best=null;
+  for(const t of (nodeTier(n)===2?[.57,.43,.7,.33,.8]:[.68,.78,.58,.87,.48,.38]))for(const shift of [-12,12,-24,24,-42,42,-60,60,-84,84,-108,108,0]){const px=620+dx*t-dy/len*shift,py=205+dy*t+dx/len*shift;const box={x:px-w/2,y:py-12,w,h:19};const score=boxes.reduce((s,b)=>s+overlap(box,b),0)*100+Math.abs(shift)*.15+Math.abs(t-(nodeTier(n)===2?.57:.68))*10;if(!best||score<best.score)best={x:px,y:py,anchorX:620+dx*t,anchorY:205+dy*t,shift,box,score};}
   boxes.push(best.box);return best;
  });
 }
@@ -101,7 +101,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
     if(!desktop||!node)return;
     const index=(isOverview?overviewNodes:shown).findIndex(n=>n.id===node.id);
     if(index<0)return;
-    const [x,y]=isOverview?radialSlot(index,true):SLOTS[index];
+    const [x,y]=isOverview?radialSlot(index,true,overviewNodes):SLOTS[index];
     // Pan the pair into view without enlarging the rest of the graph.
     // Only the selected portrait and the central portrait scale locally.
     setView(pairCamera(x,y,isOverview));
@@ -160,7 +160,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
     if(e.button!==0 || e.target.closest('[data-node]')) return;
     setIsDragging(true);setFocusedRelation(false);
     const rect=e.currentTarget.getBoundingClientRect();
-    drag.current={id:e.pointerId,x:e.clientX,y:e.clientY,vx:view.x,vy:view.y,scale:view.scale,ratio:(isOverview?(compact?800:1240):960)/Math.max(1,rect.width)};
+    drag.current={id:e.pointerId,x:e.clientX,y:e.clientY,vx:view.x,vy:view.y,scale:view.scale,ratio:(isOverview?(compact?960:1300):960)/Math.max(1,rect.width)};
     e.currentTarget.setPointerCapture(e.pointerId);
   };
   const endDrag = () => {
@@ -205,7 +205,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
       <label className="atlas-search"><span aria-hidden="true">⌕</span><input aria-label="搜索人物、机构或研究" placeholder="搜索人物、机构、研究" value={search} onChange={e=>{setSearch(e.target.value);setPage(0);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());}}/>{search&&<button aria-label="清除搜索" onClick={()=>{setSearch('');setPage(0);requestAnimationFrame(()=>onNavigateWithin?.());}}>×</button>}</label>
     </div>
     <div className="atlas-hierarchy-key" role="list" aria-label="图谱视觉层级：一级李承三，二级人物，三级机构、研究和成果">
-      <span role="listitem"><i className="tier-one" aria-hidden="true"/>一级 · 李承三</span><span role="listitem"><i className="tier-two" aria-hidden="true"/>二级 · 人物</span><span role="listitem"><i className="tier-three" aria-hidden="true"/>三级 · 机构 / 研究 / 成果</span>
+      <span role="listitem"><i className="tier-one" aria-hidden="true"/>一级 · 李承三</span><span role="listitem"><i className="tier-two" aria-hidden="true"/>二级 · 人物内圈</span><span role="listitem"><i className="tier-three" aria-hidden="true"/>三级 · 机构 / 研究 / 成果外圈</span>
     </div>
     <p className="atlas-mobile-pan-hint">左右滑动图谱，或切换列表阅读</p>
     <div className="atlas-workspace">
@@ -214,18 +214,18 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
         {compact&&<div className="atlas-focus-navigation"><span>{focusedRelation?'聚焦关系 · 拖动继续探索':'自由视图 · 拖动继续探索'}</span><button onClick={()=>{if(focusedRelation)reset();else{setList(false);focusRelation();}}}>{focusedRelation?'查看全图 ↗':'聚焦当前关系 ↗'}</button></div>}
         <div ref={canvasRef} className={`atlas-canvas ${isOverview?`atlas-overview-canvas ${list?'atlas-complete-list-view':''}`:list?'atlas-show-list':''}`} data-scroll-lock={list||undefined}>
           {isOverview ? <>
-            <svg ref={isOverview?svgRef:undefined} className={`atlas-complete-network ${showLabels?'show-all-labels':''}`} tabIndex="0" onKeyDown={keyGraph} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag} onLostPointerCapture={endDrag} viewBox={compact?"220 -70 800 600":"0 -20 1240 510"} role="group" aria-label={`李承三与全部${overviewNodes.length}条关系，圆形节点和连线，Tab选择节点查看史料`}>
+            <svg ref={isOverview?svgRef:undefined} className={`atlas-complete-network ${showLabels?'show-all-labels':''}`} tabIndex="0" onKeyDown={keyGraph} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag} onLostPointerCapture={endDrag} viewBox={compact?"140 -155 960 760":"-30 -135 1300 720"} role="group" aria-label={`李承三与全部${overviewNodes.length}条关系，圆形节点和连线，Tab选择节点查看史料`}>
               <SurveyPlate count={overviewNodes.length}/>
               <g className="atlas-arrival"><g className="atlas-camera" transform={`translate(${view.x} ${view.y}) translate(620 205) scale(${view.scale}) translate(-620 -205)`}>
-              <defs><clipPath id={`${uid}-all-portrait`}><circle cx="620" cy="205" r={HIERARCHY.overview.center.radius}/></clipPath>{overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact);return <clipPath key={n.id} id={`${uid}-all-${n.id}`}><circle cx={x} cy={y} r={nodeGeometry(n).radius}/></clipPath>;})}</defs>
-              <ellipse className="atlas-orbit" cx="620" cy="205" rx={compact?360:500} ry={compact?220:185}/><ellipse className="atlas-orbit" cx="620" cy="205" rx={compact?180:290} ry={compact?156:154}/>
-              {overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact);const caption=edgeLabels[i];return <g key={'edge-'+n.id} className={`atlas-radial-link ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`}><path className="atlas-complete-edge" d={`M620 205 L${x} ${y}`}/><path className="atlas-caption-leader" d={Math.abs(caption.shift)>40?`M${caption.anchorX} ${caption.anchorY}L${caption.x} ${caption.y-9}`:undefined}/><text className="atlas-radial-relation" x={caption.x} y={caption.y} aria-hidden="true" textAnchor="middle">{n.relation}</text></g>;})}
+              <defs><clipPath id={`${uid}-all-portrait`}><circle cx="620" cy="205" r={HIERARCHY.overview.center.radius}/></clipPath>{overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,overviewNodes);return <clipPath key={n.id} id={`${uid}-all-${n.id}`}><circle cx={x} cy={y} r={nodeGeometry(n).radius}/></clipPath>;})}</defs>
+              <ellipse className="atlas-orbit" cx="620" cy="205" data-tier-ring="3" rx={RINGS[compact?'compact':'full'].other.rx} ry={RINGS[compact?'compact':'full'].other.ry}/><ellipse className="atlas-orbit" cx="620" cy="205" data-tier-ring="2" rx={RINGS[compact?'compact':'full'].people.rx} ry={RINGS[compact?'compact':'full'].people.ry}/>
+              {overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,overviewNodes);const caption=edgeLabels[i];return <g key={'edge-'+n.id} className={`atlas-radial-link ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`}><path className="atlas-complete-edge" d={`M620 205 L${x} ${y}`}/><path className="atlas-caption-leader" d={Math.abs(caption.shift)>40?`M${caption.anchorX} ${caption.anchorY}L${caption.x} ${caption.y-9}`:undefined}/><text className="atlas-radial-relation" x={caption.x} y={caption.y} aria-hidden="true" textAnchor="middle">{n.relation}</text></g>;})}
               <g className="atlas-core-portrait" data-node-tier="1" transform={portraitTransform(620,205,centerPortraitScale(selected?.id))}>
               <circle cx="620" cy="205" r={HIERARCHY.overview.center.aura} className="atlas-core-aura"/><circle cx="620" cy="205" r={HIERARCHY.overview.center.halo} className="atlas-core-ring"/><circle cx="620" cy="205" r={HIERARCHY.overview.center.radius+1} fill="#172657"/>
               {portrait?.path&&<image href={portrait.path} x={620-HIERARCHY.overview.center.radius} y={205-HIERARCHY.overview.center.radius} width={HIERARCHY.overview.center.radius*2} height={HIERARCHY.overview.center.radius*2} clipPath={`url(#${uid}-all-portrait)`} preserveAspectRatio="xMidYMin slice"/>}
               </g>
               <text className="atlas-core-name" x="620" y={overviewCoreNameY(centerPortraitScale(selected?.id))} textAnchor="middle">李承三</text>
-              {overviewNodes.map((n,i)=>{const [x,y]=radialSlot(i,compact);const media=n.media||data?.media?.[n.id];const geometry=nodeGeometry(n),label=overviewNameLayout(n,i,compact,selected?.id===n.id);return <g key={n.id} data-node="true" data-relation-id={n.id} data-node-tier={nodeTier(n)} role="button" tabIndex="0" aria-label={`${n.name}，${n.relation}，查看史料`} aria-pressed={selected?.id===n.id} className={`atlas-node atlas-complete-node ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''} ${selected&&selected.id!==n.id?'is-defocused':''}`} onClick={e=>choose(n,e)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();choose(n,e);}}} onMouseEnter={()=>setHovered(n.id)} onMouseLeave={()=>setHovered(null)} onFocus={()=>{setHovered(n.id);if(compact){focusRelation(n);onNavigateWithin?.();}}} onBlur={()=>setHovered(null)}>
+              {overviewNodes.map((n,i)=>{const [x,y]=radialSlot(i,compact,overviewNodes);const media=n.media||data?.media?.[n.id];const geometry=nodeGeometry(n),label=overviewNameLayout(n,i,compact,selected?.id===n.id,overviewNodes);return <g key={n.id} data-node="true" data-relation-id={n.id} data-node-tier={nodeTier(n)} role="button" tabIndex="0" aria-label={`${n.name}，${n.relation}，查看史料`} aria-pressed={selected?.id===n.id} className={`atlas-node atlas-complete-node ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''} ${selected&&selected.id!==n.id?'is-defocused':''}`} onClick={e=>choose(n,e)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();choose(n,e);}}} onMouseEnter={()=>setHovered(n.id)} onMouseLeave={()=>setHovered(null)} onFocus={()=>{setHovered(n.id);if(compact){focusRelation(n);onNavigateWithin?.();}}} onBlur={()=>setHovered(null)}>
                 <circle className="atlas-node-hit" cx={x} cy={y} r="32" fill="transparent" pointerEvents="all"/>
                 <g className="atlas-node-portrait" transform={portraitTransform(x,y,portraitScale(selected?.id,n.id))}>
                 <circle className="atlas-node-halo" cx={x} cy={y} r={geometry.halo}/><circle className="atlas-node-disc" cx={x} cy={y} r={geometry.radius+1}/>
@@ -235,7 +235,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
                 <title>{`${n.name} · ${n.relation}`}</title>
               </g>;})}
               </g></g>
-              {compact&&!list&&(()=>{const index=overviewNodes.findIndex(n=>n.id===selected.id);if(index<0)return null;const[x,y]=radialSlot(index,true);const px=620+(x-620)*view.scale+view.x,py=205+(y-205)*view.scale+view.y,radius=(nodeGeometry(selected).halo*portraitScale(selected.id,selected.id)+3)*view.scale;return <g key={selected.id} className="atlas-folio-thread" aria-hidden="true" pointerEvents="none"><path pathLength="1" d={`M${px+radius} ${py} H${Math.max(px+radius+15,945)} V205 H980`}/><circle cx={px} cy={py} r={radius}/><text x="972" y="192" textAnchor="end">文字依据 →</text></g>;})()}
+              {compact&&!list&&(()=>{const index=overviewNodes.findIndex(n=>n.id===selected.id);if(index<0)return null;const[x,y]=radialSlot(index,true,overviewNodes);const px=620+(x-620)*view.scale+view.x,py=205+(y-205)*view.scale+view.y,radius=(nodeGeometry(selected).halo*portraitScale(selected.id,selected.id)+3)*view.scale;return <g key={selected.id} className="atlas-folio-thread" aria-hidden="true" pointerEvents="none"><path pathLength="1" d={`M${px+radius} ${py} H${Math.max(px+radius+15,945)} V205 H980`}/><circle cx={px} cy={py} r={radius}/><text x="972" y="192" textAnchor="end">文字依据 →</text></g>;})()}
             </svg>
             <div className="atlas-complete-list" aria-label="全部学术关系列表">{overviewNodes.map(n=><button key={n.id} aria-pressed={selected?.id===n.id} onClick={e=>choose(n,e)}><span><strong>{n.name}</strong><small>{n.relation} · {n.date}</small></span><i aria-hidden="true">↗</i></button>)}</div>
             <div className="atlas-complete-controls"><div className="atlas-curated-entries" aria-label="从三段关系开始读">{[['stille','师从施蒂勒'],['guo-lingzhi','与郭令智同行'],['xu-kaili','指导徐开礼']].map(([id,label])=><button key={id} onClick={e=>choose(nodes.find(n=>n.id===id),e)}>{label}<svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 13 13 3M4 3h9v9" stroke="currentColor"/></svg></button>)}</div><div><button aria-label="缩小全部关系图" onClick={()=>zoom(-.15)}>−</button><output>{Math.round(view.scale*100)}%</output><button aria-label="放大全部关系图" onClick={()=>zoom(.15)}>+</button><button aria-label="复位全部关系图" onClick={reset}>复位</button></div></div>

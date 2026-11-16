@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync}from'node:fs';
-import{HIERARCHY,nodeTier,nodeGeometry,radialSlot,overviewNameLayout,overviewCoreNameY}from'../src/components/relationHierarchy.mjs';
+import{HIERARCHY,nodeTier,nodeGeometry,radialSlot,overviewNameLayout,overviewCoreNameY,ringFor}from'../src/components/relationHierarchy.mjs';
 const data=JSON.parse(readFileSync(new URL('../src/data.json',import.meta.url))),curated=['stille','berlin','chengdu','sichuan-map','jialing','guo-lingzhi','zhou-tingru','arnold-heim'];
 const nodes=[...data.graph.nodes].sort((a,b)=>(curated.includes(a.id)?curated.indexOf(a.id):100)-(curated.includes(b.id)?curated.indexOf(b.id):100)).sort((a,b)=>data.graph.categories.findIndex(c=>c.id===a.category)-data.graph.categories.findIndex(c=>c.id===b.category));
 test('all 24 records use category-based display tiers, including people without photographs',()=>{
@@ -19,10 +19,17 @@ test('every overview avatar pair clears for every selection in full and compact 
   assert.ok(space>=radius+1,`${compact}/${selected}/${nodes[i].id}/${nodes[j].id}: ${space-radius}`);
  }
 });
-test('bottom inner portrait clears the central name even when selected',()=>{
- for(const compact of[false,true])for(const selected of[false,true]){
-  const y=radialSlot(4,compact)[1],top=y-HIERARCHY.overview.person.radius*(selected?1.55:1),nameBottom=overviewCoreNameY(selected?1.22:1)+5;
-  assert.ok(top>nameBottom,`${compact}/${selected}: ${top-nameBottom}`);
+test('all ring portraits clear the central name, including selected portraits',()=>{
+ for(const compact of[false,true])for(const selected of[false,true])for(let i=0;i<nodes.length;i++){
+  const[x,y]=radialSlot(i,compact,nodes),radius=nodeGeometry(nodes[i]).radius*(selected?1.55:1),r={x:560,y:overviewCoreNameY(selected?1.22:1)-36,w:120,h:42};
+  const dx=x-Math.max(r.x,Math.min(x,r.x+r.w)),dy=y-Math.max(r.y,Math.min(y,r.y+r.h));
+  assert.ok(Math.hypot(dx,dy)>=radius,`${compact}/${selected}/${nodes[i].id}`);
+ }
+});
+test('every person belongs to one inner ellipse and every non-person to one outer ellipse',()=>{
+ for(const compact of[false,true])for(const records of[nodes,nodes.filter(n=>['stille','guo-lingzhi','berlin','chengdu'].includes(n.id))])for(let i=0;i<records.length;i++){
+  const[x,y]=radialSlot(i,compact,records),ring=ringFor(records[i],compact);
+  assert.ok(Math.abs(((x-620)/ring.rx)**2+((y-205)/ring.ry)**2-1)<1e-9);
  }
 });
 test('ordinary overview labels do not cover another record portrait',()=>{

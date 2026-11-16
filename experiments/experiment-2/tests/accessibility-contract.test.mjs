@@ -253,7 +253,7 @@ test('graph drag batches pointer events and flushes the final view at release',(
   globalThis.cancelAnimationFrame=()=>{queued=null};
   try{
    const tree=render(),svg=find(tree,e=>e.type==='svg'&&String(e.props.className).includes('atlas-complete-network'));
-   const target={closest:()=>null},currentTarget={getBoundingClientRect:()=>{reads++;return {width:1240}},setPointerCapture(){}};
+   const target={closest:()=>null},currentTarget={getBoundingClientRect:()=>{reads++;return {width:1300}},setPointerCapture(){}};
    svg.props.onPointerDown({button:0,pointerId:1,clientX:100,clientY:100,target,currentTarget});
    for(let i=1;i<=20;i++)svg.props.onPointerMove({pointerId:1,clientX:100+i,clientY:100+i});
    assert.equal(scheduled,1);assert.equal(reads,1);assert.deepEqual(state[5],{x:0,y:0,scale:1});
