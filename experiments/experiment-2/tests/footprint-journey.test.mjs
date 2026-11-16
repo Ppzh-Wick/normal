@@ -9,6 +9,7 @@ test('footprints contain 20 chronological life records, each with a source page'
 });
 test('ambiguous dates and locations remain explicit, publication is not travel',()=>{
  const get=id=>footprintStops.find(s=>s.id===id);
+ assert.match(get('nankai').note,/停办范围表述不清/);assert.match(get('xikang').text,/11月15日返校/);
  assert.match(get('xukun').note,/南段.*北段/);assert.match(get('songpan-taiwan').note,/先后未明确/);
  assert.match(get('advice').place,/成都/);assert.match(get('advice').note,/不把.*西昌/);
  assert.match(get('longmen').note,/1960.*1964/);assert.match(get('jialing').note,/1946年报告出版/);
