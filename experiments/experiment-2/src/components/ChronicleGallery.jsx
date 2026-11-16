@@ -11,7 +11,7 @@ export default function ChronicleGallery({data,onExit,onOpenRelation,active}){
  const initial=useRef(Math.max(0,records.findIndex(r=>String(r.year)===new URLSearchParams(location.hash.split('?')[1]).get('year'))));
  const [value,setValue]=useState(initial.current),[text,setText]=useState(false),[lite,setLite]=useState(false),[failed,setFailed]=useState(false),[hidden,setHidden]=useState(document.hidden);
  const dialog=useRef(null),scroller=useRef(null),step=useRef(Math.max(1100,innerHeight*1.8)),raf=useRef(0),trigger=useRef(null);
- const route=galleryRoute(value,records.length),current=records[route.index],showDetail=route.focus>.55||reduced||lite;
+ const route=galleryRoute(value,records.length),current=records[route.index],showDetail=route.focus>.55||reduced||lite||failed;
  const eligible=!reduced&&!lite&&!failed&&!hidden&&active&&(navigator.deviceMemory||8)>=4&&(navigator.hardwareConcurrency||8)>=4&&!navigator.connection?.saveData;
  const fail=useCallback(()=>setFailed(true),[]);
  useLayoutEffect(()=>{trigger.current=document.activeElement;dialog.current.showModal();scroller.current.scrollTop=initial.current*step.current;return()=>{if(raf.current)cancelAnimationFrame(raf.current);dialog.current?.close();trigger.current?.isConnected&&trigger.current.focus?.({preventScroll:true})}},[]);

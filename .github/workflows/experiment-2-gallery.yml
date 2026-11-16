@@ -44,7 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [gallery-1440-1940, gallery-1440-reading, gallery-1440-passing, gallery-1440-birth, gallery-teaching, gallery-1280-reading, gallery-1920-reading, gallery-failure]
+        image: [gallery-1440-1940, gallery-1440-reading, gallery-1440-passing, gallery-1440-birth, gallery-teaching, gallery-1280-reading, gallery-1920-reading, chronicle-scroll-demo, gallery-failure]
     steps:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
@@ -56,7 +56,7 @@ jobs:
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
-          const file='review/gallery/'+process.env.REVIEW_IMAGE+'.jpg';
+          const file='review/gallery/'+process.env.REVIEW_IMAGE+(process.env.REVIEW_IMAGE==='chronicle-scroll-demo'?'.webm':'.jpg');
           if(!fs.existsSync(file)){console.log('No screenshot for '+process.env.REVIEW_IMAGE);process.exit(0)}
           const base64=fs.readFileSync(file).toString('base64');
           console.log('__IMAGE_START__');
