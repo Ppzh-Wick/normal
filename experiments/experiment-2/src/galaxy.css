@@ -40,3 +40,19 @@
 .network .atlas-observatory .atlas-filters button{color:#e4edf9;text-shadow:0 1px 3px #020817}
 .network .atlas-observatory .atlas-search{color:#e4edf9;background:#06142942}
 .network .atlas-observatory .atlas-search input::placeholder{color:#d4e2f4;opacity:1}
+
+/* Three display sizes. Selection still scales just the chosen pair locally. */
+.network .atlas-hierarchy-key{display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px;padding:9px 0 5px;color:#d4deed;font-size:10px;flex-shrink:0}
+.network .atlas-hierarchy-key>span{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.network .atlas-hierarchy-key i{display:inline-block;border:1px solid #bbcbe2;border-radius:50%;background:#d8cbb218;flex-shrink:0}
+.network .atlas-hierarchy-key .tier-one{width:17px;height:17px;border-color:#e7d6b2;background:#d8cbb22b}
+.network .atlas-hierarchy-key .tier-two{width:12px;height:12px}
+.network .atlas-hierarchy-key .tier-three{width:7px;height:7px}
+.network .atlas-observatory .atlas-core-name{font-size:36px}
+.network .atlas-observatory [data-node-tier="2"] .atlas-complete-name{font-size:20px}
+.network .atlas-observatory [data-node-tier="3"] .atlas-complete-name{font-size:17px}
+.network .atlas-observatory [data-node-tier="2"] .atlas-node-name{font-size:21px}
+.network .atlas-observatory [data-node-tier="3"] .atlas-node-name{font-size:18px}
+.network .atlas-observatory [data-node-tier="2"] .atlas-node-symbol{font-size:26px}
+.network .atlas-observatory [data-node-tier="3"] .atlas-node-symbol{font-size:20px}
+@media(max-width:999px){.network .atlas-hierarchy-key{gap:8px 13px;font-size:9px;padding:11px 0 7px}.network .atlas-hierarchy-key>span{gap:5px}}
