@@ -64,3 +64,22 @@
 .network .atlas-survey-rim,.network .atlas-survey-tick{display:none}
 .network .atlas-observatory .atlas-orbit[data-tier-ring="2"]{stroke:#c3d0e4;stroke-opacity:.38;stroke-width:1;stroke-dasharray:2 7}
 .network .atlas-observatory .atlas-orbit[data-tier-ring="3"]{stroke:#93aacb;stroke-opacity:.35;stroke-width:1;stroke-dasharray:2 7}
+
+/* An orbital exhibition model: static, layered light keeps reading at rest. */
+.network .atlas-orbit-measure{fill:none;stroke:none}
+.network .atlas-orbit-theatre path{fill:none;vector-effect:non-scaling-stroke}
+.network .atlas-orbit-back{stroke-width:1;stroke-dasharray:1 5}
+.network .atlas-orbit-front-bed{stroke:#020918;stroke-width:6;opacity:.8}
+.network .atlas-orbit-front{stroke-width:1.65}
+.network .atlas-orbit-front-rim{stroke-width:.6;opacity:.35}
+.network .atlas-orbit-plane.tier-3{opacity:.82}
+.network .atlas-star-limb{fill:none;stroke:#edddbd;stroke-width:1.5;stroke-opacity:.72}
+.network .atlas-orbit-star .atlas-core-aura{opacity:.16}
+.network .atlas-orbit-star .atlas-core-ring{stroke:#e6d4b2;stroke-opacity:.43;stroke-dasharray:none}
+.network .atlas-planet-light,.network .atlas-planet-shadow,.network .atlas-planet-limb{pointer-events:none}
+.network .atlas-planet-limb{fill:none;stroke:#e6eff8;stroke-width:1.2;stroke-opacity:.65}
+.network .atlas-complete-node[data-orbit-side="far"] .atlas-node-halo{stroke-opacity:.3}
+.network .atlas-complete-node[data-orbit-side="near"] .atlas-node-halo{stroke:#d0dcf0;stroke-opacity:.5}
+.network .atlas-complete-node.is-active .atlas-node-halo{stroke:#f0d3ab;stroke-opacity:1}
+.network .atlas-node-depth .atlas-node-disc{fill:#132441}
+@media(max-width:999px){.network .atlas-orbit-front-bed{stroke-width:4}.network .atlas-orbit-front{stroke-width:1.3}}

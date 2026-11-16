@@ -331,7 +331,7 @@ test('selection emphasizes only the selected and center portraits, with restorat
     assert.ok(avatar.props.transform.includes('scale('+(other.id===record.id?1.55:1)+')'),other.id);
     assert.equal(n.props.className.includes('is-defocused'),other.id!==record.id);
    }
-   const core=find(tree,e=>e.props.className==='atlas-core-portrait');
+   const core=find(tree,e=>e.props.className?.split(' ').includes('atlas-core-portrait'));
    assert.ok(core.props.transform.includes('scale(1.22)'));
   }
   find(tree,e=>e.props['aria-label']==='关闭关系详情').props.onClick();tree=render();
@@ -342,7 +342,7 @@ test('selection emphasizes only the selected and center portraits, with restorat
    assert.ok(!n.props.className.includes('is-defocused'));
    assert.ok(find(n,e=>e.props.className==='atlas-node-portrait').props.transform.includes('scale(1)'));
   }
-  assert.ok(find(tree,e=>e.props.className==='atlas-core-portrait').props.transform.includes('scale(1)'));
+  assert.ok(find(tree,e=>e.props.className?.split(' ').includes('atlas-core-portrait')).props.transform.includes('scale(1)'));
  });
 });
 test('hover and keyboard focus do not change the selected pair',()=>{

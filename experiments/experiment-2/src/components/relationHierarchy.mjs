@@ -10,6 +10,11 @@ export const RINGS=Object.freeze({
  full:{people:{rx:330,ry:180},other:{rx:530,ry:280}},
  compact:{people:{rx:250,ry:190},other:{rx:420,ry:300}}
 });
+export const ORBIT_TILT=-8;
+export function orbitCoordinates(x,y,inverse=false){
+ const a=ORBIT_TILT*Math.PI/180*(inverse?-1:1),dx=x-620,dy=y-205;
+ return[620+dx*Math.cos(a)-dy*Math.sin(a),205+dx*Math.sin(a)+dy*Math.cos(a)];
+}
 export function ringFor(node,compact=false){return RINGS[compact?'compact':'full'][nodeTier(node)===2?'people':'other'];}
 export function radialSlot(i,compact=false,nodes){
  const person=nodes?nodeTier(nodes[i])===2:i<13;
@@ -17,7 +22,11 @@ export function radialSlot(i,compact=false,nodes){
  const slot=nodes?nodes.slice(0,i).filter(n=>(nodeTier(n)===2)===person).length:person?i:i-13;
  const angle=-Math.PI/2+slot*Math.PI*2/Math.max(1,peers.length)+(person?0:Math.PI/Math.max(1,peers.length));
  const ring=RINGS[compact?'compact':'full'][person?'people':'other'];
- return[620+Math.cos(angle)*ring.rx,205+Math.sin(angle)*ring.ry];
+ return orbitCoordinates(620+Math.cos(angle)*ring.rx,205+Math.sin(angle)*ring.ry);
+}
+export function nodeDepthScale(node,index,compact=false,nodes){
+ const[x,y]=radialSlot(index,compact,nodes),[,flatY]=orbitCoordinates(x,y,true),depth=(flatY-205)/ringFor(node,compact).ry;
+ return nodeTier(node)===2?.97+.09*depth:.84+.06*depth;
 }
 export function overviewNameLines(node){
  const label=node.id==='tectonics-textbook'?'构造地质教材':node.name;
@@ -28,7 +37,7 @@ export function overviewNameLines(node){
 }
 export function overviewNameLayout(node,index,compact,selected,nodes){
  const[x,y]=radialSlot(index,compact,nodes),lines=overviewNameLines(node),ring=ringFor(node,compact);
- const halo=nodeGeometry(node).halo*(selected?1.55:1),size=nodeTier(node)===2?20:17;
+ const halo=nodeGeometry(node).halo*nodeDepthScale(node,index,compact,nodes)*(selected?1.55:1),size=nodeTier(node)===2?20:17;
  if(Math.abs(x-620)>ring.rx*.8){const right=x>620;return{x:x+(right?1:-1)*(halo+12),y:y+size*.35-(lines.length-1)*10,anchor:right?'start':'end',lines,size};}
  if(y<205)return{x,y:y-halo-12-(lines.length-1)*20,anchor:'middle',lines,size};
  return{x,y:y+halo+18,anchor:'middle',lines,size};
