@@ -17,7 +17,7 @@ Manual measurement (about ±2 percentage points after page-boundary normalizatio
 - Previously 72% of every year forced approach/read/withdraw and only 28% changed orbit. Now the entire main-scroll distance continuously advances the orbit, with reversible native scrolling and bounded 115-ms settling.
 - Seven physical plates rather than five; rear faces remain visible. Half-step includes two similarly sized, oppositely yawed boards (implementation outgoing +39° and incoming −31°, not recovered reference angles).
 - Vertical offset, tangential yaw and small camera-space drift follow the observed incoming lower-right/outgoing upper-left relation.
-- A generated glass-like layered column plus 14,000 colored particles replaces 24 opaque low-poly rings. Three draw calls with explicit single-pass transparent surfaces, no constant clock or postprocessing. Original shader/geometry, no copied source assets.
+- A generated glass-like layered column plus 10,000 colored particles replaces 24 opaque low-poly rings. Three draw calls with explicit single-pass transparent surfaces, no constant clock or postprocessing. Original shader/geometry, no copied source assets.
 - Near reading is an optional explicit control; it can be exited by upward native scrolling, with a keyboard/button fallback. This entry is not asserted to be an exact copy of the source's unknown input.
 
 ## Scope and rights
