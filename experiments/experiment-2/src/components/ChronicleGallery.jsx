@@ -10,16 +10,22 @@ export default function ChronicleGallery({data,onExit,onOpenRelation,active}){
  const records=useMemo(()=>chronicleRecords(data),[data]),reduced=useMedia('(prefers-reduced-motion:reduce)');
  const initial=useRef(Math.max(0,records.findIndex(r=>String(r.year)===new URLSearchParams(location.hash.split('?')[1]).get('year'))));
  const [value,setValue]=useState(initial.current),[text,setText]=useState(false),[lite,setLite]=useState(false),[failed,setFailed]=useState(false),[hidden,setHidden]=useState(document.hidden);
- const dialog=useRef(null),scroller=useRef(null),step=useRef(Math.max(1100,innerHeight*1.8)),raf=useRef(0),trigger=useRef(null);
+ const dialog=useRef(null),scroller=useRef(null),step=useRef(Math.max(1100,innerHeight*1.8)),raf=useRef(0),trigger=useRef(null),motion=useRef(initial.current),target=useRef(initial.current),lastFrame=useRef(0);
  const route=galleryRoute(value,records.length),current=records[route.index],showDetail=route.focus>.55||reduced||lite||failed;
  const eligible=!reduced&&!lite&&!failed&&!hidden&&active&&(navigator.deviceMemory||8)>=4&&(navigator.hardwareConcurrency||8)>=4&&!navigator.connection?.saveData;
  const fail=useCallback(()=>setFailed(true),[]);
  useLayoutEffect(()=>{trigger.current=document.activeElement;dialog.current.showModal();scroller.current.scrollTop=initial.current*step.current;return()=>{if(raf.current)cancelAnimationFrame(raf.current);dialog.current?.close();trigger.current?.isConnected&&trigger.current.focus?.({preventScroll:true})}},[]);
  useEffect(()=>{const change=()=>setHidden(document.hidden);document.addEventListener('visibilitychange',change);return()=>document.removeEventListener('visibilitychange',change)},[]);
- useEffect(()=>{const restore=()=>{if(location.hash.split('?')[0]!=='#archive')return;const p=new URLSearchParams(location.hash.split('?')[1]);if(p.get('view')!=='timeline')return;const i=records.findIndex(r=>String(r.year)===p.get('year'));if(i>=0){scroller.current.scrollTop=i*step.current;setValue(i)}};window.addEventListener('popstate',restore);return()=>window.removeEventListener('popstate',restore)},[records]);
+ useEffect(()=>{const restore=()=>{if(location.hash.split('?')[0]!=='#archive')return;const p=new URLSearchParams(location.hash.split('?')[1]);if(p.get('view')!=='timeline')return;const i=records.findIndex(r=>String(r.year)===p.get('year'));if(i>=0){scroller.current.scrollTop=i*step.current;motion.current=i;target.current=i;setValue(i)}};window.addEventListener('popstate',restore);return()=>window.removeEventListener('popstate',restore)},[records]);
  useEffect(()=>{if(location.hash.split('?')[0]!=='#archive')return;const p=new URLSearchParams(location.hash.split('?')[1]);p.set('view','timeline');p.set('year',current.year);history.replaceState(history.state,'','#archive?'+p)},[current.year]);
- const scroll=()=>{if(!raf.current)raf.current=requestAnimationFrame(()=>{raf.current=0;setValue(clamp(scroller.current.scrollTop/step.current,0,records.length-.001))})};
- const go=(i,read=false)=>{const next=clamp(i,0,records.length-1)+(read?.28:0);if(text){setText(false);requestAnimationFrame(()=>{scroller.current.scrollTop=next*step.current;setValue(next)})}else scroller.current.scrollTo({top:next*step.current,behavior:reduced?'instant':'smooth'})};
+ const scroll=()=>{
+  target.current=clamp(scroller.current.scrollTop/step.current,0,records.length-.001);
+  if(reduced||lite||document.hidden){if(raf.current)cancelAnimationFrame(raf.current);raf.current=0;motion.current=target.current;setValue(target.current);return}
+  if(raf.current)return;lastFrame.current=performance.now();
+  const settle=now=>{if(document.hidden||!scroller.current){raf.current=0;return}const dt=Math.min(32,now-lastFrame.current);lastFrame.current=now;motion.current+=(target.current-motion.current)*(1-Math.exp(-dt/70));if(Math.abs(target.current-motion.current)<.0002){motion.current=target.current;raf.current=0;setValue(motion.current);return}setValue(motion.current);raf.current=requestAnimationFrame(settle)};
+  raf.current=requestAnimationFrame(settle);
+ };
+ const go=(i,read=false)=>{const next=clamp(i,0,records.length-1)+(read?.28:0);if(text){setText(false);requestAnimationFrame(()=>{scroller.current.scrollTop=next*step.current;motion.current=next;target.current=next;setValue(next)})}else scroller.current.scrollTo({top:next*step.current,behavior:reduced?'instant':'smooth'})};
  const switchText=()=>{setText(t=>!t);requestAnimationFrame(()=>{if(!text)document.querySelector('.gallery-reader h2')?.focus({preventScroll:true});else{scroller.current.scrollTop=value*step.current;dialog.current.querySelector('.gallery-title')?.focus({preventScroll:true})}})};
  const radius=Math.min(900,Math.max(580,innerWidth*.59));
  return <dialog ref={dialog} className={`chronicle-gallery ${showDetail?'gallery-reading':''} ${reduced||lite||failed?'gallery-lite':''}`} aria-label="李承三生平年谱空间展厅" data-scroll-lock onCancel={e=>{e.preventDefault();onExit()}}>
