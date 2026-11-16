@@ -1,6 +1,8 @@
 import React, { useEffect, useId, useMemo, useState } from 'react';
 import './ArchiveRoom.css';
 import ArchiveGallery from './ArchiveGallery';
+import ChronicleGallery from './ChronicleGallery.jsx';
+import {useMedia} from '../useExhibition.js';
 
 const ERAS = [['all', '全部节点', '1899—2002'], ['early', '求学与归国', '1899—1936'], ['field', '考察与研究', '1938—1948'], ['teaching', '教育与学科', '1949—1959'], ['legacy', '晚年与纪念', '1960—2002']];
 const inEra = (year, era) => era === 'all' || (era === 'early' && +year <= 1936) || (era === 'field' && +year > 1936 && +year < 1949) || (era === 'teaching' && +year >= 1949 && +year < 1960) || (era === 'legacy' && +year >= 1960);
@@ -40,6 +42,7 @@ function References({ item, sources }) {
 }
 
 export default function ArchiveRoom({ data, onOpenImage, onOpenRelation, active = true, requestedView = null, onOpenFootprints }) {
+  const desktopChronicle=useMedia('(min-width:1000px)');
   const [initial] = useState(() => readArchiveState(data));
   const [tab, setTab] = useState(VIEW_KEYS.includes(requestedView)?requestedView:initial.tab);
   useEffect(()=>{if(VIEW_KEYS.includes(requestedView))setTab(requestedView)},[requestedView]);
@@ -66,6 +69,8 @@ export default function ArchiveRoom({ data, onOpenImage, onOpenRelation, active 
   useEffect(() => {
     if (window.location.hash.split('?')[0] !== '#archive') return;
     const params = new URLSearchParams({ view: tab });
+    const previousYear=new URLSearchParams(window.location.hash.split('?')[1]).get('year');
+    if(tab==='timeline'&&previousYear)params.set('year',previousYear);
     if (query) params.set('q', query);
     if (type !== 'all') params.set('type', type);
     if (sort !== 'oldest') params.set('sort', sort);
@@ -125,7 +130,8 @@ export default function ArchiveRoom({ data, onOpenImage, onOpenRelation, active 
     }}>{label}<span>{count}</span></button>)}</div>
     <div className="archive-room-panel" role="tabpanel" id={`${id}-panel-${tab}`} aria-labelledby={`${id}-tab-${tab}`} tabIndex={0}>
       {tab === 'biography' && <div className="archive-room-biography"><aside><span className="archive-room-kicker">BIOGRAPHICAL NOTES</span><h3>李承三</h3><p className="archive-room-dates">1899—1967</p><dl>{[['号', '继五'], ['籍贯', '河北涉县郭口村'], ['研究领域', '地质学 · 地貌学'], ['求学', '河南大学、柏林大学'], ['主要职务', '成都地质勘探学院教务长、教授；曾任重庆大学地质系主任']].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></aside><div>{data.extendedBiography.map((chapter, index) => <article className="archive-room-chapter" key={chapter.title}><span className="archive-room-number">{String(index + 1).padStart(2, '0')}</span><h3>{chapter.title}</h3><p>{chapter.text}</p>{references(chapter)}</article>)}</div></div>}
-      {tab === 'timeline' && <div className="archive-room-timeline"><div className="archive-room-eras" role="group" aria-label="筛选人生阶段">{ERAS.map(([key, label, years]) => <button key={key} onClick={() => setEra(key)} aria-pressed={era === key}><span>{label}</span><small>{years}</small></button>)}</div><div className="archive-room-events">{timeline.filter(event => inEra(event.year, era)).map(event => <article key={event.year}><time>{event.year}</time><div><h3>{event.title}</h3><p>{event.text}</p><details><summary>阅读档案详情 <span aria-hidden="true">＋</span></summary><div className="archive-room-event-detail"><p>{event.detail}</p>{references(event)}{event.nodeId && <button className="archive-room-text-button" onClick={() => onOpenRelation?.(event.nodeId)}>在图谱中查看这段关系 ↗</button>}</div></details></div></article>)}</div></div>}
+      {tab === 'timeline' && desktopChronicle && <ChronicleGallery data={data} active={active} onOpenRelation={onOpenRelation} onExit={()=>setTab('biography')}/>}
+      {tab === 'timeline' && !desktopChronicle && <div className="archive-room-timeline"><div className="archive-room-eras" role="group" aria-label="筛选人生阶段">{ERAS.map(([key, label, years]) => <button key={key} onClick={() => setEra(key)} aria-pressed={era === key}><span>{label}</span><small>{years}</small></button>)}</div><div className="archive-room-events">{timeline.filter(event => inEra(event.year, era)).map(event => <article key={event.year}><time>{event.year}</time><div><h3>{event.title}</h3><p>{event.text}</p><details><summary>阅读档案详情 <span aria-hidden="true">＋</span></summary><div className="archive-room-event-detail"><p>{event.detail}</p>{references(event)}{event.nodeId && <button className="archive-room-text-button" onClick={() => onOpenRelation?.(event.nodeId)}>在图谱中查看这段关系 ↗</button>}</div></details></div></article>)}</div></div>}
       {tab === 'places' && onOpenFootprints && <button className="archive-footprint-launch" onClick={onOpenFootprints}>循年，行于山河。 ↗ <small>进入20个生平节点的空间漫游</small></button>}
       {tab === 'places' && <div className="archive-room-places"><article className="archive-room-place-feature"><p className="archive-room-kicker">FIELD NOTES / {String(placeIndex + 1).padStart(2,'0')} OF {data.places.length}</p><time>{place.year}</time><h3>{place.place}</h3><h4>{place.title}</h4><p>{place.text}</p>{references(place)}<div className="archive-room-place-controls"><button disabled={placeIndex === 0} onClick={() => setPlaceIndex(i => i - 1)} aria-label="上一个地点">←</button><span>{placeIndex + 1} / {data.places.length}</span><button disabled={placeIndex === data.places.length - 1} onClick={() => setPlaceIndex(i => i + 1)} aria-label="下一个地点">→</button></div><p className="archive-room-note">地点按年谱整理。这里是阅读序列，不是未经证实的旅行路线。</p></article><div className="archive-room-place-index" aria-label="地点索引">{data.places.map((item, index) => <button key={index} onClick={() => setPlaceIndex(index)} aria-current={index === placeIndex ? 'step' : undefined}><span>{String(index + 1).padStart(2,'0')}</span><time>{item.year}</time><strong>{item.place}</strong><span aria-hidden="true">↗</span></button>)}</div></div>}
       {tab === 'works' && <><div className="archive-room-toolbar"><label className="archive-room-search"><span>检索著述</span><input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="输入题名、年份或内容…" /></label><label><span>内容类型</span><select value={type} onChange={event => setType(event.target.value)}><option value="all">全部类型</option>{[...new Set(data.works.map(work => work.category))].map(category => <option key={category}>{category}</option>)}</select></label><label><span>排序</span><select value={sort} onChange={event => setSort(event.target.value)}><option value="oldest">年代从早到晚</option><option value="newest">年代从晚到早</option></select></label></div><p className="archive-room-results" role="status">找到 {works.length} 项 / 共 {data.works.length} 项著述</p><div className="archive-room-work-list">{works.map(work => <article key={work.title + work.year}><time>{work.year}</time><div><span className="archive-room-category">{work.category}</span><h3>{work.title}</h3><p>{work.note}</p>{references(work)}</div></article>)}</div>{!works.length && <div className="archive-room-empty"><h3>没有找到相关著述</h3><p>试试其他题名、年份，或清除类型筛选。</p><button className="archive-room-text-button" onClick={() => {setQuery(''); setType('all');}}>显示全部著述 ↗</button></div>}</>}
