@@ -56,3 +56,6 @@
 .network .atlas-observatory [data-node-tier="2"] .atlas-node-symbol{font-size:26px}
 .network .atlas-observatory [data-node-tier="3"] .atlas-node-symbol{font-size:20px}
 @media(max-width:999px){.network .atlas-hierarchy-key{gap:8px 13px;font-size:9px;padding:11px 0 7px}.network .atlas-hierarchy-key>span{gap:5px}}
+
+.atlas-mobile-pan-hint{display:none}
+@media(max-width:999px){.network .atlas-mobile-pan-hint{display:block;font-size:11px;line-height:1.6;color:#bdcade;margin:5px 0 8px}}

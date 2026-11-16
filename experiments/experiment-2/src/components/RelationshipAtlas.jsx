@@ -58,6 +58,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
   const compact=desktop&&!!selected;
   const [focusedRelation,setFocusedRelation]=useState(false);
   const svgRef = useRef(null);
+  const canvasRef = useRef(null);
   const drag = useRef(null);
   const dragFrame = useRef(0), pendingView = useRef(null);
   useEffect(()=>()=>{if(dragFrame.current)cancelAnimationFrame(dragFrame.current)},[]);
@@ -87,6 +88,11 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
     focusEvidence();
   }, [selectedId, initialSelectedId, selectionNonce, nodes]);
   const isOverview = category === 'all';
+  useEffect(()=>{
+    if(desktop||!isOverview||list)return;
+    const frame=requestAnimationFrame(()=>{const canvas=canvasRef.current;if(canvas)canvas.scrollLeft=(canvas.scrollWidth-canvas.clientWidth)/2;});
+    return()=>cancelAnimationFrame(frame);
+  },[desktop,isOverview,list]);
   const pages = isOverview ? 1 : Math.max(1, Math.ceil(filtered.length/8));
   const shown = isOverview ? filtered : filtered.slice(Math.min(page,pages-1)*8,Math.min(page,pages-1)*8+8);
   const overviewNodes = useMemo(() => [...filtered].sort((a,b) => categories.findIndex(c=>c.id===a.category)-categories.findIndex(c=>c.id===b.category)), [filtered,categories]);
@@ -201,11 +207,12 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
     <div className="atlas-hierarchy-key" role="list" aria-label="图谱视觉层级：一级李承三，二级人物，三级机构、研究和成果">
       <span role="listitem"><i className="tier-one" aria-hidden="true"/>一级 · 李承三</span><span role="listitem"><i className="tier-two" aria-hidden="true"/>二级 · 人物</span><span role="listitem"><i className="tier-three" aria-hidden="true"/>三级 · 机构 / 研究 / 成果</span>
     </div>
+    <p className="atlas-mobile-pan-hint">左右滑动图谱，或切换列表阅读</p>
     <div className="atlas-workspace">
       <div className="atlas-map-column">
         {isOverview ? <div className="atlas-map-top atlas-overview-heading"><span className="atlas-observatory-label"><b>{String(nodes.length).padStart(2,'0')}</b> 段联系 <i>RELATIONSHIP OBSERVATORY</i></span><div className="atlas-overview-core">{portrait?.path&&<img src={portrait.path} alt=""/>}<strong>李承三</strong><small>1899 — 1967</small></div><div className="atlas-overview-tools"><button aria-pressed={showLabels} onClick={()=>{setShowLabels(!showLabels);requestAnimationFrame(()=>onNavigateWithin?.());}}>{showLabels?'隐藏关系词':'显示全部关系词'}</button><button aria-pressed={list} onClick={()=>{setList(!list);requestAnimationFrame(()=>onNavigateWithin?.());}}>{list?'切换图谱':'列表阅读'}</button></div></div> : <div className="atlas-map-top"><span className="atlas-observatory-label"><b>{String(filtered.length).padStart(2,'0')}</b> {categories.find(c=>c.id===category)?.label||'学术关系'} <i>RELATIONSHIP OBSERVATORY</i></span><button onClick={()=>{setList(!list);requestAnimationFrame(()=>onNavigateWithin?.());}} aria-pressed={list}>{list?'切换图谱':'列表阅读'} <span aria-hidden="true">↗</span></button></div>}
         {compact&&<div className="atlas-focus-navigation"><span>{focusedRelation?'聚焦关系 · 拖动继续探索':'自由视图 · 拖动继续探索'}</span><button onClick={()=>{if(focusedRelation)reset();else{setList(false);focusRelation();}}}>{focusedRelation?'查看全图 ↗':'聚焦当前关系 ↗'}</button></div>}
-        <div className={`atlas-canvas ${isOverview?`atlas-overview-canvas ${list?'atlas-complete-list-view':''}`:list?'atlas-show-list':''}`} data-scroll-lock={list||undefined}>
+        <div ref={canvasRef} className={`atlas-canvas ${isOverview?`atlas-overview-canvas ${list?'atlas-complete-list-view':''}`:list?'atlas-show-list':''}`} data-scroll-lock={list||undefined}>
           {isOverview ? <>
             <svg ref={isOverview?svgRef:undefined} className={`atlas-complete-network ${showLabels?'show-all-labels':''}`} tabIndex="0" onKeyDown={keyGraph} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag} onLostPointerCapture={endDrag} viewBox={compact?"220 -70 800 600":"0 -20 1240 510"} role="group" aria-label={`李承三与全部${overviewNodes.length}条关系，圆形节点和连线，Tab选择节点查看史料`}>
               <SurveyPlate count={overviewNodes.length}/>

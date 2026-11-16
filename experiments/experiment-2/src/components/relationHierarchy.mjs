@@ -22,7 +22,8 @@ export function overviewNameLayout(node,index,compact,selected){
  const[x,y]=radialSlot(index,compact),lines=overviewNameLines(node,index);
  const halo=nodeGeometry(node).halo*(selected?1.55:1),size=nodeTier(node)===2?20:17;
  if(selected&&compact&&Math.abs(x-620)<120&&y>0&&y<205)return{x,y:y-halo-12-(lines.length-1)*20,anchor:'middle',lines,size};
- if(index<8&&y>205&&Math.abs(x-620)>100)return{x,y:y-halo-12-(lines.length-1)*20,anchor:'middle',lines,size};
+ if(index===2||index===6){const right=x>620;return{x:x+(right?1:-1)*(halo+12),y:y+size*.35,anchor:right?'start':'end',lines,size};}
+ if(index<8&&y>206&&Math.abs(x-620)>100)return{x,y:y-halo-12-(lines.length-1)*20,anchor:'middle',lines,size};
  if(index>=8&&Math.abs(x-620)>(compact?360:500)*.68){
   const right=x>620;return{x:x+(right?1:-1)*(halo+12),y:y+size*.35-(lines.length-1)*10,anchor:right?'start':'end',lines,size};
  }

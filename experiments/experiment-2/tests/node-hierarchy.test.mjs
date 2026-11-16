@@ -31,3 +31,10 @@ test('ordinary overview labels do not cover another record portrait',()=>{
   for(let j=0;j<nodes.length;j++)if(i!==j){const[x,y]=radialSlot(j,compact),radius=nodeGeometry(nodes[j]).radius;const dx=x-Math.max(r.x,Math.min(x,r.x+r.w)),dy=y-Math.max(r.y,Math.min(y,r.y+r.h));assert.ok(Math.hypot(dx,dy)>=radius,`${compact}/${nodes[i].id} label on ${nodes[j].id}`);}
  }
 });
+
+test('overview names stay separate in both layouts',()=>{
+ for(const compact of[false,true]){
+  const boxes=nodes.map((n,i)=>{const l=overviewNameLayout(n,i,compact,false),w=Math.max(...l.lines.map(s=>s.length))*l.size;return{id:n.id,x:l.x-(l.anchor==='middle'?w/2:l.anchor==='end'?w:0),y:l.y-l.size,w,h:l.lines.length*20};});
+  for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++){const a=boxes[i],b=boxes[j];assert.ok(!(a.x<b.x+b.w&&b.x<a.x+a.w&&a.y<b.y+b.h&&b.y<a.y+a.h),`${compact}/${a.id}/${b.id}`);}
+ }
+});

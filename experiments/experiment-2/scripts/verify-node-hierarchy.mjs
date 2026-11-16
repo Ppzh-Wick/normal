@@ -20,6 +20,8 @@ async function inspect(page,label,overview=true){
  if(!s.compact){
   const clashes=[];for(const n of s.nodes)for(const r of n.names)for(const other of s.nodes)if(n.id!==other.id&&collides(r,other.disc))clashes.push(n.id+' / '+other.id);
   check(label+' labels clear other portraits: '+clashes.join(', '),clashes.length===0);
+  const nameClashes=[];for(let i=0;i<s.nodes.length;i++)for(let j=i+1;j<s.nodes.length;j++)for(const a of s.nodes[i].names)for(const b of s.nodes[j].names)if(a.x<b.x+b.w&&b.x<a.x+a.w&&a.y<b.y+b.h&&b.y<a.y+a.h)nameClashes.push(s.nodes[i].id+' / '+s.nodes[j].id);
+  check(label+' node names do not overlap: '+nameClashes.join(', '),nameClashes.length===0);
  }
  for(const n of s.nodes)if(n.selected){check(label+' chosen portrait clears central name',!collides(s.coreName,n.disc));}
  return s;
@@ -33,6 +35,7 @@ try{
   const mobile=width<1000,page=await browser.newPage({viewport:{width,height:1000},reducedMotion:'reduce',isMobile:width===390,hasTouch:mobile});page.on('pageerror',e=>errors.push(e.message));
   await page.goto(origin+'/#network');await page.locator('.atlas-complete-node').first().waitFor();await page.evaluate(()=>document.fonts.ready);
   const s=await inspect(page,width+' overview');check(width+' 24 records',s.nodes.length===24);check(width+' 13 people and 11 entities',s.nodes.filter(n=>n.tier===2).length===13&&s.nodes.filter(n=>n.tier===3).length===11);check(width+' page has no overflow',s.documentWidth<=width+1);
+  if(width===390)check('mobile initial view shows central portrait',s.core.x>=0&&s.core.x+s.core.w<=width);
   if(width===1440)await snap(page,'desktop-overview');if(width===390)await snap(page,'mobile-overview');
   for(const id of['stille','chang-longqing','li-yongzhao','lu-dengshi','chengdu','sichuan-map']){
    const node=page.locator(`.atlas-complete-node[data-relation-id="${id}"]`);await node.evaluate(e=>e.focus({preventScroll:true}));await page.keyboard.press('Enter');await page.locator('.atlas-evidence[open]').waitFor();
