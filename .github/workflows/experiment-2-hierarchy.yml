@@ -30,6 +30,8 @@ jobs:
         if: always()
       - run: node scripts/verify-museum-navigation.mjs
         if: always()
+      - run: node scripts/verify-cold-entry.mjs
+        if: always()
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

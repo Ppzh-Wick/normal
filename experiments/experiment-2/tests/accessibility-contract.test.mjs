@@ -374,3 +374,12 @@ test('mobile evidence wraps Tab focus while desktop folio remains nonmodal',()=>
 test('all SVG transform attributes are free of template delimiters',()=>{
  for(const match of html.matchAll(/\btransform="([^"]*)"/g))assert.doesNotMatch(match[1],/[{}]/);
 });
+
+
+test('above-graph historical images reserve intrinsic proportions before decode',()=>{
+ const portrait=html.slice(0,html.indexOf('id="field"')).match(/<img[^>]*src="images\/portraits\/li-chengsan.jpg"[^>]*>/g)||[];
+ assert.ok(portrait.length>=2);
+ for(const image of portrait){assert.match(image,/width="106"/);assert.match(image,/height="176"/);}
+ const field=html.slice(html.indexOf('id="field"'),html.indexOf('id="network"'));
+ assert.match(field,/<img[^>]*width="640"[^>]*height="378"/);
+});
