@@ -500,3 +500,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
+Spatial journey review: @14islands/r3f-scroll-rig 8.15.0
+https://github.com/14islands/r3f-scroll-rig
+Copyright (c) 2023 14 Islands AB. MIT License, preserved at licenses/r3f-scroll-rig.txt.
+Note: package.json says ISC; this build preserves and follows the distributed LICENSE (MIT).
+@react-three/fiber and three are used under their distributed MIT licenses.
