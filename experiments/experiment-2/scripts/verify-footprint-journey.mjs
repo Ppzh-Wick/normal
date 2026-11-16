@@ -36,7 +36,7 @@ try{
   check(`${width} final stop keeps 1967 boundary`,await page.locator('.journey-year b').first().innerText()==='1967');
   await page.getByRole('button',{name:'文字年表',exact:true}).click();check(`${width} full readable list`,await page.locator('.journey-reading li').count()===20);
   check(`${width} not a fabricated route disclosure`,(await page.locator('.journey-method').innerText()).includes('不代表完整路线'));
-  await page.locator('.journey-reading li').nth(18).getByRole('button',{name:'在空间中查看'}).click();await page.waitForFunction(()=>document.querySelector('.journey-stage')?.dataset.activeStop==='advice');
+  await page.locator('.journey-reading li').nth(18).getByRole('button',{name:'在空间中查看'}).click();await page.waitForFunction(()=>document.querySelector('.journey-stage')?.dataset.activeStop==='advice');await page.waitForFunction(()=>{const v=document.querySelector('.journey-scroll');return v&&Math.abs(v.scrollTop/Math.max(300,v.clientHeight*.78)-18)<.01});
   check(`${width} 1965 does not imply Xichang visit`,(await page.locator('.journey-card.is-current').innerText()).includes('不把考察队前往西昌'));
   await at(page,0);const scroll=page.locator('.journey-scroll');await scroll.focus();await page.keyboard.press('PageDown');await page.waitForFunction(()=>+document.querySelector('.journey-stage')?.dataset.stopIndex===1);await delay(700);
   check(`${width} keyboard advances a year`,+await page.locator('.journey-stage').getAttribute('data-stop-index')===1);
