@@ -7,7 +7,7 @@ import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 const require=createRequire(import.meta.url);
 const source=new URL('../src/components/ContourNarrative.jsx',import.meta.url);
-const output=await build({entryPoints:[source.pathname],bundle:true,jsx:'automatic',platform:'node',format:'cjs',write:false,external:['react','react-dom']});
+const output=await build({entryPoints:[source.pathname],bundle:true,jsx:'automatic',platform:'node',format:'cjs',write:false,loader:{'.css':'empty'},external:['react','react-dom']});
 const mod={exports:{}};
 new Function('require','module','exports',output.outputFiles[0].text)(require,mod,mod.exports);
 const data=JSON.parse(readFileSync(new URL('../src/data.json',import.meta.url),'utf8'));
@@ -36,7 +36,7 @@ test('chapter ruler has real fragment links and exactly one current location',()
  assert.equal((html.match(/<a /g)||[]).length,7);
  assert.equal((html.match(/aria-current="location"/g)||[]).length,1);
  for(const [id]of chapters)assert.ok(html.includes(`href="#${id}"`));
- const links=component.props.children[1];
+ const links=component.props.children;
  let prevented=false;links[5].props.onClick({preventDefault(){prevented=true}});
  assert.equal(prevented,true);assert.deepEqual(calls,[5]);
 });
@@ -49,4 +49,23 @@ test('new spatial styling contains mobile and reduced-motion fallback, no perpet
  const builder=readFileSync(new URL('../scripts/build-standalone.mjs',import.meta.url),'utf8');
  assert.match(builder,/星河学脉\.html/);
  assert.doesNotMatch(builder,/深化候选\.html/);
+});
+
+test('museum bookmarks support arrows, Home and End without changing chapter',()=>{
+ const chapters=Array.from({length:7},(_,i)=>['chapter-'+i,'章节'+i]);let focused=-1,prevented=0;
+ const nav=mod.exports.ContourWayfinder({chapters,active:3,onGo:()=>{throw Error('arrows must not navigate')}});
+ const links=chapters.map((_,i)=>({focus(){focused=i}}));
+ for(const [current,key,expected]of[[3,'ArrowDown',4],[0,'ArrowUp',6],[6,'ArrowDown',0],[3,'Home',0],[2,'End',6]]){
+  nav.props.onKeyDown({key,currentTarget:{querySelectorAll:()=>links},target:{closest:()=>links[current]},preventDefault(){prevented++}});assert.equal(focused,expected);
+ }
+ assert.equal(prevented,5);
+});
+test('museum bookmarks preserve readable foregrounds and zero idle animation cost',()=>{
+ const chapters=Array.from({length:7},(_,i)=>['chapter-'+i,'章节'+i]);
+ const nav=mod.exports.ContourWayfinder({chapters,active:3,onGo:()=>{}});
+ const lum=hex=>{const v=hex.match(/[a-f0-9]{2}/gi).map(x=>parseInt(x,16)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4);return .2126*v[0]+.7152*v[1]+.0722*v[2]};
+ for(const link of nav.props.children)assert.ok((lum('#f8efdd')+.05)/(lum(link.props.style['--bookmark-color'])+.05)>=4.5);
+ const css=readFileSync(new URL('../src/components/MuseumWayfinder.css',import.meta.url),'utf8');
+ assert.match(css,/@media\(max-width:999px\)/);assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
+ assert.doesNotMatch(css,/\binfinite\b|backdrop-filter|will-change|@keyframes/);
 });

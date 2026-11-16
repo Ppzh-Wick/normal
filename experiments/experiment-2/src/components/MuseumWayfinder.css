@@ -1,0 +1,18 @@
+/* Seven original strata-shaped bookmarks. Only transform/opacity animate;
+   no hover listeners, layout animation or continuous animation loop. */
+.museum-wayfinder{--bookmark-width:min(88px,6.4vw);position:fixed;left:0;top:72px;bottom:52px;width:var(--bookmark-width);z-index:65;display:flex;flex-direction:column;gap:0;pointer-events:none;view-transition-name:chapter-ruler;isolation:isolate}
+.museum-tab{position:relative;display:block;flex:1 1 0;min-height:0;width:100%;transform:translateX(calc(36px - var(--bookmark-width)));transition:transform .3s cubic-bezier(.2,.7,.2,1);pointer-events:auto;isolation:isolate;color:#f8efdd!important;text-decoration:none;outline:none;-webkit-tap-highlight-color:transparent}
+.museum-tab-shape{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:-1}
+.museum-tab-silhouette{fill:var(--bookmark-color);stroke:#ece0c51c;stroke-width:.65;vector-effect:non-scaling-stroke}
+.museum-tab-strata{fill:none;stroke:#f8efdd;stroke-opacity:.055;stroke-width:.8;vector-effect:non-scaling-stroke}
+.museum-tab-label{position:absolute;left:40%;top:50%;transform:translate(-50%,-50%);writing-mode:vertical-rl;text-orientation:upright;white-space:nowrap;font:clamp(12px,1.65vh,17px)/1.1 var(--serif);letter-spacing:.16em;color:#f8efdd;opacity:0;transition:opacity .16s ease-out}
+.museum-tab-number{position:absolute;right:15px;bottom:9px;font:9px/1 Georgia,serif;letter-spacing:.07em;color:#f8efdd;opacity:.74;pointer-events:none}
+.museum-tab-current{position:absolute;left:6px;top:18%;bottom:18%;width:1px;background:#f6e5c5;opacity:0;pointer-events:none}
+.museum-tab[aria-current],.museum-tab:hover,.museum-tab:focus-within{transform:translateX(0)}
+.museum-tab[aria-current] .museum-tab-label,.museum-tab:hover .museum-tab-label,.museum-tab:focus-within .museum-tab-label{opacity:1;transition-delay:.08s}
+.museum-tab[aria-current] .museum-tab-current{opacity:.8}
+.museum-tab:focus-visible::after{content:"";position:absolute;inset:4px 17px 4px 4px;border:2px solid #fff2d9;border-radius:2px;pointer-events:none}
+@media(min-width:1000px) and (max-height:650px){.museum-wayfinder{top:66px;bottom:25px}.museum-tab-label{font-size:11px;letter-spacing:.08em}.museum-tab-number{right:13px;bottom:5px;font-size:8px}}
+@media(hover:none) and (min-width:1000px){.museum-tab{transform:none}.museum-tab-label{opacity:1}}
+@media(max-width:999px){.museum-wayfinder{display:none}}
+@media(prefers-reduced-motion:reduce){.museum-tab,.museum-tab-label{transition:none!important}}

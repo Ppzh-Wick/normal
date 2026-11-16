@@ -28,6 +28,8 @@ jobs:
         if: always()
       - run: node scripts/verify-node-hierarchy.mjs
         if: always()
+      - run: node scripts/verify-museum-navigation.mjs
+        if: always()
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -41,7 +43,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [desktop-overview, desktop-stille, desktop-chengdu, mobile-overview, mobile-selected-school]
+        image: [desktop-overview, desktop-stille, desktop-chengdu, mobile-overview, mobile-selected-school, nav-desktop, nav-hover, nav-light, nav-mobile-menu]
     steps:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
