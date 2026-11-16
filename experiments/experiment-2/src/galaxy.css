@@ -67,11 +67,6 @@
 
 /* An orbital exhibition model: static, layered light keeps reading at rest. */
 .network .atlas-orbit-measure{fill:none;stroke:none}
-.network .atlas-orbit-theatre path{fill:none;vector-effect:non-scaling-stroke}
-.network .atlas-orbit-back{stroke-width:.95;stroke-dasharray:none}
-.network .atlas-orbit-front-bed{stroke:#607695;stroke-width:4;opacity:.2}
-.network .atlas-orbit-front{stroke-width:1.65}
-.network .atlas-orbit-front-rim{stroke-width:.6;opacity:.35}
 .network .atlas-orbit-plane.tier-3{opacity:.82}
 .network .atlas-has-focus .atlas-orbit-theatre{opacity:.4}
 .network .atlas-star-limb{fill:none;stroke:#edddbd;stroke-width:1.5;stroke-opacity:.72}
@@ -83,4 +78,3 @@
 .network .atlas-complete-node[data-orbit-side="near"] .atlas-node-halo{stroke:#d0dcf0;stroke-opacity:.5}
 .network .atlas-complete-node.is-active .atlas-node-halo{stroke:#f0d3ab;stroke-opacity:1}
 .network .atlas-node-depth .atlas-node-disc{fill:#132441}
-@media(max-width:999px){.network .atlas-orbit-front-bed{stroke-width:3}.network .atlas-orbit-front{stroke-width:1.3}}

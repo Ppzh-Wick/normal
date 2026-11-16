@@ -60,3 +60,10 @@ test('orbital lighting is static decorative SVG, without continuous animation ma
  assert.doesNotMatch(source,/requestAnimationFrame|setInterval|useEffect|addEventListener|<canvas/);
  assert.match(source,/aria-hidden=\"true\"/);assert.match(source,/pointerEvents=\"none\"/);
 });
+
+test('decorative lighting cannot visually connect peripheral nodes',()=>{
+ const source=readFileSync(new URL('../src/components/OrbitTheatre.jsx',import.meta.url),'utf8');
+ assert.doesNotMatch(source,/<path\b/);
+ const css=readFileSync(new URL('../src/galaxy.css',import.meta.url),'utf8');
+ assert.match(css,/\.atlas-orbit-measure\{fill:none;stroke:none\}/);
+});

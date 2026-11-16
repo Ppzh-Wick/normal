@@ -254,7 +254,6 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
             </defs>
             <g className="atlas-camera" transform={`translate(${view.x} ${view.y}) translate(480 260) scale(${view.scale}) translate(-480 -260)`}>
               <circle cx="480" cy="260" r="360" fill={`url(#${uid}-glow)`}/>
-              <circle className="atlas-orbit" cx="480" cy="260" r="142"/><ellipse className="atlas-orbit" cx="480" cy="260" rx="340" ry="187"/>
               <path className="atlas-crosshair" d="M480 18V525 M22 260H938"/>
               {shown.map((n,i)=>{const[x,y]=SLOTS[i]; const lit=active===n.id;return <g key={`edge-${n.id}`} className={`atlas-edge ${lit?'is-active':''} ${active&&!lit?'is-muted':''}`}><path d={`M480 260 Q${(480+x)/2 + (y>260?24:-24)} ${(260+y)/2} ${x} ${y}`}/><text x={i===0?(n.name.length>10?565:425):i===1?630:i===7?330:i===4?620:480+(x-480)*.61} y={i===0?170:(i===1||i===7)?220:i===4?390:260+(y-260)*.61-9} textAnchor="middle">{n.relation}</text></g>;})}
               <g className="atlas-core-portrait" data-node-tier="1" transform={portraitTransform(480,250,centerPortraitScale(selected?.id))}>
