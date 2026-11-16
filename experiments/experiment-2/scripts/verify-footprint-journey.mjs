@@ -11,8 +11,8 @@ try{
  await mkdir(output,{recursive:true});
  if(!process.env.REVIEW_ORIGIN){server=spawn('npm',['run','preview','--','--port','4173','--strictPort'],{stdio:'ignore',detached:true});for(let i=0;i<80;i++){try{if((await fetch(origin)).ok)break}catch{}await delay(100)}}
  browser=await chromium.launch({headless:true});
- for(const [width,height,motion]of[[1440,1000,'no-preference'],[1000,700,'reduce'],[390,844,'reduce']]){
-  const page=await browser.newPage({viewport:{width,height},reducedMotion:motion,isMobile:width===390,hasTouch:width===390});page.on('pageerror',e=>errors.push(e.message));
+ for(const [width,height,motion]of[[1440,1000,'no-preference'],[1000,700,'reduce'],[390,844,'reduce'],[375,667,'reduce']]){
+  const page=await browser.newPage({viewport:{width,height},reducedMotion:motion,isMobile:width<1000,hasTouch:width<1000});page.on('pageerror',e=>errors.push(e.message));
   await page.goto(origin+'/#network');await page.locator('.atlas-complete-node').first().waitFor();await page.evaluate(()=>document.fonts.ready);
   const before=await page.evaluate(()=>({hash:location.hash,y:scrollY}));
   await page.locator('.masthead .footprint-launch').click();await page.locator('.journey-dialog[open]').waitFor();
@@ -23,7 +23,7 @@ try{
   check(`${width} no new canvas`,await page.locator('.journey-dialog canvas').count()===0);
   if(width===1440)await snap(page,'journey-1899');
   for(const index of[7,9,13,18,19]){
-   await at(page,index);check(`${width} reached ${index}`,+await page.locator('.journey-stage').getAttribute('data-stop-index')===index);
+   await at(page,index);if(width===390&&index===9){await snap(page,'journey-mobile');console.log('MOBILE_HEADER',await page.locator('.journey-year').evaluate(e=>({width:e.getBoundingClientRect().width,height:e.getBoundingClientRect().height,bottom:e.getBoundingClientRect().bottom,cardTop:document.querySelector('.journey-card.is-current').getBoundingClientRect().top,eraDisplay:getComputedStyle(e.querySelector('.journey-era')).display})));}check(`${width} reached ${index}`,+await page.locator('.journey-stage').getAttribute('data-stop-index')===index);
    check(`${width} one accessible current card ${index}`,await page.locator('.journey-card:not([inert])').count()===1);
    check(`${width} bounded live deck ${index}`,await page.locator('.journey-card').count()<=3);
    check(`${width} current card within viewport ${index}`,await page.locator('.journey-card.is-current').evaluate(e=>{const r=e.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth+1&&r.top>=70&&r.bottom<=innerHeight-40}));
