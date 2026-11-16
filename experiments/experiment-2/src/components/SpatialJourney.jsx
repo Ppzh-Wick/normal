@@ -24,6 +24,7 @@ function RecordPlate({index,data,records,width,height}){
  const stop=records[index],media=data.media[stop.media],group=useRef(null);
  const [texture,setTexture]=useState(null);const {requestRender}=useScrollRig();const invalidate=useThree(s=>s.invalidate);
  useEffect(()=>{if(!media)return;let alive=true,loaded;const t=new TextureLoader().load(media.path,tex=>{loaded=tex;if(!alive){tex.dispose();return}tex.colorSpace=SRGBColorSpace;tex.anisotropy=1;setTexture(tex);requestRender();invalidate()},undefined,()=>{});return()=>{alive=false;setTexture(null);(loaded||t).dispose()}},[media,requestRender,invalidate]);
+ useLayoutEffect(()=>{if(texture){requestRender();invalidate()}},[texture,requestRender,invalidate]);
  const frame=useMemo(()=>geometry([-width/2,-height/2,0,width/2,-height/2,0,width/2,height/2,0,-width/2,height/2,0,-width/2,-height/2,0]),[width,height]);
  const strata=useMemo(()=>{const points=[];for(let row=0;row<14;row++)for(let j=0;j<48;j++){const x=(j/48-.5)*width*.94,x2=((j+1)/48-.5)*width*.94;const wave=x=>height*(Math.sin(x*.9+row*.23)*.06+Math.sin(x*2.5+row*.25)*.012+(row/14-.5)*.8);points.push(x,wave(x),.025,x2,wave(x2),.025)}return geometry(points)},[width,height]);
  useEffect(()=>()=>{frame.dispose();strata.dispose()},[frame,strata]);

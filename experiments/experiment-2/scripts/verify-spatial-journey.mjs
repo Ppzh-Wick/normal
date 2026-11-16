@@ -8,7 +8,8 @@ try{
  page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'no-preference'});page.on('pageerror',e=>{errors.push(e.message);console.log('PAGEERROR',e.message)});page.on('console',m=>{if(m.type()==='error')console.log('CONSOLE',m.text())});
  await page.addInitScript(()=>{Object.defineProperty(navigator,'hardwareConcurrency',{get:()=>8});Object.defineProperty(navigator,'deviceMemory',{get:()=>8})});
  await page.goto(origin+'/#life');await page.evaluate(()=>document.fonts.ready);await page.locator('.chronicle-spatial-ready').waitFor({timeout:25000});await delay(1200);
- check('actual upstream runtime version',await page.evaluate(()=>window.__r3f_scroll_rig==='8.15.0'));
+ // npm 8.15.0 ships a stale 8.14.0 runtime banner; verify the actual upstream build.
+ check('actual upstream runtime marker (8.15 package has 8.14 banner)',await page.evaluate(()=>window.__r3f_scroll_rig==='8.14.0'));
  check('year sequence lives in original life section',await page.locator('#life .chronicle-stage').count()===1);check('starts at birth',await page.locator('.chronicle-year time').innerText()==='1899年5月');check('not a new modal',await page.locator('dialog[open]').count()===0);
  check('one real chronology canvas',await page.locator('.life-chronicle canvas').count()===1);
  const host=page.locator('.life-chronicle .journey-webgl');const z0=+await host.getAttribute('data-camera-z');

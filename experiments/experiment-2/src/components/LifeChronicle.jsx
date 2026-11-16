@@ -35,7 +35,7 @@ export default function LifeChronicle({data,active,desktop,reduced,onNext}){
  <div className="chronicle-flat-media"><Media record={record} data={data}/></div>
  <nav className="chronicle-years" aria-label="生平年谱年份直达">{records.map((r,i)=><button key={r.id} onClick={()=>go(i)} aria-label={`${r.year} ${r.title}`} aria-current={i===index?'step':undefined}><span>{r.year}</span><i/></button>)}</nav>
  <footer className="chronicle-controls" data-scroll-lock><button onClick={()=>go(index-1)} disabled={index===0} aria-label="上一年谱记录">↑</button><label><span>年份直达</span><select aria-label="年谱年份直达" value={index} onChange={e=>go(+e.target.value)}>{records.map((r,i)=><option key={r.id} value={i}>{r.year} · {r.title}</option>)}</select></label><button onClick={()=>index===records.length-1?onNext():go(index+1)} aria-label={index===records.length-1?'前往一纸山川':'下一年谱记录'}>↓</button><small>史料按年展开 · 空间为展陈，不是历史现场复原</small></footer>
- <span className="sr-only" role="status">{record.date}，{record.title}</span>
+ <span className="chronicle-status" role="status">{record.date}，{record.title}</span>
  </div></div>}
  </div>;
 }
