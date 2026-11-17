@@ -29,3 +29,10 @@
  .chrono-head nav{padding:9px 17px;border:1px solid #c8d4cd66;border-radius:30px;background:#172a3033;gap:16px;}
  .chrono-head nav button{font-size:11px;}
 }
+@media(min-width:900px){
+ .tl-presculpture{width:24%;height:auto;aspect-ratio:512/1600;left:51%;}
+ .tl-presculpture img{will-change:opacity;}
+}
+@media(min-width:900px){
+ .tl-scene .tl-plate[data-portrait=true] .tl-image{opacity:1;}
+}
