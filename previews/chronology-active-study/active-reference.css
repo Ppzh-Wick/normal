@@ -24,3 +24,13 @@
  .chrono-count,.chrono-hint { color:#e2dced; }
  .chrono-scale>i[data-current=true] { background:#e2bbff; }
 }
+/* Matched software fallback: render real projected glass facets and particles
+   instead of displaying the original static sawtooth CSS placeholder. */
+.tl-software-crystal { position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:none; }
+.tl-scene[data-mineral=fallback] .tl-software-crystal { display:block; }
+.tl-scene[data-mineral=fallback][data-software-crystal=true] .tl-rock-fallback { display:none; }
+@media (min-width:900px) {
+ .tl-scene { --tl-plate-height:clamp(250px,53%,600px); }
+ .chrono-head .chrono-identity { padding:10px 14px;border-radius:30px;background:#17232dcc;border:1px solid #c5d3d331; }
+ .chrono-journey .chrono-head { top:3.1vh; }
+}
