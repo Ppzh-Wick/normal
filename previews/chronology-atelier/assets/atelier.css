@@ -13,7 +13,7 @@
  .tl-scene .tl-ink{inset:1px;border-radius:8px;background:linear-gradient(180deg,#07131612 0%,#07131610 30%,#0713166b 85%,#07131677);}
  .tl-scene .tl-type{inset:13% 7% 12%;gap:15px;align-items:center;justify-content:center;text-shadow:0 2px 12px #06151699;}
  .tl-scene .tl-year{font-family:Georgia,"Times New Roman",serif;font-size:clamp(70px,7.4vw,124px);font-weight:400;letter-spacing:-.065em;line-height:.9;color:#f4f0e5;}
- .tl-scene .tl-event-name{font-family:"Songti SC","SimSun",serif;font-weight:400;font-size:clamp(21px,2.05vw,34px);letter-spacing:.08em;line-height:1.45;color:#f6f1e9;}
+ .tl-scene .tl-event-name{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.05vw,34px);letter-spacing:.08em;line-height:1.45;color:#f6f1e9;}
  .tl-scene .tl-art-label{left:1px;right:1px;bottom:-31px;max-width:100%;padding:0;border:0;color:#b4c0be;font-size:12px;line-height:1.6;letter-spacing:.02em;text-shadow:0 1px 2px #0b1519;}
  .tl-scene .tl-art-label:after{display:none;}
  .tl-scene .tl-plate[tabindex="-1"] .tl-art-label{opacity:0;}
@@ -46,7 +46,7 @@
  .chrono-scale{opacity:.5;}
  .tl-scene .tl-software-crystal{opacity:.53;}
  .chrono-dialog{border:1px solid #d4ded04d;border-radius:2px;background:#e9e5da;color:#202b2c;}
- .chrono-dialog h3{font-family:"Songti SC","SimSun",serif;font-weight:400;}
+ .chrono-dialog h3{font-family:var(--serif);font-weight:400;}
 }
 
 /* Iteration 2: continuous image surface. Typography follows the archive, not a decorative book spine. */
@@ -57,7 +57,7 @@
  .tl-scene .tl-plate[data-art-layout=document] .tl-year{writing-mode:horizontal-tb;font-size:clamp(50px,6vw,98px);letter-spacing:-.06em;}
  .tl-scene .tl-plate[data-art-layout=document] .tl-event-name{font-size:clamp(19px,1.7vw,29px);letter-spacing:.07em;line-height:1.5;max-width:62%;text-align:right;}
  .tl-scene .tl-plate[data-art-layout=photograph] .tl-ink{background:radial-gradient(ellipse 58% 65% at 50% 47%,#06131977,transparent 85%),linear-gradient(180deg,#07131608,#07131622 80%,#07131655);}
- .tl-scene .art-summary{display:block;margin-top:2px;max-width:22em;font:400 clamp(12px,1.05vw,16px)/1.8 "Songti SC","SimSun",serif;letter-spacing:.025em;color:#c9d1ca;text-shadow:none;}
+ .tl-scene .art-summary{display:block;margin-top:2px;max-width:22em;font:400 clamp(12px,1.05vw,16px)/1.8 var(--serif);letter-spacing:.025em;color:#c9d1ca;text-shadow:none;}
  .tl-scene .tl-plate[data-portrait=true] .tl-type{gap:17px;}
  .tl-scene[data-sculpture-ready=true] .tl-mineral,.tl-scene[data-sculpture-ready=true] .tl-software-crystal,.tl-scene[data-sculpture-ready=true] .tl-rock-fallback{display:none!important;}
  .tl-presculpture{position:absolute;left:52%;top:50%;height:160%;aspect-ratio:512/1600;transform:translate(-50%,-50%);pointer-events:none;opacity:.87;}
@@ -67,4 +67,10 @@
 @media(min-width:900px){
  .tl-presculpture{height:180%;opacity:1;contain:layout paint style;will-change:transform;transform:translate3d(-50%,-50%,0);}
  .tl-presculpture img{opacity:1;}
+}
+@media(min-width:900px){
+ .chrono-step{width:auto;height:40px;}
+ .chrono-step>button{width:40px;height:38px;}
+ .chrono-head nav button span,.chrono-read span{font-size:0;display:inline-block;position:relative;width:8px;height:8px;border-top:1px solid currentColor;border-right:1px solid currentColor;margin-left:8px;vertical-align:1px;}
+ .chrono-head nav button span:after,.chrono-read span:after{content:"";position:absolute;left:-2px;top:4px;width:11px;height:1px;background:currentColor;transform:rotate(-45deg);}
 }
