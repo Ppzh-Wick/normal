@@ -78,3 +78,6 @@
 @media(min-width:900px){
  .tl-scene .tl-plate[data-portrait=true] .tl-ink{background:linear-gradient(90deg,#0e1c21f2 0%,#0e1c21e8 49%,#0e1c2133 67%,transparent 100%);}
 }
+@media(min-width:900px){
+ .tl-scene .tl-plate[data-art-layout=photograph]:not([data-portrait=true]) .tl-ink{background:radial-gradient(ellipse 59% 66% at 50% 47%,#051115a6 0%,#05111570 48%,transparent 91%),linear-gradient(180deg,#07131608,#07131622 80%,#07131655);}
+}
