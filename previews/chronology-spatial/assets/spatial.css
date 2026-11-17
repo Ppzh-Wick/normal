@@ -1,0 +1,12 @@
+/* Depth without extra glare: no gradient-only substitute, full-screen filters or uniform stars. */
+.tl-spatial-world{display:none;}
+@media(min-width:900px){
+ .tl-spatial-world{display:block;position:absolute;inset:0;overflow:hidden;pointer-events:none;contain:layout paint style;}
+ .tl-spatial-world img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;will-change:transform;}
+ .tl-spatial-far{opacity:1;}
+ .tl-spatial-near{opacity:1;}
+ .tl-scene[data-spatial-ready=true] .tl-atmosphere{background:#0c1318;}
+}
+@media(min-width:900px){
+ .tl-spatial-world:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 65%,#09121722 88%,#09121777);pointer-events:none;}
+}
