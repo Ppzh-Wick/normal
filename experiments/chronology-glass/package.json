@@ -1,0 +1,1 @@
+{"name":"chengsan-chronology-glass-surface","version":"1.0.0","private":true,"type":"module","scripts":{"build":"esbuild src/main.jsx --bundle --minify --format=esm --jsx=automatic --outfile=../../previews/chronology-glass/assets/glass-surface.js"},"dependencies":{"react":"^19.2.0","react-dom":"^19.2.0"},"devDependencies":{"esbuild":"^0.25.0"}}
