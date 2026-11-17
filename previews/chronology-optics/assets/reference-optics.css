@@ -43,3 +43,7 @@
 @media(min-width:900px){
  .chrono-head .chrono-identity{padding:8px 12px;border:1px solid #c5d5db20;border-radius:24px;background:linear-gradient(90deg,#1c2930ee,#1c293099);}
 }
+@media(min-width:900px){
+ .tl-presculpture img{will-change:auto;}
+ .tl-optical-clouds img{will-change:auto;}
+}
