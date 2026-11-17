@@ -74,3 +74,7 @@
  .chrono-head nav button span,.chrono-read span{font-size:0;display:inline-block;position:relative;width:8px;height:8px;border-top:1px solid currentColor;border-right:1px solid currentColor;margin-left:8px;vertical-align:1px;}
  .chrono-head nav button span:after,.chrono-read span:after{content:"";position:absolute;left:-2px;top:4px;width:11px;height:1px;background:currentColor;transform:rotate(-45deg);}
 }
+/* Local reading shelter: bright optical spine must never compete with biography text. */
+@media(min-width:900px){
+ .tl-scene .tl-plate[data-portrait=true] .tl-ink{background:linear-gradient(90deg,#0e1c21f2 0%,#0e1c21e8 49%,#0e1c2133 67%,transparent 100%);}
+}
