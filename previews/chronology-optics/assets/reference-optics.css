@@ -30,9 +30,16 @@
  .chrono-head nav button{font-size:11px;}
 }
 @media(min-width:900px){
- .tl-presculpture{width:24%;height:auto;aspect-ratio:512/1600;left:51%;}
+ .tl-presculpture{width:22%;height:auto;aspect-ratio:512/1600;left:51%;}
  .tl-presculpture img{will-change:opacity;}
 }
 @media(min-width:900px){
  .tl-scene .tl-plate[data-portrait=true] .tl-image{opacity:1;}
+}
+@media(min-width:900px){
+ .tl-presculpture{height:145%;aspect-ratio:auto;}
+ .tl-presculpture img{object-fit:fill;}
+}
+@media(min-width:900px){
+ .chrono-head .chrono-identity{padding:8px 12px;border:1px solid #c5d5db20;border-radius:24px;background:linear-gradient(90deg,#1c2930ee,#1c293099);}
 }
