@@ -12,7 +12,15 @@ function local(points,x,y){const [p0,p1,p2,p3]=points,dx1=p1.x-p2.x,dx2=p3.x-p2.
 function clear(reason="target-change"){trace({event:"clear",reason:typeof reason==="string"?reason:reason.type});if(active){delete active.dataset.reflecting;active=null;}}
 function update(){frame=0;if(!last||!active||!active.isConnected)return;const data=prepare(active);if(!data)return;const pts=data.markers.map(el=>{const r=el.getBoundingClientRect();return{x:r.left,y:r.top}}),p=local(pts,last.x,last.y);if(!p)return;
  data.glass.style.setProperty('--light-x',(Math.max(0,Math.min(1,p.x))*100).toFixed(2)+'%');data.glass.style.setProperty('--light-y',(Math.max(0,Math.min(1,p.y))*100).toFixed(2)+'%');active.dataset.reflecting='true';trace({event:'paint',pointer:last,local:p,points:pts,plate:active.dataset.index});}
-document.addEventListener('pointermove',event=>{if(event.pointerType==='touch')return;const plate=event.target.closest?.('.tl-plate');if(plate!==active){clear();active=plate;}last={x:event.clientX,y:event.clientY};trace({event:'move',pointer:last,target:event.target.tagName,plate:plate?.dataset.index});if(active&&!frame)frame=requestAnimationFrame(update);},{passive:true});
+// Chromium may hit the orbit parent instead of a perspective-transformed plate.
+// Recover optical hit-testing geometrically; do not intercept clicks or scrolling.
+function geometricPlate(event){
+ const scene=event.target.closest?.('.tl-scene');if(!scene)return null;
+ const all=[...scene.querySelectorAll('.tl-plate')].sort((a,b)=>(a.tabIndex===0?-1:b.tabIndex===0?1:0));
+ for(const plate of all){if(plate.style.visibility==='hidden'||plate.style.pointerEvents==='none')continue;const data=prepare(plate);if(!data)continue;const points=data.markers.map(el=>{const r=el.getBoundingClientRect();return{x:r.left,y:r.top}}),p=local(points,event.clientX,event.clientY);if(p&&p.x>=0&&p.x<=1&&p.y>=0&&p.y<=1)return plate;}
+ return null;
+}
+document.addEventListener('pointermove',event=>{if(event.pointerType==='touch')return;const plate=event.target.closest?.('.tl-plate')||geometricPlate(event);if(plate!==active){clear();active=plate;}last={x:event.clientX,y:event.clientY};trace({event:'move',pointer:last,target:event.target.tagName,plate:plate?.dataset.index});if(active&&!frame)frame=requestAnimationFrame(update);},{passive:true});
 document.addEventListener('pointerout',event=>{if(!event.relatedTarget)clear("outside-document")},{passive:true});
 window.addEventListener('blur',clear);window.addEventListener('scroll',clear,{passive:true});
 new MutationObserver(()=>{for(const p of layers.keys())if(!p.isConnected)layers.delete(p)}).observe(document.getElementById('root'),{childList:true,subtree:true});
