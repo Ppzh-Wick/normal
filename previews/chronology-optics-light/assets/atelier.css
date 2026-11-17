@@ -1,0 +1,83 @@
+/* ART DIRECTION / optical archive: one surface, not an ornamental frame.
+   Only desktop chronology is affected. Its native scroll transforms are untouched. */
+@media(min-width:900px){
+ .tl-scene{--tl-plate-width:min(50%,940px);--tl-plate-height:clamp(300px,51%,590px);background:#10191b;}
+ .tl-scene .tl-atmosphere{background:radial-gradient(ellipse at 85% 68%,#38544855,transparent 63%),radial-gradient(ellipse at 9% 95%,#41404b44,transparent 60%),linear-gradient(125deg,#101419,#172125);}
+ .tl-scene .tl-atmosphere:before,.tl-scene .tl-atmosphere:after{display:none;}
+ .tl-scene .tl-plate{border-radius:9px;--art-accent:186,207,202;}
+ .tl-scene .tl-plate:before{display:none;}
+ .tl-scene .tl-glass{inset:0;border-radius:9px;overflow:visible;background:linear-gradient(115deg,rgba(var(--art-accent),.12),#0e1b1f66 55%,rgba(var(--art-accent),.06))!important;box-shadow:0 18px 32px -23px #0008;}
+ .tl-scene .tl-glass:before{display:none;}
+ .tl-scene .tl-glass:after{inset:0;border-radius:9px;border:1px solid #edf8f04a;background:none;box-shadow:inset 0 1px #fffff736,inset -1px -1px #d9ebe51a;}
+ .tl-scene .tl-image{inset:1px;width:calc(100% - 2px);height:calc(100% - 2px);border-radius:8px;opacity:.88;box-shadow:none;object-fit:cover;}
+ .tl-scene .tl-ink{inset:1px;border-radius:8px;background:linear-gradient(180deg,#07131612 0%,#07131610 30%,#0713166b 85%,#07131677);}
+ .tl-scene .tl-type{inset:13% 7% 12%;gap:15px;align-items:center;justify-content:center;text-shadow:0 2px 12px #06151699;}
+ .tl-scene .tl-year{font-family:Georgia,"Times New Roman",serif;font-size:clamp(70px,7.4vw,124px);font-weight:400;letter-spacing:-.065em;line-height:.9;color:#f4f0e5;}
+ .tl-scene .tl-event-name{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.05vw,34px);letter-spacing:.08em;line-height:1.45;color:#f6f1e9;}
+ .tl-scene .tl-art-label{left:1px;right:1px;bottom:-31px;max-width:100%;padding:0;border:0;color:#b4c0be;font-size:12px;line-height:1.6;letter-spacing:.02em;text-shadow:0 1px 2px #0b1519;}
+ .tl-scene .tl-art-label:after{display:none;}
+ .tl-scene .tl-plate[tabindex="-1"] .tl-art-label{opacity:0;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-image{left:29%;width:71%;object-fit:contain;object-position:center;background:#c4b186;opacity:1;border-radius:0 8px 8px 0;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-ink{background:linear-gradient(90deg,#122126 0% 23%,#12212600 38%);}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-type{left:5.5%;right:72%;top:12%;bottom:10%;align-items:flex-start;text-align:left;justify-content:space-between;gap:20px;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-year{font-size:clamp(44px,5.6vw,92px);writing-mode:vertical-rl;letter-spacing:-.03em;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-event-name{font-size:clamp(17px,1.5vw,25px);letter-spacing:.09em;line-height:1.75;}
+ .tl-scene .tl-plate[data-portrait=true] .tl-image{inset:7% 7% 7% auto;width:32%;height:86%;object-fit:contain;object-position:center;background:none;border-radius:0;opacity:.95;box-shadow:none;}
+ .tl-scene .tl-plate[data-portrait=true] .tl-ink{background:linear-gradient(110deg,#12212611,#111d2200 60%,rgba(var(--art-accent),.07));}
+ .tl-scene .tl-plate[data-portrait=true] .tl-type{left:7%;right:49%;top:15%;bottom:16%;text-align:left;align-items:flex-start;gap:22px;}
+ .tl-scene .tl-plate[data-portrait=true] .tl-year{font-size:clamp(64px,7.5vw,128px);}
+ .tl-scene .tl-plate[data-portrait=true] .tl-event-name{font-size:clamp(20px,1.85vw,31px);}
+ .tl-scene .tl-plate[data-kind=interpretation] .tl-image{opacity:.67;}
+ .tl-scene .tl-plate[data-kind=interpretation] .tl-ink{background:linear-gradient(130deg,#14232933,#0d161b33 65%,#16242966);}
+ .tl-scene .pointer-glass-light{border-radius:9px;background:radial-gradient(ellipse 210px 160px at var(--light-x,50%) var(--light-y,50%),#fffef025,#ddf4ef13 34%,transparent 76%);}
+ .tl-scene .pointer-glass-rim{border-radius:9px;padding:1px;}
+ .chrono-head .chrono-identity{padding:7px 0;background:none;border:0;box-shadow:none;border-radius:0;}
+ .chrono-identity>span{font-size:20px;font-weight:400;letter-spacing:.16em;}
+ .chrono-identity h2{font-size:11px;letter-spacing:.18em;color:#c5cec9;}
+ .chrono-head nav{border:0;background:none;box-shadow:none;border-radius:0;gap:22px;}
+ .chrono-head nav button{font-size:12px;letter-spacing:.08em;color:#e0e4dc;}
+ .chrono-head nav button+button{border-left:1px solid #bdcdc333;padding-left:22px;}
+ .chrono-head nav button:hover{color:#fff;}
+ .chrono-count{font-family:Georgia,serif;letter-spacing:.03em;color:#e4e6dc;}
+ .chrono-hint{font-size:11px;letter-spacing:.12em;color:#b5c4be;}
+ .chrono-step,.chrono-journey .chrono-controls .chrono-read{background:#142126cc;border:1px solid #c3d6ca42;border-radius:2px;box-shadow:none;color:#e4e8df;}
+ .chrono-step{width:40px;height:40px;}
+ .chrono-journey .chrono-controls .chrono-read{font-size:12px;letter-spacing:.13em;padding:11px 19px;}
+ .chrono-scale{opacity:.5;}
+ .tl-scene .tl-software-crystal{opacity:.53;}
+ .chrono-dialog{border:1px solid #d4ded04d;border-radius:2px;background:#e9e5da;color:#202b2c;}
+ .chrono-dialog h3{font-family:var(--serif);font-weight:400;}
+}
+
+/* Iteration 2: continuous image surface. Typography follows the archive, not a decorative book spine. */
+@media(min-width:900px){
+ .tl-scene .tl-plate[data-art-layout=document] .tl-image{inset:1px;width:calc(100% - 2px);height:calc(100% - 2px);object-fit:cover;object-position:center;background:none;border-radius:8px;opacity:.96;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-ink{background:linear-gradient(180deg,transparent 45%,#08161a25 60%,#08161acc 100%);}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-type{inset:auto 5.5% 7%;height:auto;display:flex;flex-direction:row;align-items:flex-end;justify-content:space-between;text-align:left;gap:20px;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-year{writing-mode:horizontal-tb;font-size:clamp(50px,6vw,98px);letter-spacing:-.06em;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-event-name{font-size:clamp(19px,1.7vw,29px);letter-spacing:.07em;line-height:1.5;max-width:62%;text-align:right;}
+ .tl-scene .tl-plate[data-art-layout=photograph] .tl-ink{background:radial-gradient(ellipse 58% 65% at 50% 47%,#06131977,transparent 85%),linear-gradient(180deg,#07131608,#07131622 80%,#07131655);}
+ .tl-scene .art-summary{display:block;margin-top:2px;max-width:22em;font:400 clamp(12px,1.05vw,16px)/1.8 var(--serif);letter-spacing:.025em;color:#c9d1ca;text-shadow:none;}
+ .tl-scene .tl-plate[data-portrait=true] .tl-type{gap:17px;}
+ .tl-scene[data-sculpture-ready=true] .tl-mineral,.tl-scene[data-sculpture-ready=true] .tl-software-crystal,.tl-scene[data-sculpture-ready=true] .tl-rock-fallback{display:none!important;}
+ .tl-presculpture{position:absolute;left:52%;top:50%;height:160%;aspect-ratio:512/1600;transform:translate(-50%,-50%);pointer-events:none;opacity:.87;}
+ .tl-presculpture img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;}
+ .tl-presculpture .sculpture-dust{left:-55%;width:210%;opacity:.5;}
+}
+@media(min-width:900px){
+ .tl-presculpture{height:180%;opacity:1;contain:layout paint style;will-change:transform;transform:translate3d(-50%,-50%,0);}
+ .tl-presculpture img{opacity:1;}
+}
+@media(min-width:900px){
+ .chrono-step{width:auto;height:40px;}
+ .chrono-step>button{width:40px;height:38px;}
+ .chrono-head nav button span,.chrono-read span{font-size:0;display:inline-block;position:relative;width:8px;height:8px;border-top:1px solid currentColor;border-right:1px solid currentColor;margin-left:8px;vertical-align:1px;}
+ .chrono-head nav button span:after,.chrono-read span:after{content:"";position:absolute;left:-2px;top:4px;width:11px;height:1px;background:currentColor;transform:rotate(-45deg);}
+}
+/* Local reading shelter: bright optical spine must never compete with biography text. */
+@media(min-width:900px){
+ .tl-scene .tl-plate[data-portrait=true] .tl-ink{background:linear-gradient(90deg,#0e1c21f2 0%,#0e1c21e8 49%,#0e1c2133 67%,transparent 100%);}
+}
+@media(min-width:900px){
+ .tl-scene .tl-plate[data-art-layout=photograph]:not([data-portrait=true]) .tl-ink{background:radial-gradient(ellipse 59% 66% at 50% 47%,#051115a6 0%,#05111570 48%,transparent 91%),linear-gradient(180deg,#07131608,#07131622 80%,#07131655);}
+}

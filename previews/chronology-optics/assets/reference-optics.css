@@ -47,3 +47,8 @@
  .tl-presculpture img{will-change:auto;}
  .tl-optical-clouds img{will-change:auto;}
 }
+/* Lossless transparent-bound trimming; exact native composition retained. */
+@media(min-width:900px){
+ .tl-presculpture{left:50.35546875%;top:52.71875%;width:18.5625%;height:128.86875%;}
+ .tl-optical-clouds img{inset:auto;left:20.3125%;top:16.8%;width:68.5625%;height:83.2%;will-change:transform;}
+}
