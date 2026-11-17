@@ -9,7 +9,7 @@ function mount(scene){
  let seed=40419; const random=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
  const dust=Array.from({length:480},()=>({y:random()*9-4.5,offset:random()-.5,rad:random(),tone:random(),size:.35+random()*1.1}));
  let raf=0;
- let last=0; function draw(now=0){raf=0;if(!scene.isConnected||document.hidden||scene.dataset.mineral!=='fallback')return;if(now-last<32){raf=requestAnimationFrame(draw);return;}last=now;
+ let last=0; function draw(now=0){raf=0;if(!scene.isConnected||document.hidden||scene.dataset.sculptureReady==='true'||scene.dataset.mineral!=='fallback')return;if(now-last<32){raf=requestAnimationFrame(draw);return;}last=now;
   const w=scene.clientWidth,h=scene.clientHeight,dpr=Math.min(devicePixelRatio||1,1);if(!w||!h)return;
   if(canvas.width!==w*dpr||canvas.height!==h*dpr){canvas.width=w*dpr;canvas.height=h*dpr;}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
   const p=Number(scene.dataset.progress||0),yaw=p*.55+.23,c=Math.cos(yaw),s=Math.sin(yaw);

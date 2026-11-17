@@ -48,3 +48,19 @@
  .chrono-dialog{border:1px solid #d4ded04d;border-radius:2px;background:#e9e5da;color:#202b2c;}
  .chrono-dialog h3{font-family:"Songti SC","SimSun",serif;font-weight:400;}
 }
+
+/* Iteration 2: continuous image surface. Typography follows the archive, not a decorative book spine. */
+@media(min-width:900px){
+ .tl-scene .tl-plate[data-art-layout=document] .tl-image{inset:1px;width:calc(100% - 2px);height:calc(100% - 2px);object-fit:cover;object-position:center;background:none;border-radius:8px;opacity:.96;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-ink{background:linear-gradient(180deg,transparent 45%,#08161a25 60%,#08161acc 100%);}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-type{inset:auto 5.5% 7%;height:auto;display:flex;flex-direction:row;align-items:flex-end;justify-content:space-between;text-align:left;gap:20px;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-year{writing-mode:horizontal-tb;font-size:clamp(50px,6vw,98px);letter-spacing:-.06em;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-event-name{font-size:clamp(19px,1.7vw,29px);letter-spacing:.07em;line-height:1.5;max-width:62%;text-align:right;}
+ .tl-scene .tl-plate[data-art-layout=photograph] .tl-ink{background:radial-gradient(ellipse 58% 65% at 50% 47%,#06131977,transparent 85%),linear-gradient(180deg,#07131608,#07131622 80%,#07131655);}
+ .tl-scene .art-summary{display:block;margin-top:2px;max-width:22em;font:400 clamp(12px,1.05vw,16px)/1.8 "Songti SC","SimSun",serif;letter-spacing:.025em;color:#c9d1ca;text-shadow:none;}
+ .tl-scene .tl-plate[data-portrait=true] .tl-type{gap:17px;}
+ .tl-scene[data-sculpture-ready=true] .tl-mineral,.tl-scene[data-sculpture-ready=true] .tl-software-crystal,.tl-scene[data-sculpture-ready=true] .tl-rock-fallback{display:none!important;}
+ .tl-presculpture{position:absolute;left:52%;top:50%;height:160%;aspect-ratio:512/1600;transform:translate(-50%,-50%);pointer-events:none;opacity:.87;}
+ .tl-presculpture img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;}
+ .tl-presculpture .sculpture-dust{left:-55%;width:210%;opacity:.5;}
+}
