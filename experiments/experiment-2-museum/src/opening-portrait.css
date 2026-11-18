@@ -1,0 +1,28 @@
+/* The existing archive portrait is enlarged, not reconstructed or generated.
+   All treatments are restricted to the opening, never its reading text. */
+.opening .hero-portrait-backdrop{position:absolute;inset:9% 0 0 42%;z-index:2;pointer-events:none;overflow:hidden;mask-image:linear-gradient(90deg,transparent 0%,#000 19%,#000 88%,transparent 100%)}
+.opening .hero-portrait-backdrop img{display:block;width:100%;height:100%;object-fit:contain;object-position:50% 0%;filter:blur(.85px) saturate(.48) brightness(.82);opacity:.83;mask-image:linear-gradient(180deg,#000 0%,#000 62%,transparent 100%)}
+.opening:after{z-index:3;background:linear-gradient(90deg,#09152e 0%,#09152ef2 25%,#09152eb3 43%,#09152e12 65%,#09152e00 88%),linear-gradient(0deg,#09152e 0%,transparent 30%,transparent 84%,#09152e6b 100%)}
+.opening .terrain-stage{opacity:.09}
+.opening .hero-title,.opening .hero-foot,.opening .opening-topline{z-index:4}
+.opening .hero-title{width:53%;pointer-events:none}
+.opening .hero-title>.eyebrow{color:#dae0ec;text-shadow:0 2px 16px #071027}
+.opening .hero-edition{color:#bac7dd}
+.opening .hero-roman{color:#e6b59a}
+.opening .hero-intro p{color:#d0d9e7}
+.opening .hero-portrait-source{background:none;border:0;border-top:1px solid #ced3d33b;text-align:right;color:#e7dfcd;padding:15px 0 0 28px;cursor:pointer;display:flex;flex-direction:column;gap:8px;text-shadow:0 2px 16px #071027}
+.opening .hero-portrait-source span{font:17px/1.4 var(--serif);letter-spacing:.09em}
+.opening .hero-portrait-source small{font:10px/1.7 var(--sans);color:#bcc8d7}
+.opening .hero-portrait-source:hover small{color:#fff1d9}
+@media(min-width:1000px){
+ .opening .hero-title{top:24%;left:8%}
+ .opening .hero-name{font-size:clamp(120px,12.6vw,200px)!important;letter-spacing:.015em!important}
+ .opening .hero-foot{left:8%}
+ .opening .hero-title .terrain-disclosure{color:#aebed2}
+}
+@media(max-width:999px){
+ .opening .hero-portrait-backdrop{inset:25% -20% 4% 12%;opacity:.65}
+ .opening .hero-title{width:100%}
+ .opening .hero-foot{padding-top:380px}
+ .opening .hero-portrait-source{align-self:flex-end;padding-left:0;max-width:100%}
+}
