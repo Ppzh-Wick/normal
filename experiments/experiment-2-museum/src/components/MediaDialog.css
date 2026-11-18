@@ -1,0 +1,32 @@
+/* A planar reading surface, not a floating lightbox. Specificity deliberately
+   isolates the reader from the site's legacy dialog rules. */
+dialog.media-dialog.archival-reader{inset:0;margin:0;width:100%;height:100dvh;max-width:none;max-height:none;padding:0;border:0;border-radius:0;background:#e9e4d9;color:#222b2d;overflow:auto;box-shadow:none}
+dialog.media-dialog.archival-reader[open]{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,28%);grid-template-rows:68px minmax(0,1fr);gap:0;align-items:stretch}
+dialog.archival-reader::backdrop{background:#11191d;backdrop-filter:none}
+.archival-reader .archival-reader-bar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 32px;border-bottom:1px solid #27323830;font-size:10px;letter-spacing:.13em}
+.archival-reader-bar i{font-style:normal;padding:0 15px;color:#957952}
+.archival-reader .dialog-close{position:static;display:flex;align-items:center;gap:22px;width:auto;height:44px;padding:0 10px;font:12px var(--sans,sans-serif);color:#263137;background:transparent;border:0;border-radius:0}
+.archival-reader .dialog-close span{font-size:25px}
+.archival-reader .media-view{display:flex;align-items:center;justify-content:center;min-height:0;max-height:none;height:100%;padding:35px;background:#d6d1c6;overflow:auto;scrollbar-color:#8e826d transparent}
+.archival-reader .media-view img{display:block;flex:none;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;filter:none;transform:none;border-radius:0}
+.archival-reader .media-view.is-zoomed{display:block}
+.archival-reader .media-view.is-zoomed img{width:auto;height:auto;min-width:100%;max-width:none;max-height:none}
+.archival-reader .media-caption{align-self:stretch;padding:45px 30px;overflow:auto;border-left:1px solid #27323825;background:#e9e4d9}
+.archival-reader .media-caption .eyebrow{font-size:9px;color:#766347;letter-spacing:.13em;margin-top:0}
+.archival-reader .media-caption h2{font:clamp(24px,2.4vw,40px)/1.45 var(--serif,serif);color:#252b2b;margin:25px 0 35px;overflow-wrap:anywhere}
+.archival-reader .media-caption p{color:#5a605b;font-size:13px;line-height:1.9}
+.archival-reader .media-caption a{color:#655032;overflow-wrap:anywhere}
+.archival-reader .image-zoom-toggle{color:#40382b;border-color:#8e7b5c65;padding:12px 18px;background:transparent}
+.archival-reader .media-caption .fine{color:#676b64;font-size:10px;margin-top:30px;padding-top:18px;border-top:1px solid #27323825}
+.archival-reader :focus-visible{outline:2px solid #84683f;outline-offset:4px}
+html[data-archive-transition]::view-transition-group(archive-reading-object){animation-duration:340ms;animation-timing-function:cubic-bezier(.22,.7,.1,1)}
+html[data-archive-transition]::view-transition-old(archive-reading-object),html[data-archive-transition]::view-transition-new(archive-reading-object){height:100%;width:100%;object-fit:contain;mix-blend-mode:normal}
+/* Extra specificity wins over persistent chapter/back/artifact attributes. */
+html:root[data-archive-transition]::view-transition-old(root){animation:archivePlaneOut 280ms ease-out both;mix-blend-mode:normal}
+html:root[data-archive-transition]::view-transition-new(root){animation:archivePlaneIn 350ms ease-out both;mix-blend-mode:normal}
+html:root[data-archive-transition]::view-transition-old(study-note),html:root[data-archive-transition]::view-transition-new(study-note){animation:none}
+@keyframes archivePlaneOut{from{opacity:1}to{opacity:0}}
+@keyframes archivePlaneIn{from{opacity:0}to{opacity:1}}
+@media(max-width:760px){dialog.media-dialog.archival-reader[open]{grid-template-columns:1fr;grid-template-rows:60px minmax(300px,57dvh) auto}.archival-reader .archival-reader-bar{padding:0 15px;font-size:8px;letter-spacing:.05em}.archival-reader-bar i{padding:0 6px}.archival-reader .dialog-close{font-size:11px;gap:8px}.archival-reader .media-view{padding:22px}.archival-reader .media-caption{padding:28px 24px;border-left:0;border-top:1px solid #27323825;overflow:visible}.archival-reader .media-caption h2{font-size:26px;margin:17px 0 24px}}
+@media(prefers-reduced-motion:reduce){html[data-archive-transition]::view-transition-group(*){animation-duration:0s!important}}
+.archival-reader .archival-reader-bar{position:sticky;top:0;z-index:3;background:#e9e4d9}

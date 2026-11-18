@@ -1,0 +1,80 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync}from'node:fs';
+import{HIERARCHY,nodeTier,nodeGeometry,radialSlot,overviewNameLayout,overviewCoreNameY,ringFor,nodeDepthScale,orbitCoordinates,nodeFocusScale}from'../src/components/relationHierarchy.mjs';
+const data=JSON.parse(readFileSync(new URL('../src/data.json',import.meta.url))),curated=['stille','berlin','chengdu','sichuan-map','jialing','guo-lingzhi','zhou-tingru','arnold-heim'];
+const nodes=[...data.graph.nodes].sort((a,b)=>(curated.includes(a.id)?curated.indexOf(a.id):100)-(curated.includes(b.id)?curated.indexOf(b.id):100)).sort((a,b)=>data.graph.categories.findIndex(c=>c.id===a.category)-data.graph.categories.findIndex(c=>c.id===b.category));
+test('all 24 records use category-based display tiers, including people without photographs',()=>{
+ assert.equal(nodes.length,24);assert.equal(nodes.filter(n=>nodeTier(n)===2).length,13);assert.equal(nodes.filter(n=>nodeTier(n)===3).length,11);
+ for(const id of['xu-kaili','lu-dengshi','wu-yansheng'])assert.equal(nodeTier(nodes.find(n=>n.id===id)),2);
+ for(const id of['berlin','jialing','sichuan-map','petroleum-geology'])assert.equal(nodeTier(nodes.find(n=>n.id===id)),3);
+});
+test('three portrait sizes remain ordered when unselected in both modes',()=>{
+ for(const mode of['overview','category']){const g=HIERARCHY[mode];assert.ok(g.center.radius>g.person.radius);assert.ok(g.person.radius>g.entity.radius);}
+});
+test('unselected overview avatar pairs retain their original clear layout',()=>{
+ for(const compact of[false,true])for(const selected of[null])for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
+  const a=radialSlot(i,compact),b=radialSlot(j,compact),space=Math.hypot(a[0]-b[0],a[1]-b[1]);
+  const radius=nodeGeometry(nodes[i]).radius*nodeDepthScale(nodes[i],i,compact,nodes)*nodeFocusScale(selected,nodes[i],i,compact,nodes)+nodeGeometry(nodes[j]).radius*nodeDepthScale(nodes[j],j,compact,nodes)*nodeFocusScale(selected,nodes[j],j,compact,nodes);
+  assert.ok(space>=radius+1,`${compact}/${selected}/${nodes[i].id}/${nodes[j].id}: ${space-radius}`);
+ }
+});
+test('all ring portraits clear the central name, including selected portraits',()=>{
+ for(const compact of[false,true])for(const selected of[false,true])for(let i=0;i<nodes.length;i++){
+  const[x,y]=radialSlot(i,compact,nodes),radius=nodeGeometry(nodes[i]).radius*nodeDepthScale(nodes[i],i,compact,nodes)*nodeFocusScale(selected?nodes[i].id:null,nodes[i],i,compact,nodes),r={x:560,y:overviewCoreNameY(selected?1.22:1)-36,w:120,h:42};
+  const dx=x-Math.max(r.x,Math.min(x,r.x+r.w)),dy=y-Math.max(r.y,Math.min(y,r.y+r.h));
+  assert.ok(Math.hypot(dx,dy)>=radius,`${compact}/${selected}/${nodes[i].id}`);
+ }
+});
+test('every person belongs to one inner ellipse and every non-person to one outer ellipse',()=>{
+ for(const compact of[false,true])for(const records of[nodes,nodes.filter(n=>['stille','guo-lingzhi','berlin','chengdu'].includes(n.id))])for(let i=0;i<records.length;i++){
+  const[x,y]=orbitCoordinates(...radialSlot(i,compact,records),true),ring=ringFor(records[i],compact);
+  assert.ok(Math.abs(((x-620)/ring.rx)**2+((y-205)/ring.ry)**2-1)<1e-9);
+ }
+});
+test('ordinary overview labels do not cover another record portrait',()=>{
+ for(const compact of[false,true])for(let i=0;i<nodes.length;i++){
+  const l=overviewNameLayout(nodes[i],i,compact,false),w=Math.max(...l.lines.map(s=>s.length))*l.size,r={x:l.x-(l.anchor==='middle'?w/2:l.anchor==='end'?w:0),y:l.y-l.size,w,h:l.lines.length*20};
+  for(let j=0;j<nodes.length;j++)if(i!==j){const[x,y]=radialSlot(j,compact),radius=nodeGeometry(nodes[j]).radius*nodeDepthScale(nodes[j],j,compact,nodes);const dx=x-Math.max(r.x,Math.min(x,r.x+r.w)),dy=y-Math.max(r.y,Math.min(y,r.y+r.h));assert.ok(Math.hypot(dx,dy)>=radius,`${compact}/${nodes[i].id} label on ${nodes[j].id}`);}
+ }
+});
+
+test('overview names stay separate in both layouts',()=>{
+ for(const compact of[false,true]){
+  const boxes=nodes.map((n,i)=>{const l=overviewNameLayout(n,i,compact,false),w=Math.max(...l.lines.map(s=>s.length))*l.size;return{id:n.id,x:l.x-(l.anchor==='middle'?w/2:l.anchor==='end'?w:0),y:l.y-l.size,w,h:l.lines.length*20};});
+  for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++){const a=boxes[i],b=boxes[j];assert.ok(!(a.x<b.x+b.w&&b.x<a.x+a.w&&a.y<b.y+b.h&&b.y<a.y+a.h),`${compact}/${a.id}/${b.id}`);}
+ }
+});
+
+test('orbital depth retains a visible three-tier size margin even during entity focus',()=>{
+ for(const compact of[false,true]){
+ const people=nodes.map((n,i)=>nodeTier(n)===2?nodeGeometry(n).radius*nodeDepthScale(n,i,compact,nodes):null).filter(Boolean);
+ const entities=nodes.map((n,i)=>nodeTier(n)===3?nodeGeometry(n).radius*nodeDepthScale(n,i,compact,nodes):null).filter(Boolean);
+ assert.ok(Math.min(...people)>Math.max(...entities)*1.55*1.1);
+ assert.ok(HIERARCHY.overview.center.radius>Math.max(...people)*1.55);
+ assert.ok(Math.max(...people)/Math.min(...people)>1.17);
+ }
+});
+test('orbital lighting is static decorative SVG, without continuous animation machinery',()=>{
+ const source=readFileSync(new URL('../src/components/OrbitTheatre.jsx',import.meta.url),'utf8');
+ assert.doesNotMatch(source,/requestAnimationFrame|setInterval|useEffect|addEventListener|<canvas/);
+ assert.match(source,/aria-hidden=\"true\"/);assert.match(source,/pointerEvents=\"none\"/);
+});
+
+test('decorative lighting cannot visually connect peripheral nodes',()=>{
+ const source=readFileSync(new URL('../src/components/OrbitTheatre.jsx',import.meta.url),'utf8');
+ assert.doesNotMatch(source,/<path\b/);
+ const css=readFileSync(new URL('../src/galaxy.css',import.meta.url),'utf8');
+ assert.match(css,/\.atlas-orbit-measure\{fill:none;stroke:none\}/);
+});
+
+
+test('each selected person or entity exactly matches the focused center; switching and cancel restore all others',()=>{
+ for(const overview of [true,false])for(const compact of [false,true])for(const selected of [null,...nodes.map(n=>n.id)]){
+  for(let i=0;i<nodes.length;i++){
+   const n=nodes[i],scale=nodeFocusScale(selected,n,i,compact,nodes,overview),base=nodeGeometry(n,overview).radius*(overview?nodeDepthScale(n,i,compact,nodes):1);
+   if(selected===n.id)assert.ok(Math.abs(base*scale-HIERARCHY[overview?'overview':'category'].center.radius*1.22)<1e-9);
+   else assert.equal(scale,1);
+  }
+ }
+});
