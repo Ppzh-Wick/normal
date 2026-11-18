@@ -1,0 +1,36 @@
+/* Recording-led material and framing study, based on the original Codex scene. */
+@media (min-width:900px) {
+ .chrono-sticky { --ink:#f4f3f5; --cool:#d2ccdf; --gold:#e4d5f6; --edge:#e0dbe959; }
+ .tl-scene { --tl-plate-width:min(47%,930px); --tl-plate-height:clamp(250px,60%,650px); --tl-perspective:clamp(800px,95vw,1900px); background:#18232a; }
+ .tl-scene .tl-atmosphere { background:radial-gradient(ellipse 50% 85% at 4% 95%,#6731c09c,transparent 80%),radial-gradient(ellipse 55% 65% at 95% 5%,#68b99a70,transparent 75%),radial-gradient(ellipse 45% 45% at 70% 95%,#bb246b40,transparent 80%),linear-gradient(125deg,#222031,#172e31 68%,#162d30); }
+ .tl-scene .tl-orbit { perspective-origin:43% 44%; }
+ .tl-scene .tl-plate { left:calc(43% - var(--tl-plate-width)/2); top:calc(44% - var(--tl-plate-height)/2); border-radius:clamp(14px,1.7vw,27px); }
+ .tl-scene .tl-glass { background-color:transparent!important; background-image:none!important; box-shadow:0 14px 40px -22px #05051d80; }
+ .tl-scene .tl-glass:after { border:1px solid #e1efff70; box-shadow:inset 2px 1px 3px #e0f8ff55,inset -2px -2px 3px #c5eaff28; }
+ .tl-scene .tl-image { opacity:.81; filter:saturate(1.08); }
+ .tl-scene .tl-ink { background:linear-gradient(150deg,#afcfe223,#29325112 50%,#b388a31a),radial-gradient(ellipse at 48% 52%,#18232c42,transparent 75%); }
+ .tl-scene .tl-type { inset:10% 5% 12%; align-items:center; justify-content:center; text-align:center; gap:14px; color:#f8f3f4; text-shadow:0 1px 14px #17222d80; }
+ .tl-scene .tl-year { font-family:Arial,Helvetica,sans-serif; font-weight:200; font-size:clamp(64px,6.8vw,126px); letter-spacing:-.065em; line-height:1; }
+ .tl-scene .tl-event-name { font-family:"Microsoft YaHei",system-ui,sans-serif; font-weight:300; font-size:clamp(19px,1.85vw,32px); letter-spacing:.09em; }
+ .tl-scene .tl-art-label { left:5%; bottom:5%; font-size:clamp(10px,.7vw,12px); color:#e9e7e7; max-width:89%; }
+ .tl-scene .tl-plate[data-portrait=true] .tl-type { left:4%; right:49%; align-items:center; }
+ .tl-scene .tl-plate[data-portrait=true] .tl-image { opacity:.86; }
+ .tl-scene .tl-plate[data-portrait=true] .tl-ink { background:linear-gradient(90deg,#24313770,transparent 60%); }
+ .tl-scene .tl-shutter { background:linear-gradient(0deg,#17152b19,transparent 24% 88%,#16232311); }
+ .chrono-sticky:after { background:linear-gradient(180deg,#0c142522,transparent 15% 80%,#130a291c); }
+ .chrono-head nav,.chrono-step,.chrono-journey .chrono-controls .chrono-read { background:#20293285; border-color:#d1d9d377; }
+ .chrono-journey .chrono-head { top:4.5vh; }
+ .chrono-identity h2 { font-size:12px; letter-spacing:.15em; }
+ .chrono-count,.chrono-hint { color:#e2dced; }
+ .chrono-scale>i[data-current=true] { background:#e2bbff; }
+}
+/* Matched software fallback: render real projected glass facets and particles
+   instead of displaying the original static sawtooth CSS placeholder. */
+.tl-software-crystal { position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:none; }
+.tl-scene[data-mineral=fallback] .tl-software-crystal { display:block; }
+.tl-scene[data-mineral=fallback][data-software-crystal=true] .tl-rock-fallback { display:none; }
+@media (min-width:900px) {
+ .tl-scene { --tl-plate-height:clamp(250px,53%,600px); }
+ .chrono-head .chrono-identity { padding:10px 14px;border-radius:30px;background:#17232dcc;border:1px solid #c5d3d331; }
+ .chrono-journey .chrono-head { top:3.1vh; }
+}

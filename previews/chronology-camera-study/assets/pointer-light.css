@@ -1,0 +1,11 @@
+/* Pointer reflection: light layers only, no backdrop sampling. */
+@media(min-width:900px){
+ .tl-scene .tl-glass:after{background:none;box-shadow:inset 1px 1px 1px #f4ffff56,inset -1px -1px 1px #c8a9dc55;}
+ .tl-scene .tl-glass{background:linear-gradient(112deg,#c9dde522,#2b39402b 35%,#bfd0bd1c 90%),linear-gradient(172deg,#a4c4d414,transparent 15% 72%,#d0c4e714)!important;}
+ .tl-scene .tl-atmosphere:before{opacity:.4;}
+ .pointer-glass-light,.pointer-glass-rim{position:absolute;inset:0;pointer-events:none;border-radius:inherit;opacity:0;transition:opacity .24s ease;z-index:4;}
+ .pointer-glass-light{background:radial-gradient(ellipse 190px 160px at var(--light-x,50%) var(--light-y,50%),#fffef02b 0%,#e1f4ff17 30%,transparent 75%);}
+ .pointer-glass-rim{padding:2px;background:radial-gradient(ellipse 240px 200px at var(--light-x,50%) var(--light-y,50%),#fcfffcd9,#c0e4f356 36%,transparent 72%);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;}
+ .tl-plate[data-reflecting=true] .pointer-glass-light,.tl-plate[data-reflecting=true] .pointer-glass-rim{opacity:1;}
+ .glass-coordinate{position:absolute;width:0;height:0;pointer-events:none;visibility:hidden;}
+}
