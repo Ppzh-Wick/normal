@@ -1,0 +1,54 @@
+/* Recording study: matched 16s framing, continuous optical planes, coloured
+   clustered depth. No live filter, no independent idle animation. */
+@media(min-width:900px){
+ .tl-scene{--tl-plate-width:min(47%,930px);--tl-plate-height:clamp(310px,62%,720px);--tl-perspective:clamp(800px,95vw,1900px);background:#1b282d;}
+ .tl-scene .tl-atmosphere{background:radial-gradient(ellipse 48% 72% at 7% 96%,#502a8580,transparent 86%),radial-gradient(ellipse 50% 55% at 94% 24%,#4e938338,transparent 85%),radial-gradient(ellipse 35% 55% at 72% 94%,#8e246331,transparent 80%),linear-gradient(115deg,#262634,#203236);}
+ .tl-scene .tl-orbit{perspective-origin:37.5% 44%;}
+ .tl-scene .tl-plate{left:calc(37.5% - var(--tl-plate-width)/2);top:calc(44% - var(--tl-plate-height)/2);border-radius:20px;}
+ .tl-scene .tl-glass{border-radius:20px;background:linear-gradient(115deg,#cde3de14,#3355640b 55%,#d2c4d914)!important;box-shadow:0 16px 28px -25px #050a1680;}
+ .tl-scene .tl-glass:after{border-radius:20px;border:1px solid #dceae064;box-shadow:inset 2px 1px 2px #efffff52,inset -1px -1px 2px #d9e4e32b;}
+ .tl-scene .tl-image,.tl-scene .tl-ink{border-radius:19px;}
+ .tl-scene .tl-image{opacity:.77;filter:none;}
+ .tl-scene .tl-type{inset:12% 6%;gap:15px;justify-content:center;align-items:center;text-align:center;text-shadow:0 2px 11px #071821a6;}
+ .tl-scene .tl-year{font-family:Arial,Helvetica,sans-serif;font-size:clamp(64px,6.5vw,108px);font-weight:200;letter-spacing:-.065em;color:#fffaf5;line-height:1;}
+ .tl-scene .tl-event-name{font-family:var(--serif);font-size:clamp(23px,2.1vw,35px);font-weight:400;letter-spacing:.09em;color:#fffaf5;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-image{opacity:.78;border-radius:19px;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-ink{background:radial-gradient(ellipse 65% 55% at 50% 51%,#091b2869,transparent 95%);}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-type{inset:12% 6%;height:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:15px;}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-year{font-size:clamp(64px,6.5vw,108px);}
+ .tl-scene .tl-plate[data-art-layout=document] .tl-event-name{max-width:100%;text-align:center;font-size:clamp(23px,2.1vw,35px);}
+ .tl-scene .tl-plate[data-portrait=true] .tl-type{inset:15% 44% 15% 7%;text-align:left;align-items:flex-start;}
+ .tl-scene .tl-plate[data-portrait=true] .tl-year{font-size:clamp(64px,6.5vw,108px);}
+ .tl-scene .tl-plate[data-portrait=true] .tl-event-name{font-size:clamp(22px,1.9vw,31px);}
+ .tl-scene .tl-art-label{bottom:-27px;color:#ced5d2;text-shadow:0 1px 4px #15202b;font-size:11px;}
+ .tl-scene .pointer-glass-light,.tl-scene .pointer-glass-rim{border-radius:20px;}
+ .tl-presculpture{left:51%;height:160%;opacity:1;}
+ .tl-optical-clouds{position:absolute;inset:0;pointer-events:none;overflow:hidden;contain:layout paint style;}
+ .tl-optical-clouds img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;will-change:transform;}
+ .chrono-journey .chrono-head{top:3.5vh;}
+ .chrono-head nav{padding:9px 17px;border:1px solid #c8d4cd66;border-radius:30px;background:#172a3033;gap:16px;}
+ .chrono-head nav button{font-size:11px;}
+}
+@media(min-width:900px){
+ .tl-presculpture{width:22%;height:auto;aspect-ratio:512/1600;left:51%;}
+ .tl-presculpture img{will-change:opacity;}
+}
+@media(min-width:900px){
+ .tl-scene .tl-plate[data-portrait=true] .tl-image{opacity:1;}
+}
+@media(min-width:900px){
+ .tl-presculpture{height:145%;aspect-ratio:auto;}
+ .tl-presculpture img{object-fit:fill;}
+}
+@media(min-width:900px){
+ .chrono-head .chrono-identity{padding:8px 12px;border:1px solid #c5d5db20;border-radius:24px;background:linear-gradient(90deg,#1c2930ee,#1c293099);}
+}
+@media(min-width:900px){
+ .tl-presculpture img{will-change:auto;}
+ .tl-optical-clouds img{will-change:auto;}
+}
+/* Lossless transparent-bound trimming; exact native composition retained. */
+@media(min-width:900px){
+ .tl-presculpture{left:50.35546875%;top:52.71875%;width:18.5625%;height:128.86875%;}
+ .tl-optical-clouds img{inset:auto;left:20.3125%;top:16.8%;width:68.5625%;height:83.2%;will-change:transform;}
+}

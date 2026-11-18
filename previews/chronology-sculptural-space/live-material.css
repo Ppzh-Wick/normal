@@ -1,0 +1,7 @@
+@media(min-width:900px){
+ .tl-scene[data-live-material=ready] .tl-software-crystal, .tl-scene[data-live-material=ready] .tl-atmosphere,.tl-scene[data-live-material=ready] .tl-rock-fallback,.tl-scene[data-live-material=ready] .tl-presculpture,.tl-scene[data-live-material=ready] .tl-mineral{visibility:hidden;}
+ .tl-scene[data-live-material=ready] .tl-glass{background:transparent!important;box-shadow:none!important;}
+ .tl-scene[data-live-material=ready] .tl-glass:after,.tl-scene[data-live-material=ready] .tl-image,.tl-scene[data-live-material=ready] .pointer-glass-light,.tl-scene[data-live-material=ready] .pointer-glass-rim{opacity:0!important;}
+ .tl-scene[data-live-material=ready] .tl-ink{background:radial-gradient(ellipse at center,#06151c25,transparent 70%)!important;}
+ .tl-live-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+}

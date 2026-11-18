@@ -1,0 +1,22 @@
+/* Optical frame study: static composited surfaces, no backdrop-filter or SVG filters.
+   Richness is carried by bevel layers, asymmetrical reflections and depth. */
+@media(min-width:900px){
+ .tl-scene .tl-atmosphere{background:radial-gradient(ellipse at 9% 91%,#5f3d6d70,transparent 48%),radial-gradient(ellipse at 88% 70%,#477d7366,transparent 49%),linear-gradient(137deg,#101a23,#1d2a2e 50%,#142125);}
+ .tl-scene .tl-atmosphere:before{content:"";position:absolute;left:17%;top:-60%;width:70%;height:220%;border:1px solid #b1dcd516;border-radius:50%;transform:rotate(-28deg);box-shadow:0 0 0 36px #bad6d006,0 0 0 37px #bad6d00a;pointer-events:none;}
+ .tl-scene .tl-plate{border-radius:23px;}
+ .tl-scene .tl-plate:before{content:"";position:absolute;inset:5px -5px -7px 5px;border-radius:24px;background:linear-gradient(125deg,#c3e7eb50,#10232bcc 35%,#777f9766 75%,#b2dacf80);border:1px solid #dbf6ff25;box-shadow:10px 18px 28px -15px #0009;pointer-events:none;}
+ .tl-scene .tl-glass{border-radius:23px;background:linear-gradient(112deg,#f7f6ef44 0%,#d3ecf31a 8%,#2b39402b 26%,#cfd6e317 69%,#bfd0bd3b 90%,#cbe6f166),linear-gradient(172deg,#a4c4d41c,transparent 15% 72%,#d0c4e729)!important;box-shadow:inset 0 0 0 1px #e9f6ff36,0 18px 32px -23px #000b;}
+ .tl-scene .tl-glass:before{inset:8px;border-radius:16px;border:1px solid #dae5ee55;box-shadow:inset 1px 1px 1px #fff4,inset -1px -1px 2px #050e3280;z-index:0;background:linear-gradient(128deg,#ebfaff18,transparent 15% 80%,#ecdbff1f);}
+ .tl-scene .tl-glass:after{border-radius:23px;border:1px solid #d9f5ff78;background:linear-gradient(128deg,transparent 0% 3%,#fff9 3.25%,transparent 3.7% 92%,#efffc880 92.4%,transparent 93%) ;box-shadow:inset 1px 2px 1px #f4ffffb0,inset -2px -2px 1px #c8a9dc99;pointer-events:none;}
+ .tl-scene .tl-image{inset:27px 27px 76px;width:calc(100% - 54px);height:calc(100% - 103px);border-radius:11px;opacity:.96;box-shadow:0 0 0 1px #0e182ab0,0 0 0 2px #ecf3ff24,0 7px 12px #08132350;}
+ .tl-scene .tl-ink{inset:27px 27px 76px;border-radius:11px;background:linear-gradient(180deg,#08121a08 10%,#08152245 45%,#081a29b0);}
+ .tl-scene .tl-type{inset:15% 8% 26%;gap:13px;text-shadow:0 2px 6px #061521bb;}
+ .tl-scene .tl-year{color:#fff9ed;font-size:clamp(64px,7.1vw,126px);letter-spacing:-.045em;line-height:1;}
+ .tl-scene .tl-event-name{font-size:clamp(20px,1.9vw,32px);letter-spacing:.14em;}
+ .tl-scene .tl-art-label{left:30px;right:30px;bottom:24px;max-width:none;padding-top:12px;border-top:1px solid #dcf5ff33;color:#e4eded;font-size:clamp(11px,.8vw,14px);letter-spacing:.035em;}
+ .tl-scene .tl-art-label:after{content:"";position:absolute;right:0;top:-2px;width:35px;height:3px;background:linear-gradient(90deg,transparent,#eaf8f39c);}
+ .tl-scene .tl-plate[data-portrait=true] .tl-image{inset:30px 30px auto auto;height:calc(100% - 108px);width:38%;}
+ .tl-scene .tl-plate[data-portrait=true] .tl-ink{background:linear-gradient(90deg,#10233677,transparent 70%);}
+ .chrono-head .chrono-identity{background:#14242cdd;border-color:#d4e8e638;box-shadow:inset 0 1px #fff1;}
+ .chrono-head nav,.chrono-step,.chrono-journey .chrono-controls .chrono-read{background:linear-gradient(125deg,#45565bdd,#1f333bdd);border-color:#e6efff55;box-shadow:inset 0 1px #edfff74d,inset 0 -1px #0b162c66,0 6px 15px #07172430;}
+}
