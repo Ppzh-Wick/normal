@@ -63,10 +63,10 @@ export default function App(){
  <main>
  <section id="opening" className={`chapter opening ${nav.active===0?'is-current':''}`} aria-labelledby="opening-title">
   <MineralAtmosphere active={nav.active===0&&!menu&&!media} desktop={nav.desktop} reduced={nav.reduced}/><TerrainStage active={nav.active===0&&!menu&&!media} reduced={nav.reduced}/>
-  <div className="hero-portrait-backdrop" aria-hidden="true"><img src={portrait.path} width="106" height="176" alt="" fetchPriority="high" decoding="async"/></div>
+  <StrataPrelude image={data.media.jialing} onRead={()=>navigateTrail(0)}/>
   <div className="opening-topline"><span>1899 — 1967</span><span>CHENGSAN ARCHIVE / 实验2</span></div>
   <div className="hero-title"><Kicker><span className="hero-edition">地质学家 / 地理学家 / 地质教育家</span>以观察读山河，以教学传学问。</Kicker><div id="opening-title">{nav.reduced||!nav.desktop?<h1 className="hero-name">李承三</h1>:<SplitText tag="h1" text="李承三" splitType="chars" delay={90} duration={.85} effect="rise" mask={true} trigger="view" loop={false} hoverEffect="none" textAlign="left" className="hero-name"/>}</div><span className="hero-roman">LI CHENGSAN <i>山河之间</i></span><small className="terrain-disclosure">抽象地形演绎 · 非历史地形复原</small></div>
-  <div className="hero-foot"><div className="hero-intro"><p>从野外的一笔素描，<br/>到课堂里的一个模型。<br/><strong>所见山河，皆成学问。</strong></p><button className="round-link" onClick={()=>go(1)}><span>走近其人</span><i>↓</i></button></div><button className="hero-portrait-source" onClick={()=>setMedia(portrait)} aria-label="查看李承三肖像与来源"><span>李承三 · 1899—1967</span><small>历史肖像原始出处待补充 · 查看原图 ↗</small></button></div>
+  <div className="hero-foot"><div className="hero-intro"><p>从野外的一笔素描，<br/>到课堂里的一个模型。<br/><strong>所见山河，皆成学问。</strong></p><button className="round-link" onClick={()=>go(1)}><span>走近其人</span><i>↓</i></button></div><GlassSurface className="hero-archive-glass" width="auto" height="auto" borderRadius={4} refraction={false} backgroundOpacity={.23} saturation={1.05}><figure className="hero-archive"><button onClick={()=>setMedia(portrait)} aria-label="查看李承三肖像与来源"><img decoding="async" src={portrait.path} width="106" height="176" alt="李承三历史肖像"/></button><figcaption><b>李承三</b><span>号继五 · 河北涉县人</span><small>历史肖像原始出处待补充</small></figcaption></figure></GlassSurface></div>
 
  </section>
  <section id="life" className={`chapter life ${nav.active===1?'is-current':''}`} aria-labelledby="life-title">
@@ -98,4 +98,3 @@ export default function App(){
  <MediaDialog media={media} onClose={()=>setMedia(null)}/>
  </div>
 }
-
