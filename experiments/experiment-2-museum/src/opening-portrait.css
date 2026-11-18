@@ -1,7 +1,7 @@
 /* The existing archive portrait is enlarged, not reconstructed or generated.
    All treatments are restricted to the opening, never its reading text. */
-.opening .hero-portrait-backdrop{position:absolute;inset:9% 0 0 42%;z-index:2;pointer-events:none;overflow:hidden;mask-image:linear-gradient(90deg,transparent 0%,#000 19%,#000 88%,transparent 100%)}
-.opening .hero-portrait-backdrop img{display:block;width:100%;height:100%;object-fit:contain;object-position:50% 0%;filter:blur(.85px) saturate(.48) brightness(.82);opacity:.83;mask-image:linear-gradient(180deg,#000 0%,#000 62%,transparent 100%)}
+.opening .hero-portrait-backdrop{position:absolute;top:1%;right:-1%;bottom:0;width:min(78svh,60vw);z-index:2;pointer-events:none;overflow:hidden;mask-image:linear-gradient(180deg,#000 0%,#000 66%,#000b3 82%,transparent 100%)}
+.opening .hero-portrait-backdrop img{display:block;width:100%;height:auto;aspect-ratio:106/176;object-fit:contain;object-position:50% 0%;filter:blur(.65px) grayscale(1) sepia(.15);opacity:.88;mix-blend-mode:luminosity;mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 106 176'%3E%3Cdefs%3E%3Cfilter id='soft' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='1.35'/%3E%3C/filter%3E%3C/defs%3E%3Cpath fill='white' filter='url(%23soft)' d='M20 8Q29 1 51 2Q73 1 82 12L88 29L88 58Q94 67 90 83L82 103L79 112L88 122L106 132L106 176H0V137L24 121L30 109L22 94L16 77L14 48L14 26Z'/%3E%3C/svg%3E");mask-size:100% 100%;mask-repeat:no-repeat}
 .opening:after{z-index:3;background:linear-gradient(90deg,#09152e 0%,#09152ef2 25%,#09152eb3 43%,#09152e12 65%,#09152e00 88%),linear-gradient(0deg,#09152e 0%,transparent 30%,transparent 84%,#09152e6b 100%)}
 .opening .terrain-stage{opacity:.09}
 .opening .hero-title,.opening .hero-foot,.opening .opening-topline{z-index:4}
@@ -21,7 +21,7 @@
  .opening .hero-title .terrain-disclosure{color:#aebed2}
 }
 @media(max-width:999px){
- .opening .hero-portrait-backdrop{inset:25% -20% 4% 12%;opacity:.65}
+ .opening .hero-portrait-backdrop{top:23%;right:-9%;bottom:0;width:80%;opacity:.65}
  .opening .hero-title{width:100%}
  .opening .hero-foot{padding-top:380px}
  .opening .hero-portrait-source{align-self:flex-end;padding-left:0;max-width:100%}

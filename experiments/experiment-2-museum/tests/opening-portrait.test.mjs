@@ -12,7 +12,15 @@ test('opening uses the same documented portrait as the biography and preserves a
  assert.equal((source.match(/hero-portrait-backdrop/g)||[]).length,1);
 });
 test('softness is image-only and adds no animated or backdrop blur workload',()=>{
- assert.match(css,/\.opening \.hero-portrait-backdrop img\{[^}]*filter:blur\(\.85px\)/);
+ assert.match(css,/\.opening \.hero-portrait-backdrop img\{[^}]*filter:blur\(\.65px\)/);
  assert.doesNotMatch(css,/backdrop-filter|@keyframes|animation:|transition:|filter:blur\([2-9]/);
  assert.match(css,/\.opening \.hero-title,\.opening \.hero-foot,\.opening \.opening-topline\{z-index:4\}/);
+});
+
+test('shoulder-up portrait keeps original pixels and masks away the rectangular photo background',()=>{
+ assert.match(css,/width:min\(78svh,60vw\)/);
+ assert.match(css,/mask-image:url\("data:image\/svg\+xml/);
+ assert.match(css,/viewBox='0 0 106 176'/);
+ assert.match(css,/aspect-ratio:106\/176/);
+ assert.match(css,/mix-blend-mode:luminosity/);
 });
