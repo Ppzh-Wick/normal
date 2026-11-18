@@ -1,0 +1,6 @@
+/* Camera projection owns motion. No hand-animated plate orbit or bank angle. */
+@media(min-width:900px){
+ .tl-scene{--tl-plate-width:47%;--tl-plate-height:48%;}
+ .tl-scene .tl-orbit{perspective-origin:50% 50%;}
+ .tl-scene .tl-plate{left:calc(50% - var(--tl-plate-width)/2);top:calc(50% - var(--tl-plate-height)/2);transition:none!important;backface-visibility:hidden;}
+}
