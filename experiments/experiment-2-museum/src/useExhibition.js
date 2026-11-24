@@ -20,7 +20,7 @@ export default function useExhibition(ids) {
   const [guided, setGuidedState] = useState(true);
   const [long, setLong] = useState(false);
   const index = useRef(0), locked = useRef(0);
-  const wheel = useRef({sum: 0, last: 0, reading: false});
+  const wheel = useRef({sum: 0, last: 0, gesture: null});
   const mode = useRef(true), preferences = useRef({desktop, reduced, guided});
   const transitionRef = useRef(null), navigationGeneration = useRef(0), focusFrame = useRef(0);
   const focusWaitCleanup = useRef(null);
@@ -40,7 +40,7 @@ export default function useExhibition(ids) {
     transitionRef.current = null;
     clearPendingFocus();
     locked.current = 0;
-    wheel.current = {sum: 0, last: 0, reading: false};
+    wheel.current = {sum: 0, last: 0, gesture: null};
   }, [clearPendingFocus]);
 
   const setGuided = useCallback(value => {
@@ -82,7 +82,7 @@ export default function useExhibition(ids) {
         navigationGeneration.current += 1;
         clearPendingFocus();
         locked.current = 0;
-        wheel.current = {sum: 0, last: 0, reading: false};
+        wheel.current = {sum: 0, last: 0, gesture: null};
       },
       update() {
         if (generation !== navigationGeneration.current || el.isConnected === false) return false;
@@ -163,64 +163,46 @@ export default function useExhibition(ids) {
       if (!scrollFrame) scrollFrame = requestAnimationFrame(() => { scrollFrame = 0; sync(); });
     };
     const onWheel = e => {
-      if (!mode.current || e.ctrlKey || e.metaKey || Math.abs(e.deltaX) > Math.abs(e.deltaY) ||
+      if (!mode.current || e.defaultPrevented || e.ctrlKey || e.metaKey || Math.abs(e.deltaX) > Math.abs(e.deltaY) ||
           e.target.closest('dialog,input,textarea,select,[contenteditable="true"]') || document.querySelector('dialog:modal')) return;
-      const i = index.current, el = document.getElementById(ids[i]), life = ids[i] === 'life';
+      const i = index.current, el = document.getElementById(ids[i]);
       if (!el) return;
       const d = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
       if (!d) return;
       const direction = Math.sign(d), now = performance.now();
-      const localScroll = e.target.closest('[data-scroll-lock]');
-      if (localScroll && !life) return;
-      if (localScroll) {
-        // The Life timeline marks horizontal gestures as local but is not a
-        // vertical trap. Only yield when a real vertical scroller can move.
-        for (let node = e.target; node && localScroll.contains(node); node = node.parentElement) {
-          if (!/^(auto|scroll|overlay)$/.test(getComputedStyle(node).overflowY)) continue;
-          const remaining = direction > 0 ? node.scrollHeight - node.clientHeight - node.scrollTop : node.scrollTop;
-          if (remaining > 1) {
-            if (Math.abs(d) > remaining) {
-              e.preventDefault();
-              node.scrollBy({top: direction * remaining, behavior: 'instant'});
-            }
-            return;
-          }
-        }
-      }
-      if (now < locked.current) {
+      const sameGesture = now - wheel.current.last < 160;
+      if (now < locked.current || (wheel.current.gesture === 'chapter' && sameGesture)) {
         e.preventDefault();
-        if (wheel.current.lifeTurn === direction) wheel.current.last = now;
+        if (wheel.current.gesture) wheel.current.last = now;
         return;
       }
-      // Let a new gesture turn again, not the momentum from Life → Field.
-      if (wheel.current.lifeTurn === direction && now - wheel.current.last < 160) {
-        e.preventDefault(); wheel.current.last = now; return;
-      }
-      wheel.current.lifeTurn = 0;
-      const r = el.getBoundingClientRect();
-      if (r.height > innerHeight + (life ? 5 : 100) && ((d > 0 && r.bottom > innerHeight + 5) || (d < 0 && r.top < -5))) {
+      // Contain genuine vertical reading panels; a purely horizontal or
+      // non-overflowing widget must not trap the chapter wheel.
+      for (let node = e.target; node && node !== el && node !== document.body && node !== document.documentElement; node = node.parentElement) {
+        if (!/^(auto|scroll|overlay)$/.test(getComputedStyle(node).overflowY)) continue;
+        const remaining = direction > 0 ? node.scrollHeight - node.clientHeight - node.scrollTop : node.scrollTop;
+        if (remaining <= 1) continue;
         e.preventDefault();
-        window.scrollBy({top: d > 0 ? Math.min(d, r.bottom - innerHeight) : Math.max(d, r.top), behavior: 'instant'});
-        wheel.current.last = now;
-        wheel.current.sum = 0;
-        wheel.current.reading = !life;
+        node.scrollBy({top: direction * Math.min(Math.abs(d), remaining), behavior: 'instant'});
+        wheel.current = {sum: 0, last: now, gesture: 'panel'};
         return;
       }
-      if (!life && wheel.current.reading && now - wheel.current.last < 220) {
+      // Do not chain the same movement from a panel into a chapter turn.
+      if (wheel.current.gesture === 'panel' && sameGesture) {
         e.preventDefault(); wheel.current.last = now; return;
       }
-      wheel.current.reading = false;
-      if ((d < 0 && i === 0) || (d > 0 && i === ids.length - 1)) return;
+      if ((d < 0 && i === 0) || (d > 0 && i === ids.length - 1)) {
+        e.preventDefault();
+        wheel.current = {sum: 0, last: now, gesture: 'chapter'};
+        return;
+      }
       e.preventDefault();
-      if (now - wheel.current.last > 220 || Math.sign(wheel.current.sum) !== direction) wheel.current.sum = 0;
+      if (!sameGesture || Math.sign(wheel.current.sum) !== direction) wheel.current.sum = 0;
       wheel.current.last = now;
       wheel.current.sum += d;
-      if (Math.abs(wheel.current.sum) >= 35) {
+      if (e.deltaMode !== 0 || Math.abs(wheel.current.sum) >= 24) {
         go(i + direction);
-        if (life && direction > 0) {
-          wheel.current.lifeTurn = direction;
-          wheel.current.last = now;
-        }
+        wheel.current = {sum: 0, last: now, gesture: 'chapter'};
       }
     };
     const key = e => {
