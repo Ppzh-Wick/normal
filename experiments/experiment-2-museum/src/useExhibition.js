@@ -252,11 +252,13 @@ export default function useExhibition(ids) {
       const r = el.getBoundingClientRect();
       if (r.height > innerHeight + 100 && ((direction > 0 && r.bottom > innerHeight + 5) || (direction < 0 && r.top < -5))) return;
       e.preventDefault();
-      go(i + direction, {focus: true});
+      if (ids[i + direction]) go(i + direction, {focus: true});
     };
     const restore = () => {
-      const i = ids.indexOf(location.hash.slice(1).split('?')[0]);
-      if (i >= 0) go(i, {historyMode: false, instant: true});
+      const hash = location.hash.slice(1).split('?')[0];
+      const legacy = hash === 'sources' && !ids.includes(hash);
+      const i = ids.indexOf(legacy ? 'archive' : hash);
+      if (i >= 0) go(i, {historyMode: legacy ? 'replace' : false, instant: true});
       else cancelPending();
     };
     const sizeObserver = new ResizeObserver(() => {
