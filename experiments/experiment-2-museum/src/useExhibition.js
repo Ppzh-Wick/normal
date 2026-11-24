@@ -164,36 +164,67 @@ export default function useExhibition(ids) {
     };
     const onWheel = e => {
       if (!mode.current || e.ctrlKey || e.metaKey || Math.abs(e.deltaX) > Math.abs(e.deltaY) ||
-          e.target.closest('[data-scroll-lock],dialog,input,textarea,select') || document.querySelector('dialog:modal')) return;
-      const now = performance.now();
-      if (now < locked.current) { e.preventDefault(); return; }
-      const i = index.current, el = document.getElementById(ids[i]);
+          e.target.closest('dialog,input,textarea,select,[contenteditable="true"]') || document.querySelector('dialog:modal')) return;
+      const i = index.current, el = document.getElementById(ids[i]), life = ids[i] === 'life';
       if (!el) return;
-      const r = el.getBoundingClientRect();
       const d = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
       if (!d) return;
-      if (r.height > innerHeight + 100 && ((d > 0 && r.bottom > innerHeight + 5) || (d < 0 && r.top < -5))) {
+      const direction = Math.sign(d), now = performance.now();
+      const localScroll = e.target.closest('[data-scroll-lock]');
+      if (localScroll && !life) return;
+      if (localScroll) {
+        // The Life timeline marks horizontal gestures as local but is not a
+        // vertical trap. Only yield when a real vertical scroller can move.
+        for (let node = e.target; node && localScroll.contains(node); node = node.parentElement) {
+          if (!/^(auto|scroll|overlay)$/.test(getComputedStyle(node).overflowY)) continue;
+          const remaining = direction > 0 ? node.scrollHeight - node.clientHeight - node.scrollTop : node.scrollTop;
+          if (remaining > 1) {
+            if (Math.abs(d) > remaining) {
+              e.preventDefault();
+              node.scrollBy({top: direction * remaining, behavior: 'instant'});
+            }
+            return;
+          }
+        }
+      }
+      if (now < locked.current) {
+        e.preventDefault();
+        if (wheel.current.lifeTurn === direction) wheel.current.last = now;
+        return;
+      }
+      // Let a new gesture turn again, not the momentum from Life → Field.
+      if (wheel.current.lifeTurn === direction && now - wheel.current.last < 160) {
+        e.preventDefault(); wheel.current.last = now; return;
+      }
+      wheel.current.lifeTurn = 0;
+      const r = el.getBoundingClientRect();
+      if (r.height > innerHeight + (life ? 5 : 100) && ((d > 0 && r.bottom > innerHeight + 5) || (d < 0 && r.top < -5))) {
         e.preventDefault();
         window.scrollBy({top: d > 0 ? Math.min(d, r.bottom - innerHeight) : Math.max(d, r.top), behavior: 'instant'});
         wheel.current.last = now;
         wheel.current.sum = 0;
-        wheel.current.reading = true;
+        wheel.current.reading = !life;
         return;
       }
-      if (wheel.current.reading && now - wheel.current.last < 220) {
+      if (!life && wheel.current.reading && now - wheel.current.last < 220) {
         e.preventDefault(); wheel.current.last = now; return;
       }
       wheel.current.reading = false;
       if ((d < 0 && i === 0) || (d > 0 && i === ids.length - 1)) return;
       e.preventDefault();
-      if (now - wheel.current.last > 220 || Math.sign(wheel.current.sum) !== Math.sign(d)) wheel.current.sum = 0;
+      if (now - wheel.current.last > 220 || Math.sign(wheel.current.sum) !== direction) wheel.current.sum = 0;
       wheel.current.last = now;
       wheel.current.sum += d;
-      if (Math.abs(wheel.current.sum) >= 35) go(i + Math.sign(d));
+      if (Math.abs(wheel.current.sum) >= 35) {
+        go(i + direction);
+        if (life && direction > 0) {
+          wheel.current.lifeTurn = direction;
+          wheel.current.last = now;
+        }
+      }
     };
     const key = e => {
       if (!mode.current || document.querySelector('dialog:modal')) return;
-      if (e.key === 'Escape') { setGuided(false); return; }
       if (e.target.closest('dialog,input,textarea,select,button,a,svg,[data-scroll-lock]')) return;
       const direction = {PageDown: 1, ArrowDown: 1, PageUp: -1, ArrowUp: -1}[e.key];
       if (!direction) return;
