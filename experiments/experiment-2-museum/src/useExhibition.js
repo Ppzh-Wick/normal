@@ -55,12 +55,12 @@ export default function useExhibition(ids) {
     let current = 0;
     ids.forEach((id, i) => {
       const node = document.getElementById(id);
-      if (node && node.getBoundingClientRect().top < (mode.current ? 2 : Math.min(innerHeight * .3, 220))) current = i;
+      if (node && node.getBoundingClientRect().top < Math.min(innerHeight * .3, 220)) current = i;
     });
     return current;
   }, [ids]);
 
-  const go = useCallback((requested, {historyMode = 'replace', instant = false, focus = false, pageTop = null, pageDirection = 0} = {}) => {
+  const go = useCallback((requested, {historyMode = 'replace', instant = false, focus = false} = {}) => {
     if (!Number.isFinite(requested) || !ids.length) return Promise.resolve(false);
     const i = Math.max(0, Math.min(ids.length - 1, Math.trunc(requested)));
     const el = document.getElementById(ids[i]);
@@ -69,13 +69,13 @@ export default function useExhibition(ids) {
     cancelPending();
     const generation = ++navigationGeneration.current;
     const previous = index.current; // The last committed chapter, never an uncommitted target.
-    const animate = !instant && !preferences.current.reduced && mode.current && (previous !== i || pageTop !== null);
+    const animate = !instant && !preferences.current.reduced && mode.current && previous !== i;
     const behavior = instant || preferences.current.reduced || mode.current ? 'instant' : 'smooth';
     locked.current = performance.now() + (instant ? 100 : 380);
 
     const session = runTransition({
       kind: 'chapter',
-      direction: (pageDirection || i - previous) > 0 ? 'forward' : 'back',
+      direction: i > previous ? 'forward' : 'back',
       animate,
       onCancel() {
         if (generation !== navigationGeneration.current) return;
@@ -95,8 +95,7 @@ export default function useExhibition(ids) {
         if (historyMode && location.hash.split('?')[0] !== '#' + ids[i]) {
           history[historyMode === 'push' ? 'pushState' : 'replaceState'](null, '', '#' + ids[i]);
         }
-        if (pageTop !== null) window.scrollTo({top:pageTop, behavior});
-        else el.scrollIntoView({behavior, block: 'start'});
+        el.scrollIntoView({behavior, block: 'start'});
         return true;
       }
     });
@@ -203,42 +202,17 @@ export default function useExhibition(ids) {
       if (wheel.current.gesture === 'panel' && sameGesture) {
         e.preventDefault(); wheel.current.last = now; return;
       }
+      if ((d < 0 && i === 0) || (d > 0 && i === ids.length - 1)) {
+        e.preventDefault();
+        wheel.current = {sum: 0, last: now, gesture: 'chapter', turnedAt: now, direction, lastMagnitude: magnitude};
+        return;
+      }
       e.preventDefault();
       if (!sameGesture || Math.sign(wheel.current.sum) !== direction) wheel.current.sum = 0;
       wheel.current.last = now;
       wheel.current.sum += d;
       if (e.deltaMode !== 0 || Math.abs(wheel.current.sum) >= 18 || (gap >= 45 && magnitude >= 12)) {
-        // Read fresh geometry after layout changes so opening a disclosure or
-        // resizing does not leave a gap or trap a reading stop.
-        const top = window.scrollY, height = innerHeight;
-        const documentHeight = document.documentElement.scrollHeight;
-        const max = Math.max(0, documentHeight - height);
-        const header = document.querySelector('.masthead')?.getBoundingClientRect().height || 0;
-        const stride = Math.max(1, height - Math.ceil(header) - 12);
-        const sections = ids.flatMap((id, chapter) => {
-          const node = document.getElementById(id);
-          return node ? [{chapter, top:Math.round(node.getBoundingClientRect().top + top)}] : [];
-        });
-        const stops = [];
-        const addStop = (chapter, y) => {
-          const at = Math.min(max, Math.max(0, Math.round(y)));
-          if (!stops.length || at > stops.at(-1).top + 2) stops.push({chapter, top:at});
-          else if (chapter !== stops.at(-1).chapter) stops[stops.length-1] = {chapter, top:at};
-        };
-        sections.forEach((section, j) => {
-          const end = sections[j+1]?.top ?? documentHeight;
-          const start = section.top;
-          addStop(section.chapter, start);
-          if (end - start <= height + 2) return;
-          const tail = Math.min(max, end - stride);
-          if (tail <= start + 2) return;
-          for (let y = start + stride; y < tail - 2; y += stride) addStop(section.chapter, y);
-          addStop(section.chapter, tail);
-        });
-        const target = direction > 0
-          ? stops.find(stop => stop.top > top + 2)
-          : stops.findLast(stop => stop.top < top - 2);
-        if (target) go(target.chapter, {pageTop: target.top, pageDirection: direction});
+        go(i + direction);
         wheel.current = {sum: 0, last: now, gesture: 'chapter', turnedAt: now, direction, lastMagnitude: magnitude};
       }
     };
