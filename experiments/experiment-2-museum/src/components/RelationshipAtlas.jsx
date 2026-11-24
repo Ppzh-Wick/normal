@@ -11,7 +11,7 @@ const HOME_VIEW = { x:0, y:0, scale:1 };
 
 // Registration marks belong to the drawing, not the historical dataset.
 // Only the existing graph nodes and their source-backed links represent records.
-const SurveyPlate = React.memo(function SurveyPlate({ count }) {
+const SurveyPlate = React.memo(function SurveyPlate() {
   return <g className="atlas-survey-plate" aria-hidden="true" pointerEvents="none">
     <text className="atlas-scene-glyph" x="32" y="384">学</text>
     <text className="atlas-scene-glyph" x="848" y="384">脉</text>
@@ -22,8 +22,6 @@ const SurveyPlate = React.memo(function SurveyPlate({ count }) {
       const a=i*Math.PI/32; const major=i%4===0;
       return <path key={i} className={major?'atlas-survey-tick is-major':'atlas-survey-tick'} d={`M${620+Math.cos(a)*580} ${205+Math.sin(a)*214} L${620+Math.cos(a)*(major?591:585)} ${205+Math.sin(a)*(major?224:219)}`}/>;
     })}
-    <text className="atlas-survey-caption" x="24" y="481">学术关系 · {String(count).padStart(2,'0')} 条记录</text>
-    <text className="atlas-survey-caption" x="1216" y="481" textAnchor="end">位置为阅读排布 / NOT A MEASURE OF INFLUENCE</text>
   </g>;
 });
 
@@ -216,7 +214,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
         <div ref={canvasRef} className={`atlas-canvas ${isOverview?`atlas-overview-canvas ${list?'atlas-complete-list-view':''}`:list?'atlas-show-list':''}`} data-scroll-lock={list||undefined}>
           {isOverview ? <>
             <svg ref={isOverview?svgRef:undefined} className={`atlas-complete-network ${showLabels?'show-all-labels':''}`} tabIndex="0" onKeyDown={keyGraph} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag} onLostPointerCapture={endDrag} viewBox={compact?"140 -155 960 760":"-30 -135 1300 720"} role="group" aria-label={`李承三与全部${overviewNodes.length}条关系，圆形节点和连线，Tab选择节点查看史料`}>
-              <SurveyPlate count={overviewNodes.length}/>
+              <SurveyPlate/>
               <g className="atlas-arrival"><g className="atlas-camera" transform={`translate(${view.x} ${view.y}) translate(620 205) scale(${view.scale}) translate(-620 -205)`}>
               <OrbitLightDefs uid={uid}/><defs><clipPath id={`${uid}-all-portrait`}><circle cx="620" cy="205" r={HIERARCHY.overview.center.radius}/></clipPath>{overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,overviewNodes);return <clipPath key={n.id} id={`${uid}-all-${n.id}`}><circle cx={x} cy={y} r={nodeGeometry(n).radius}/></clipPath>;})}</defs>
               <OrbitTheatre uid={uid} compact={compact}/>
@@ -279,7 +277,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
           </>}
           {!shown.length&&<div className="atlas-empty">未找到相关记录。<button onClick={()=>{setSearch('');changeCategory('all');}}>重置筛选</button></div>}
         </div>
-        {isOverview ? <div className="atlas-map-bottom atlas-overview-bottom"><span aria-live="polite">{search.trim()?`找到 ${filtered.length} / ${nodes.length} 条关系`:compact&&focusedRelation?`共 ${nodes.length} 条关系 · 正在聚焦当前联系`:`全部 ${nodes.length} 条关系 · 已完整展开`}</span><span>大小用于内容分层，不表示亲疏或影响</span></div> : <div className="atlas-map-bottom"><span aria-live="polite">{filtered.length?`${Math.min(page,pages-1)*8+1} — ${Math.min((page+1)*8,filtered.length)}`:'0'} / {filtered.length} 条关系</span><div><button disabled={page===0} aria-label="上一组关系" onClick={()=>{setPage(p=>p-1);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());}}>←</button><span>{page+1} / {pages}</span><button disabled={page>=pages-1} aria-label="下一组关系" onClick={()=>{setPage(p=>p+1);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());}}>→</button></div></div>}
+        {isOverview ? <span aria-live="polite" style={{position:'absolute',width:1,height:1,padding:0,margin:-1,overflow:'hidden',clipPath:'inset(50%)',whiteSpace:'nowrap',border:0}}>{search.trim()?`找到 ${filtered.length} / ${nodes.length} 条关系`:compact&&focusedRelation?`共 ${nodes.length} 条关系 · 正在聚焦当前联系`:`全部 ${nodes.length} 条关系 · 已完整展开`}</span> : <div className="atlas-map-bottom"><span aria-live="polite">{filtered.length?`${Math.min(page,pages-1)*8+1} — ${Math.min((page+1)*8,filtered.length)}`:'0'} / {filtered.length} 条关系</span><div><button disabled={page===0} aria-label="上一组关系" onClick={()=>{setPage(p=>p-1);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());}}>←</button><span>{page+1} / {pages}</span><button disabled={page>=pages-1} aria-label="下一组关系" onClick={()=>{setPage(p=>p+1);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());}}>→</button></div></div>}
       </div>
       <EvidencePanel aria-modal={selected&&!desktop?true:undefined} className={`atlas-evidence ${selected?'has-selection':''}`} hidden={isOverview&&!selected} ref={detailRef} tabIndex="-1" data-scroll-lock aria-label={selected?`${selected.name}的关系史料`:'关系史料'} onWheel={e=>e.stopPropagation()} onKeyDown={trapEvidenceFocus} onCancel={e=>{e.preventDefault();closeDetail();}} onClick={e=>{if(isOverview&&e.target===e.currentTarget){const rect=e.currentTarget.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)closeDetail();}}}>
         <div className="atlas-evidence-eyebrow"><span>关系档案 / EVIDENCE</span>{selected&&<button aria-label="关闭关系详情" onClick={closeDetail}>×</button>}</div>
