@@ -5,7 +5,7 @@ import { centerPortraitScale, portraitTransform, pairCamera } from './relationFo
 
 const CURATED = ['stille', 'berlin', 'chengdu', 'sichuan-map', 'jialing', 'guo-lingzhi', 'zhou-tingru', 'arnold-heim'];
 const SLOTS = [[480,70],[750,105],[840,255],[740,400],[480,425],[220,400],[120,255],[210,105]];
-import { HIERARCHY, nodeTier, nodeGeometry, radialSlot, overviewNameLayout, overviewCoreNameY, nodeDepthScale, nodeFocusScale } from './relationHierarchy.mjs';
+import { HIERARCHY, RINGS, orbitCoordinates, nodeTier, nodeGeometry, radialSlot, overviewNameLayout, overviewCoreNameY, nodeDepthScale, nodeFocusScale } from './relationHierarchy.mjs';
 const CATEGORY_MARKS = {people:'人',institutions:'校',research:'野',works:'著'};
 const HOME_VIEW = { x:0, y:0, scale:1 };
 
@@ -29,14 +29,35 @@ const SurveyPlate = React.memo(function SurveyPlate() {
 // Reserve portrait/name boxes before placing edge captions, so the optional
 // full-caption view remains useful instead of covering another person's name.
 function layoutEdgeLabels(nodes, compact=false, selectedId=null){
- const centerScale=centerPortraitScale(selectedId),centerRadius=HIERARCHY.overview.center.aura*centerScale;
- const boxes=[{x:620-centerRadius,y:205-centerRadius,w:centerRadius*2,h:centerRadius*2+30}];
- nodes.forEach((n,i)=>{const[x,y]=radialSlot(i,compact,nodes),radius=nodeGeometry(n).halo*nodeDepthScale(n,i,compact,nodes)*nodeFocusScale(selectedId,n,i,compact,nodes)+3;boxes.push({x:x-radius,y:y-radius,w:radius*2,h:radius*2});const label=overviewNameLayout(n,i,compact,selectedId===n.id,nodes),w=Math.max(...label.lines.map(l=>l.length))*label.size+10;boxes.push({x:label.anchor==='start'?label.x-5:label.anchor==='end'?label.x-w+5:label.x-w/2,y:label.y-label.size,w,h:label.lines.length*20+5});});
+ const centerScale=centerPortraitScale(selectedId),centerRadius=HIERARCHY.overview.center.halo*centerScale+3;
+ const circles=[{x:620,y:205,r:centerRadius}];
+ const coreNameY=205+HIERARCHY.overview.center.radius*centerScale+32;
+ const boxes=[{x:579,y:coreNameY-26,w:82,h:32}];
+ nodes.forEach((n,i)=>{const[x,y]=radialSlot(i,compact,nodes),radius=nodeGeometry(n).halo*nodeDepthScale(n,i,compact,nodes)*nodeFocusScale(selectedId,n,i,compact,nodes)+3;circles.push({x,y,r:radius});const label=overviewNameLayout(n,i,compact,selectedId===n.id,nodes),w=Math.max(...label.lines.map(l=>l.length))*label.size+10;boxes.push({x:label.anchor==='start'?label.x-5:label.anchor==='end'?label.x-w+5:label.x-w/2,y:label.y-label.size,w,h:label.lines.length*20+5});});
+ const {rx,ry}=RINGS[compact?'compact':'full'].people;
  const overlap=(a,b)=>Math.max(0,Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x))*Math.max(0,Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y));
- return nodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,nodes),dx=x-620,dy=y-205,len=Math.hypot(dx,dy),w=n.relation.length*14+8;let best=null;
-  for(const t of (nodeTier(n)===2?[.57,.43,.7,.33,.8]:[.68,.78,.58,.87,.48,.38]))for(const shift of [-12,12,-24,24,-42,42,-60,60,-84,84,-108,108,0]){const px=620+dx*t-dy/len*shift,py=205+dy*t+dx/len*shift;const box={x:px-w/2,y:py-12,w,h:19};const score=boxes.reduce((s,b)=>s+overlap(box,b),0)*100+Math.abs(shift)*.15+Math.abs(t-(nodeTier(n)===2?.57:.68))*10;if(!best||score<best.score)best={x:px,y:py,anchorX:620+dx*t,anchorY:205+dy*t,shift,box,score};}
-  boxes.push(best.box);return best;
- });
+ const ellipse=(x,y)=>{const [u,v]=orbitCoordinates(x,y,true);return ((u-620)/rx)**2+((v-205)/ry)**2;};
+ const circleOverlap=(b,c)=>{const x=Math.max(b.x-c.x,0,c.x-b.x-b.w),y=Math.max(b.y-c.y,0,c.y-b.y-b.h);return Math.max(0,c.r-Math.hypot(x,y))**2;};
+ const labels=[],placed=[];
+ const order=nodes.map((_,i)=>i).sort((a,b)=>Number(nodes[b].id===selectedId)-Number(nodes[a].id===selectedId)||nodes[b].relation.length-nodes[a].relation.length);
+ for(const i of order){
+  const n=nodes[i],[x,y]=radialSlot(i,compact,nodes),dx=x-620,dy=y-205,len=Math.hypot(dx,dy),reach=1/Math.sqrt(ellipse(x,y)),width=[...n.relation].length*19+8;
+  const preferred=nodeTier(n)===2?.57:.74,selected=n.id===selectedId;
+  let best=null;
+  for(let p=30;p<=91;p+=3)for(const shift of [0,-8,8,-16,16,-25,25,-36,36,-50,50,-64,64,-80,80]){
+   const fraction=p/100,t=fraction*reach,anchorX=620+dx*t,anchorY=205+dy*t,px=anchorX-dy/len*shift,py=anchorY+dx/len*shift;
+   const box={x:px-width/2,y:py-22,w:width,h:29};
+   if(Math.max(ellipse(box.x,box.y),ellipse(box.x+box.w,box.y),ellipse(box.x,box.y+box.h),ellipse(box.x+box.w,box.y+box.h))>.965)continue;
+   const score=boxes.reduce((s,b)=>s+overlap(box,b),0)*130+circles.reduce((s,c)=>s+circleOverlap(box,c),0)*130+placed.reduce((s,b)=>s+overlap(box,b),0)*65+Math.abs(shift)*(selected?2:.52)+Math.abs(fraction-preferred)*56;
+   if(!best||score<best.score)best={x:px,y:py,anchorX,anchorY,shift,box,score};
+  }
+  // For compact layouts the graph center itself always lies within the people ring.
+  // This defensive fallback is only for unexpected, much longer data labels.
+  if(!best)best={x:620,y:205,anchorX:620,anchorY:205,shift:0,box:{x:620-width/2,y:183,w:width,h:29},score:Infinity};
+  labels[i]=best;placed.push(best.box);
+ }
+ return labels;
+
 }
 
 export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelectedId, selectionNonce, onNavigateWithin }) {
@@ -218,7 +239,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
               <g className="atlas-arrival"><g className="atlas-camera" transform={`translate(${view.x} ${view.y}) translate(620 205) scale(${view.scale}) translate(-620 -205)`}>
               <OrbitLightDefs uid={uid}/><defs><clipPath id={`${uid}-all-portrait`}><circle cx="620" cy="205" r={HIERARCHY.overview.center.radius}/></clipPath>{overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,overviewNodes);return <clipPath key={n.id} id={`${uid}-all-${n.id}`}><circle cx={x} cy={y} r={nodeGeometry(n).radius}/></clipPath>;})}</defs>
               <OrbitTheatre uid={uid} compact={compact}/>
-              {overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,overviewNodes);const caption=edgeLabels[i];return <g key={'edge-'+n.id} className={`atlas-radial-link ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`}><path className="atlas-complete-edge" d={`M620 205 L${x} ${y}`}/><path className="atlas-caption-leader" d={Math.abs(caption.shift)>40?`M${caption.anchorX} ${caption.anchorY}L${caption.x} ${caption.y-9}`:undefined}/><text className="atlas-radial-relation" x={caption.x} y={caption.y} aria-hidden="true" textAnchor="middle">{n.relation}</text></g>;})}
+              {overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,overviewNodes);const caption=edgeLabels[i];return <g key={'edge-'+n.id} className={`atlas-radial-link ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`}><path className="atlas-complete-edge" d={`M620 205 L${x} ${y}`}/><path className="atlas-caption-leader" d={Math.abs(caption.shift)>16?`M${caption.anchorX} ${caption.anchorY}L${caption.x} ${caption.y-9}`:undefined}/><text className="atlas-radial-relation" x={caption.x} y={caption.y} aria-hidden="true" textAnchor="middle">{n.relation}</text></g>;})}
               <g className="atlas-core-portrait atlas-orbit-star" data-node-tier="1" transform={portraitTransform(620,205,centerPortraitScale(selected?.id))}>
               <circle cx="620" cy="205" r="96" fill={`url(#${uid}-star-corona)`}/><circle className="atlas-star-limb" cx="620" cy="205" r="54"/>
               <circle cx="620" cy="205" r={HIERARCHY.overview.center.aura} className="atlas-core-aura"/><circle cx="620" cy="205" r={HIERARCHY.overview.center.halo} className="atlas-core-ring"/><circle cx="620" cy="205" r={HIERARCHY.overview.center.radius+1} fill="#172657"/>
