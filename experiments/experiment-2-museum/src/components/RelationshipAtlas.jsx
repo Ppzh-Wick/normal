@@ -30,6 +30,7 @@ const SurveyPlate = React.memo(function SurveyPlate() {
 // full-caption view remains useful instead of covering another person's name.
 function layoutEdgeLabels(nodes, compact=false, selectedId=null){
  const centerScale=centerPortraitScale(selectedId),centerRadius=HIERARCHY.overview.center.halo*centerScale+3;
+ const protectedPortrait={x:620,y:205,r:HIERARCHY.overview.center.radius*centerScale+2};
  const circles=[{x:620,y:205,r:centerRadius}];
  const coreNameY=205+HIERARCHY.overview.center.radius*centerScale+32;
  const boxes=[{x:579,y:coreNameY-26,w:82,h:32}];
@@ -41,19 +42,20 @@ function layoutEdgeLabels(nodes, compact=false, selectedId=null){
  const labels=[],placed=[];
  const order=nodes.map((_,i)=>i).sort((a,b)=>Number(nodes[b].id===selectedId)-Number(nodes[a].id===selectedId)||nodes[b].relation.length-nodes[a].relation.length);
  for(const i of order){
-  const n=nodes[i],[x,y]=radialSlot(i,compact,nodes),dx=x-620,dy=y-205,len=Math.hypot(dx,dy),reach=1/Math.sqrt(ellipse(x,y)),width=[...n.relation].length*19+8;
-  const preferred=nodeTier(n)===2?.57:.74,selected=n.id===selectedId;
+  const n=nodes[i],[x,y]=radialSlot(i,compact,nodes),dx=x-620,dy=y-205,reach=1/Math.sqrt(ellipse(x,y)),width=[...n.relation].length*19+8;
+  const preferred=nodeTier(n)===2?.57:.74;
   let best=null;
-  for(let p=30;p<=91;p+=3)for(const shift of [0,-8,8,-16,16,-25,25,-36,36,-50,50,-64,64,-80,80]){
-   const fraction=p/100,t=fraction*reach,anchorX=620+dx*t,anchorY=205+dy*t,px=anchorX-dy/len*shift,py=anchorY+dx/len*shift;
-   const box={x:px-width/2,y:py-22,w:width,h:29};
+  for(let p=25;p<=95;p++){
+   const fraction=p/100,t=fraction*reach,px=620+dx*t,py=205+dy*t;
+   const box={x:px-width/2,y:py-15,w:width,h:30};
    if(Math.max(ellipse(box.x,box.y),ellipse(box.x+box.w,box.y),ellipse(box.x,box.y+box.h),ellipse(box.x+box.w,box.y+box.h))>.965)continue;
-   const score=boxes.reduce((s,b)=>s+overlap(box,b),0)*130+circles.reduce((s,c)=>s+circleOverlap(box,c),0)*130+placed.reduce((s,b)=>s+overlap(box,b),0)*65+Math.abs(shift)*(selected?2:.52)+Math.abs(fraction-preferred)*56;
-   if(!best||score<best.score)best={x:px,y:py,anchorX,anchorY,shift,box,score};
+   if(circleOverlap(box,protectedPortrait)>0)continue;
+   const score=boxes.reduce((s,b)=>s+overlap(box,b),0)*130+circles.reduce((s,c)=>s+circleOverlap(box,c),0)*130+placed.reduce((s,b)=>s+overlap(box,b),0)*65+Math.abs(fraction-preferred)*56;
+   if(!best||score<best.score)best={x:px,y:py,box,score};
   }
   // For compact layouts the graph center itself always lies within the people ring.
   // This defensive fallback is only for unexpected, much longer data labels.
-  if(!best)best={x:620,y:205,anchorX:620,anchorY:205,shift:0,box:{x:620-width/2,y:183,w:width,h:29},score:Infinity};
+  if(!best)best={x:620+dx*reach*.5,y:205+dy*reach*.5,box:{x:620+dx*reach*.5-width/2,y:190+dy*reach*.5,w:width,h:30},score:Infinity};
   labels[i]=best;placed.push(best.box);
  }
  return labels;
@@ -239,7 +241,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
               <g className="atlas-arrival"><g className="atlas-camera" transform={`translate(${view.x} ${view.y}) translate(620 205) scale(${view.scale}) translate(-620 -205)`}>
               <OrbitLightDefs uid={uid}/><defs><clipPath id={`${uid}-all-portrait`}><circle cx="620" cy="205" r={HIERARCHY.overview.center.radius}/></clipPath>{overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,overviewNodes);return <clipPath key={n.id} id={`${uid}-all-${n.id}`}><circle cx={x} cy={y} r={nodeGeometry(n).radius}/></clipPath>;})}</defs>
               <OrbitTheatre uid={uid} compact={compact}/>
-              {overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,overviewNodes);const caption=edgeLabels[i];return <g key={'edge-'+n.id} className={`atlas-radial-link ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`}><path className="atlas-complete-edge" d={`M620 205 L${x} ${y}`}/><path className="atlas-caption-leader" d={Math.abs(caption.shift)>16?`M${caption.anchorX} ${caption.anchorY}L${caption.x} ${caption.y-9}`:undefined}/><text className="atlas-radial-relation" x={caption.x} y={caption.y} aria-hidden="true" textAnchor="middle">{n.relation}</text></g>;})}
+              {overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,overviewNodes);const caption=edgeLabels[i];return <g key={'edge-'+n.id} className={`atlas-radial-link ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`}><path className="atlas-complete-edge" d={`M620 205 L${x} ${y}`}/><text className="atlas-radial-relation" dominantBaseline="central" x={caption.x} y={caption.y} aria-hidden="true" textAnchor="middle">{n.relation}</text></g>;})}
               <g className="atlas-core-portrait atlas-orbit-star" data-node-tier="1" transform={portraitTransform(620,205,centerPortraitScale(selected?.id))}>
               <circle cx="620" cy="205" r="96" fill={`url(#${uid}-star-corona)`}/><circle className="atlas-star-limb" cx="620" cy="205" r="54"/>
               <circle cx="620" cy="205" r={HIERARCHY.overview.center.aura} className="atlas-core-aura"/><circle cx="620" cy="205" r={HIERARCHY.overview.center.halo} className="atlas-core-ring"/><circle cx="620" cy="205" r={HIERARCHY.overview.center.radius+1} fill="#172657"/>
