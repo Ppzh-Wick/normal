@@ -1,0 +1,8 @@
+/* Directory feedback responds promptly without changing wheel navigation. */
+@media (prefers-reduced-motion:no-preference) {
+ .museum-wayfinder .museum-tab {transition-duration:120ms;transition-delay:0ms;}
+ .museum-wayfinder .museum-tab-label {transition-duration:75ms;}
+ .museum-wayfinder .museum-tab[aria-current] .museum-tab-label,
+ .museum-wayfinder .museum-tab:hover .museum-tab-label,
+ .museum-wayfinder .museum-tab:focus-within .museum-tab-label {transition-delay:0ms;}
+}
