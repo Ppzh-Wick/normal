@@ -8,6 +8,7 @@ import './mineral.css';
 import './motion.css';
 import './frost.css';
 import './galaxy.css';
+import './chapter-interior-folio.css';
 class ExhibitionBoundary extends React.Component{
  constructor(props){super(props);this.state={failed:false};}
  static getDerivedStateFromError(){return {failed:true};}

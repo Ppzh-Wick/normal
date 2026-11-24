@@ -1,0 +1,33 @@
+/* Interior folios only: visual entry follows the existing scroll position. */
+@media (min-width:1000px) and (prefers-reduced-motion:no-preference) {
+ @supports (animation-timeline:view()) and (animation-range:entry 0% cover 30%) {
+  html:not([data-transition-kind="chapter"]) .chapter.is-current :is(.life-columns>article,.life-motto,.life-timeline-disclosure,.knowledge-layer .layer-copy,.institution-legacy,.archive-room-chapter,.archive-room-events>article) {
+    animation:local-folio-lift 1ms cubic-bezier(.18,.68,.22,1) both;
+    animation-timeline:view(block);
+    animation-range:entry 0% cover 31%;
+  }
+  html:not([data-transition-kind="chapter"]) .chapter.is-current :is(.knowledge-layer figure,.archive-room-place-feature) {
+    animation:local-folio-art 1ms cubic-bezier(.17,.58,.21,1) both;
+    animation-timeline:view(block);
+    animation-range:entry 0% cover 36%;
+  }
+  html:not([data-transition-kind="chapter"]) .chapter.is-current :is(.life-columns>article,.knowledge-layer .layer-copy,.archive-room-chapter) { position:relative; }
+  html:not([data-transition-kind="chapter"]) .chapter.is-current :is(.life-columns>article,.knowledge-layer .layer-copy,.archive-room-chapter)::after {
+   position:absolute;
+   pointer-events:none;
+   content:"";
+   inset-inline-start:0;
+   inset-block-end:-10px;
+   width:clamp(30px,5.4vw,74px);
+   height:1px;
+   background:linear-gradient(90deg,#b58a69 12%,#e2b294 62%,transparent);
+   transform-origin:left center;
+   animation:local-folio-rule 1ms linear both;
+   animation-timeline:view(block);
+   animation-range:entry 12% cover 37%;
+  }
+  @keyframes local-folio-lift { from {translate:0 13px;} to {translate:0 0;} }
+  @keyframes local-folio-art { from {translate:0 19px;} to {translate:0 0;} }
+  @keyframes local-folio-rule { from {scale:.08 1;opacity:0;} 40% {opacity:.75;} to {scale:1 1;opacity:.58;} }
+ }
+}
