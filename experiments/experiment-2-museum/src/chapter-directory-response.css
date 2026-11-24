@@ -37,3 +37,19 @@ html[data-transition-kind="chapter"] .museum-wayfinder .museum-tab:not([aria-cur
    transition-delay: 0ms;
  }
 }
+
+/* Only the newly active bookmark opens softly; inactive tabs still retract at once. */
+@media (min-width: 1000px) and (prefers-reduced-motion: no-preference) {
+ .museum-wayfinder .museum-tab[aria-current="location"] {
+   transition: transform 230ms cubic-bezier(.2,.72,.28,1);
+ }
+ .museum-wayfinder .museum-tab[aria-current="location"] .museum-tab-label {
+   transition: opacity 155ms ease-out;
+ }
+ html[data-transition-kind="chapter"] .museum-wayfinder .museum-tab[aria-current="location"] {
+   transition: transform 230ms cubic-bezier(.2,.72,.28,1) !important;
+ }
+ html[data-transition-kind="chapter"] .museum-wayfinder .museum-tab[aria-current="location"] .museum-tab-label {
+   transition: opacity 155ms ease-out !important;
+ }
+}
