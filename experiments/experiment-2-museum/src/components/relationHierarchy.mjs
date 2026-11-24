@@ -4,7 +4,7 @@ export const HIERARCHY = Object.freeze({
  overview: {center:{radius:52,halo:62,aura:75},person:{radius:30,halo:36},entity:{radius:17,halo:23}},
  category: {center:{radius:64,halo:76},person:{radius:39,halo:47},entity:{radius:22,halo:30}},
 });
-export const nodeTier = node => node.category === 'people' ? 2 : 3;
+export const nodeTier = node => node.visualTier ?? (node.category === 'people' ? 2 : 3);
 export const nodeGeometry = (node, overview=true) => HIERARCHY[overview?'overview':'category'][nodeTier(node)===2?'person':'entity'];
 // Match the actual visible center portrait, cancelling the orbital depth scale.
 // Unselected records retain their tier and perspective size exactly.

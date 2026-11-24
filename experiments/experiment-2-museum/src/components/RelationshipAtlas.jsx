@@ -118,7 +118,8 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
   },[desktop,isOverview,list]);
   const pages = isOverview ? 1 : Math.max(1, Math.ceil(filtered.length/8));
   const shown = isOverview ? filtered : filtered.slice(Math.min(page,pages-1)*8,Math.min(page,pages-1)*8+8);
-  const overviewNodes = useMemo(() => [...filtered].sort((a,b) => categories.findIndex(c=>c.id===a.category)-categories.findIndex(c=>c.id===b.category)), [filtered,categories]);
+  const twoTiers = category !== "all";
+  const overviewNodes = useMemo(() => [...filtered].sort((a,b) => categories.findIndex(c=>c.id===a.category)-categories.findIndex(c=>c.id===b.category)).map(node=>twoTiers?{...node,visualTier:2}:node), [filtered,categories,twoTiers]);
   const edgeLabels=useMemo(()=>layoutEdgeLabels(overviewNodes,compact,selected?.id),[overviewNodes,compact,selected?.id]);
   const focusRelation = (node=selected) => {
     if(!desktop||!node)return;
@@ -227,8 +228,8 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
       </div>
       <label className="atlas-search"><span aria-hidden="true">⌕</span><input aria-label="搜索人物、机构或研究" placeholder="搜索人物、机构、研究" value={search} onChange={e=>{setSearch(e.target.value);setPage(0);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());}}/>{search&&<button aria-label="清除搜索" onClick={()=>{setSearch('');setPage(0);requestAnimationFrame(()=>onNavigateWithin?.());}}>×</button>}</label>
     </div>
-    <div className="atlas-hierarchy-key" role="list" aria-label="图谱视觉层级：一级李承三，二级人物，三级机构、研究和成果">
-      <span role="listitem"><i className="tier-one" aria-hidden="true"/>一级 · 李承三</span><span role="listitem"><i className="tier-two" aria-hidden="true"/>二级 · 人物内圈</span><span role="listitem"><i className="tier-three" aria-hidden="true"/>三级 · 机构 / 研究 / 成果外圈</span>
+    <div className="atlas-hierarchy-key" role="list" aria-label={twoTiers?"图谱视觉层级：一级李承三，二级本类关系":"图谱视觉层级：一级李承三，二级人物，三级机构、研究和成果"}>
+      <span role="listitem"><i className="tier-one" aria-hidden="true"/>一级 · 李承三</span><span role="listitem"><i className="tier-two" aria-hidden="true"/>{twoTiers?'二级 · 本类关系':'二级 · 人物内圈'}</span>{!twoTiers&&<span role="listitem"><i className="tier-three" aria-hidden="true"/>三级 · 机构 / 研究 / 成果外圈</span>}
     </div>
     <p className="atlas-mobile-pan-hint">左右滑动查看图谱</p>
     <div className="atlas-workspace">
@@ -241,7 +242,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
               <SurveyPlate/>
               <g className="atlas-arrival"><g className="atlas-camera" transform={`translate(${view.x} ${view.y}) translate(620 205) scale(${view.scale}) translate(-620 -205)`}>
               <OrbitLightDefs uid={uid}/><defs><clipPath id={`${uid}-all-portrait`}><circle cx="620" cy="205" r={HIERARCHY.overview.center.radius}/></clipPath>{overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,overviewNodes);return <clipPath key={n.id} id={`${uid}-all-${n.id}`}><circle cx={x} cy={y} r={nodeGeometry(n).radius}/></clipPath>;})}</defs>
-              <OrbitTheatre uid={uid} compact={compact}/>
+              <OrbitTheatre uid={uid} compact={compact} twoTiers={twoTiers}/>
               {overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,overviewNodes);const caption=edgeLabels[i];return <g key={'edge-'+n.id} className={`atlas-radial-link ${active===n.id?'is-active':''} ${active&&active!==n.id?'is-muted':''}`}><path className="atlas-complete-edge" d={`M620 205 L${x} ${y}`}/><text className="atlas-radial-relation" dominantBaseline="central" x={caption.x} y={caption.y} aria-hidden="true" textAnchor="middle">{n.relation}</text></g>;})}
               <g className="atlas-core-portrait atlas-orbit-star" data-node-tier="1" transform={portraitTransform(620,205,centerPortraitScale(selected?.id))}>
               <circle cx="620" cy="205" r="96" fill={`url(#${uid}-star-corona)`}/><circle className="atlas-star-limb" cx="620" cy="205" r="54"/>
@@ -262,7 +263,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
                 <title>{`${n.name} · ${n.relation}`}</title>
               </g>;})}
               </g></g>
-              {compact&&!list&&(()=>{const index=overviewNodes.findIndex(n=>n.id===selected.id);if(index<0)return null;const[x,y]=radialSlot(index,true,overviewNodes);const px=620+(x-620)*view.scale+view.x,py=205+(y-205)*view.scale+view.y,radius=(nodeGeometry(selected).halo*nodeDepthScale(selected,index,true,overviewNodes)*nodeFocusScale(selected.id,selected,index,true,overviewNodes)+3)*view.scale;return <g key={selected.id} className="atlas-folio-thread" aria-hidden="true" pointerEvents="none"><circle cx={px} cy={py} r={radius}/></g>;})()}
+              {compact&&!list&&(()=>{const index=overviewNodes.findIndex(n=>n.id===selected.id);if(index<0)return null;const[x,y]=radialSlot(index,true,overviewNodes);const px=620+(x-620)*view.scale+view.x,py=205+(y-205)*view.scale+view.y,focusNode=overviewNodes[index],radius=(nodeGeometry(focusNode).halo*nodeDepthScale(focusNode,index,true,overviewNodes)*nodeFocusScale(selected.id,focusNode,index,true,overviewNodes)+3)*view.scale;return <g key={selected.id} className="atlas-folio-thread" aria-hidden="true" pointerEvents="none"><circle cx={px} cy={py} r={radius}/></g>;})()}
             </svg>
             <div className="atlas-complete-list" aria-label="全部学术关系列表">{overviewNodes.map(n=><button key={n.id} aria-pressed={selected?.id===n.id} onClick={e=>choose(n,e)}><span><strong>{n.name}</strong><small>{n.relation} · {n.date}</small></span><i aria-hidden="true">↗</i></button>)}</div>
             <div className="atlas-complete-controls"><div><button aria-label="缩小全部关系图" onClick={()=>zoom(-.15)}>−</button><output>{Math.round(view.scale*100)}%</output><button aria-label="放大全部关系图" onClick={()=>zoom(.15)}>+</button><button aria-label="复位全部关系图" onClick={reset}>复位</button></div></div>
