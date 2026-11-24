@@ -6,3 +6,34 @@
  .museum-wayfinder .museum-tab:hover .museum-tab-label,
  .museum-wayfinder .museum-tab:focus-within .museum-tab-label {transition-delay:0ms;}
 }
+
+/* A chapter's body may continue its folio animation, but the fixed ruler
+   represents the committed chapter only. Never display the outgoing ruler. */
+html[data-transition-kind="chapter"]::view-transition-group(chapter-ruler),
+html[data-transition-kind="chapter"]::view-transition-new(chapter-ruler) {
+  animation: none !important;
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+html[data-transition-kind="chapter"]::view-transition-old(chapter-ruler) {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  animation: none !important;
+}
+html[data-transition-kind="chapter"] .museum-wayfinder .museum-tab,
+html[data-transition-kind="chapter"] .museum-wayfinder .museum-tab-label {
+  transition: none !important;
+}
+html[data-transition-kind="chapter"] .museum-wayfinder .museum-tab:not([aria-current]) {
+  transform: translate(calc(36px - var(--bookmark-width)));
+}
+html[data-transition-kind="chapter"] .museum-wayfinder .museum-tab:not([aria-current]) .museum-tab-label { opacity: 0; }
+
+@media (prefers-reduced-motion:no-preference) {
+ .museum-wayfinder .museum-tab:not([aria-current]):not(:hover):not(:focus-within),
+ .museum-wayfinder .museum-tab:not([aria-current]):not(:hover):not(:focus-within) .museum-tab-label {
+   transition-duration: 0ms;
+   transition-delay: 0ms;
+ }
+}
