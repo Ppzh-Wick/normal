@@ -170,12 +170,23 @@ export default function useExhibition(ids) {
       const d = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
       if (!d) return;
       const direction = Math.sign(d), now = performance.now();
-      const sameGesture = now - wheel.current.last < 160;
-      if (now < locked.current || (wheel.current.gesture === 'chapter' && sameGesture)) {
+      const input = wheel.current, magnitude = Math.abs(d), gap = now - input.last;
+      const sameGesture = gap < 160;
+      // A continuing series of mouse notches is not a single touchpad tail.
+      // Use the fixed chapter-turn timestamp and pulse spacing/strength so
+      // rolling continuously can never renew the latch for distinct pulses.
+      const turnAge = now - input.turnedAt, steady = magnitude >= (input.lastMagnitude || 0) * .98;
+      const renewedPulse = turnAge >= 460 &&
+        ((gap >= 45 && magnitude >= 8 && steady) ||
+         (turnAge >= 850 && magnitude >= 12 && steady) ||
+         (direction === -input.direction && magnitude >= 24) ||
+         (magnitude >= Math.max(24, (input.lastMagnitude || 0) * 1.8)));
+      if (now < locked.current || (input.gesture === 'chapter' && sameGesture && !renewedPulse)) {
         e.preventDefault();
-        if (wheel.current.gesture) wheel.current.last = now;
+        if (input.gesture) { input.last = now; input.lastMagnitude = magnitude; }
         return;
       }
+      if (input.gesture === 'chapter') wheel.current = {sum: 0, last: input.last, gesture: null};
       // Contain genuine vertical reading panels; a purely horizontal or
       // non-overflowing widget must not trap the chapter wheel.
       for (let node = e.target; node && node !== el && node !== document.body && node !== document.documentElement; node = node.parentElement) {
@@ -193,16 +204,16 @@ export default function useExhibition(ids) {
       }
       if ((d < 0 && i === 0) || (d > 0 && i === ids.length - 1)) {
         e.preventDefault();
-        wheel.current = {sum: 0, last: now, gesture: 'chapter'};
+        wheel.current = {sum: 0, last: now, gesture: 'chapter', turnedAt: now, direction, lastMagnitude: magnitude};
         return;
       }
       e.preventDefault();
       if (!sameGesture || Math.sign(wheel.current.sum) !== direction) wheel.current.sum = 0;
       wheel.current.last = now;
       wheel.current.sum += d;
-      if (e.deltaMode !== 0 || Math.abs(wheel.current.sum) >= 24) {
+      if (e.deltaMode !== 0 || Math.abs(wheel.current.sum) >= 18 || (gap >= 45 && magnitude >= 12)) {
         go(i + direction);
-        wheel.current = {sum: 0, last: now, gesture: 'chapter'};
+        wheel.current = {sum: 0, last: now, gesture: 'chapter', turnedAt: now, direction, lastMagnitude: magnitude};
       }
     };
     const key = e => {
