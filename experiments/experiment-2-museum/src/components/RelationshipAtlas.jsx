@@ -109,7 +109,8 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
     if(detailRef.current) detailRef.current.scrollTop=0;
     focusEvidence();
   }, [selectedId, initialSelectedId, selectionNonce, nodes]);
-  const isOverview = category === 'all';
+  // The filters only choose records; all of them use the shared radial atlas.
+  const isOverview = true;
   useEffect(()=>{
     if(desktop||!isOverview||list)return;
     const frame=requestAnimationFrame(()=>{const canvas=canvasRef.current;if(canvas)canvas.scrollLeft=(canvas.scrollWidth-canvas.clientWidth)/2;});
@@ -236,7 +237,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
         {compact&&<div className="atlas-focus-navigation"><span>{focusedRelation?'聚焦关系 · 拖动继续探索':'自由视图 · 拖动继续探索'}</span><button onClick={()=>{if(focusedRelation)reset();else{setList(false);focusRelation();}}}>{focusedRelation?'查看全图 ↗':'聚焦当前关系 ↗'}</button></div>}
         <div ref={canvasRef} className={`atlas-canvas ${isOverview?`atlas-overview-canvas ${list?'atlas-complete-list-view':''}`:list?'atlas-show-list':''}`} data-scroll-lock={list||undefined}>
           {isOverview ? <>
-            <svg ref={isOverview?svgRef:undefined} className={`atlas-complete-network ${showLabels?'show-all-labels':''}`} tabIndex="0" onKeyDown={keyGraph} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag} onLostPointerCapture={endDrag} viewBox={compact?"140 -155 960 760":"-30 -135 1300 720"} role="group" aria-label={`李承三与全部${overviewNodes.length}条关系，圆形节点和连线，Tab选择节点查看史料`}>
+            <svg ref={isOverview?svgRef:undefined} className={`atlas-complete-network ${showLabels?'show-all-labels':''}`} tabIndex="0" onKeyDown={keyGraph} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag} onLostPointerCapture={endDrag} viewBox={compact?"140 -155 960 760":"-30 -135 1300 720"} role="group" aria-label={`李承三与${overviewNodes.length}条${category==='all'?'':'筛选后'}关系，圆形节点和连线，Tab选择节点查看史料`}>
               <SurveyPlate/>
               <g className="atlas-arrival"><g className="atlas-camera" transform={`translate(${view.x} ${view.y}) translate(620 205) scale(${view.scale}) translate(-620 -205)`}>
               <OrbitLightDefs uid={uid}/><defs><clipPath id={`${uid}-all-portrait`}><circle cx="620" cy="205" r={HIERARCHY.overview.center.radius}/></clipPath>{overviewNodes.map((n,i)=>{const[x,y]=radialSlot(i,compact,overviewNodes);return <clipPath key={n.id} id={`${uid}-all-${n.id}`}><circle cx={x} cy={y} r={nodeGeometry(n).radius}/></clipPath>;})}</defs>
@@ -299,7 +300,7 @@ export function RelationshipAtlas({ data, onOpenImage, selectedId, initialSelect
           </>}
           {!shown.length&&<div className="atlas-empty">未找到相关记录。<button onClick={()=>{setSearch('');changeCategory('all');}}>重置筛选</button></div>}
         </div>
-        {isOverview ? <span aria-live="polite" style={{position:'absolute',width:1,height:1,padding:0,margin:-1,overflow:'hidden',clipPath:'inset(50%)',whiteSpace:'nowrap',border:0}}>{search.trim()?`找到 ${filtered.length} / ${nodes.length} 条关系`:compact&&focusedRelation?`共 ${nodes.length} 条关系 · 正在聚焦当前联系`:`全部 ${nodes.length} 条关系 · 已完整展开`}</span> : <div className="atlas-map-bottom"><span aria-live="polite">{filtered.length?`${Math.min(page,pages-1)*8+1} — ${Math.min((page+1)*8,filtered.length)}`:'0'} / {filtered.length} 条关系</span><div><button disabled={page===0} aria-label="上一组关系" onClick={()=>{setPage(p=>p-1);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());}}>←</button><span>{page+1} / {pages}</span><button disabled={page>=pages-1} aria-label="下一组关系" onClick={()=>{setPage(p=>p+1);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());}}>→</button></div></div>}
+        {isOverview ? <span aria-live="polite" style={{position:'absolute',width:1,height:1,padding:0,margin:-1,overflow:'hidden',clipPath:'inset(50%)',whiteSpace:'nowrap',border:0}}>{search.trim()?`找到 ${filtered.length} 条关系`:compact&&focusedRelation?`共 ${filtered.length} 条关系 · 正在聚焦当前联系`:`${category==='all'?'全部':'当前分类'} ${filtered.length} 条关系 · 已完整展开`}</span> : <div className="atlas-map-bottom"><span aria-live="polite">{filtered.length?`${Math.min(page,pages-1)*8+1} — ${Math.min((page+1)*8,filtered.length)}`:'0'} / {filtered.length} 条关系</span><div><button disabled={page===0} aria-label="上一组关系" onClick={()=>{setPage(p=>p-1);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());}}>←</button><span>{page+1} / {pages}</span><button disabled={page>=pages-1} aria-label="下一组关系" onClick={()=>{setPage(p=>p+1);setSelected(null);setHovered(null);reset();requestAnimationFrame(()=>onNavigateWithin?.());}}>→</button></div></div>}
       </div>
       <EvidencePanel aria-modal={selected&&!desktop?true:undefined} className={`atlas-evidence ${selected?'has-selection':''}`} hidden={isOverview&&!selected} ref={detailRef} tabIndex="-1" data-scroll-lock aria-label={selected?`${selected.name}的关系史料`:'关系史料'} onWheel={e=>e.stopPropagation()} onKeyDown={trapEvidenceFocus} onCancel={e=>{e.preventDefault();closeDetail();}} onClick={e=>{if(isOverview&&e.target===e.currentTarget){const rect=e.currentTarget.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)closeDetail();}}}>
         <div className="atlas-evidence-eyebrow"><span>关系档案 / EVIDENCE</span>{selected&&<button aria-label="关闭关系详情" onClick={closeDetail}>×</button>}</div>
