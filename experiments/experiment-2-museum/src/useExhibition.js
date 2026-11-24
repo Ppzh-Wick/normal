@@ -55,12 +55,12 @@ export default function useExhibition(ids) {
     let current = 0;
     ids.forEach((id, i) => {
       const node = document.getElementById(id);
-      if (node && node.getBoundingClientRect().top < Math.min(innerHeight * .3, 220)) current = i;
+      if (node && node.getBoundingClientRect().top < (mode.current ? 2 : Math.min(innerHeight * .3, 220))) current = i;
     });
     return current;
   }, [ids]);
 
-  const go = useCallback((requested, {historyMode = 'replace', instant = false, focus = false} = {}) => {
+  const go = useCallback((requested, {historyMode = 'replace', instant = false, focus = false, pageTop = null} = {}) => {
     if (!Number.isFinite(requested) || !ids.length) return Promise.resolve(false);
     const i = Math.max(0, Math.min(ids.length - 1, Math.trunc(requested)));
     const el = document.getElementById(ids[i]);
@@ -95,7 +95,8 @@ export default function useExhibition(ids) {
         if (historyMode && location.hash.split('?')[0] !== '#' + ids[i]) {
           history[historyMode === 'push' ? 'pushState' : 'replaceState'](null, '', '#' + ids[i]);
         }
-        el.scrollIntoView({behavior, block: 'start'});
+        if (pageTop !== null) window.scrollTo({top:pageTop, behavior});
+        else el.scrollIntoView({behavior, block: 'start'});
         return true;
       }
     });
@@ -172,48 +173,72 @@ export default function useExhibition(ids) {
       const direction = Math.sign(d), now = performance.now();
       const input = wheel.current, magnitude = Math.abs(d), gap = now - input.last;
       const sameGesture = gap < 160;
-      // A continuing series of mouse notches is not a single touchpad tail.
-      // Use the fixed chapter-turn timestamp and pulse spacing/strength so
-      // rolling continuously can never renew the latch for distinct pulses.
       const turnAge = now - input.turnedAt, steady = magnitude >= (input.lastMagnitude || 0) * .98;
       const renewedPulse = turnAge >= 460 &&
         ((gap >= 45 && magnitude >= 8 && steady) ||
          (turnAge >= 850 && magnitude >= 12 && steady) ||
          (direction === -input.direction && magnitude >= 24) ||
          (magnitude >= Math.max(24, (input.lastMagnitude || 0) * 1.8)));
-      if (now < locked.current || (input.gesture === 'chapter' && sameGesture && !renewedPulse)) {
+      const remember = gesture => {
+        wheel.current = {sum: 0, last: now, gesture, turnedAt: now, direction, lastMagnitude: magnitude};
+      };
+      const hold = () => {
         e.preventDefault();
         if (input.gesture) { input.last = now; input.lastMagnitude = magnitude; }
+      };
+      if (now < locked.current || (input.gesture === 'chapter' && sameGesture && !renewedPulse)) {
+        hold();
         return;
       }
-      if (input.gesture === 'chapter') wheel.current = {sum: 0, last: input.last, gesture: null};
-      // Contain genuine vertical reading panels; a purely horizontal or
-      // non-overflowing widget must not trap the chapter wheel.
+      // Nested reading areas keep their own scroll and may not spill one
+      // physical input into document scrolling or a new chapter.
       for (let node = e.target; node && node !== el && node !== document.body && node !== document.documentElement; node = node.parentElement) {
         if (!/^(auto|scroll|overlay)$/.test(getComputedStyle(node).overflowY)) continue;
         const remaining = direction > 0 ? node.scrollHeight - node.clientHeight - node.scrollTop : node.scrollTop;
         if (remaining <= 1) continue;
         e.preventDefault();
-        node.scrollBy({top: direction * Math.min(Math.abs(d), remaining), behavior: 'instant'});
-        wheel.current = {sum: 0, last: now, gesture: 'panel'};
+        node.scrollBy({top: direction * Math.min(magnitude, remaining), behavior: 'instant'});
+        remember(magnitude >= remaining - 1 ? 'panel-edge' : 'panel');
         return;
       }
-      // Do not chain the same movement from a panel into a chapter turn.
-      if (wheel.current.gesture === 'panel' && sameGesture) {
-        e.preventDefault(); wheel.current.last = now; return;
+      if (sameGesture && input.direction === direction) {
+        if (input.gesture === 'panel') {
+          e.preventDefault(); remember('panel-edge'); return;
+        }
+        if ((input.gesture === 'panel-edge' || input.gesture === 'edge') && !renewedPulse) {
+          hold(); return;
+        }
       }
-      if ((d < 0 && i === 0) || (d > 0 && i === ids.length - 1)) {
-        e.preventDefault();
-        wheel.current = {sum: 0, last: now, gesture: 'chapter', turnedAt: now, direction, lastMagnitude: magnitude};
-        return;
-      }
+      const top = window.scrollY;
+      const start = el.getBoundingClientRect().top + top;
+      const next = document.getElementById(ids[i + 1]);
+      const documentHeight = document.documentElement.scrollHeight;
+      const chapterEnd = next ? next.getBoundingClientRect().top + top : documentHeight;
+      const max = Math.max(0, documentHeight - innerHeight);
+      const first = Math.max(0, Math.min(start, max));
+      const last = Math.max(first, Math.min(chapterEnd - innerHeight, max));
+      const room = direction > 0 ? last - top : top - first;
       e.preventDefault();
-      if (!sameGesture || Math.sign(wheel.current.sum) !== direction) wheel.current.sum = 0;
-      wheel.current.last = now;
-      wheel.current.sum += d;
-      if (e.deltaMode !== 0 || Math.abs(wheel.current.sum) >= 18 || (gap >= 45 && magnitude >= 12)) {
-        go(i + direction);
-        wheel.current = {sum: 0, last: now, gesture: 'chapter', turnedAt: now, direction, lastMagnitude: magnitude};
+      if (room > 1) {
+        window.scrollTo({top: top + direction * Math.min(magnitude, room), behavior: 'instant'});
+        // A wheel event reaching the edge is still part of reading, not a turn.
+        remember(magnitude >= room - 1 ? 'edge' : null);
+        return;
+      }
+      const adjacentId = ids[i + direction];
+      if (!adjacentId) { remember('edge'); return; }
+      const sum = input.gesture === null && sameGesture && Math.sign(input.sum) === direction ? input.sum + d : d;
+      wheel.current = {sum, last: now, gesture: null};
+      if (e.deltaMode !== 0 || Math.abs(sum) >= 18 || (gap >= 45 && magnitude >= 12)) {
+        if (direction < 0) {
+          const prev = document.getElementById(adjacentId);
+          const prevStart = prev ? prev.getBoundingClientRect().top + top : first;
+          // Reverse into the final readable view, not the start of a long chapter.
+          go(i - 1, {pageTop: Math.max(0, prevStart, first - innerHeight)});
+        } else {
+          go(i + 1);
+        }
+        remember('chapter');
       }
     };
     const key = e => {
