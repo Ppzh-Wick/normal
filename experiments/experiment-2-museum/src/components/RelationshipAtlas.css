@@ -393,3 +393,10 @@
 @media(max-width:999px) {
   .network .atlas-atlas.atlas-observatory.atlas-spatial-reader.atlas-has-focus .atlas-node.is-defocused {filter:none;opacity:.3}
 }
+
+/* Keep search focus readable without drawing the shared outer control outline. */
+.atlas-atlas .atlas-search input:focus,
+.atlas-atlas .atlas-search input:focus-visible { outline: none; box-shadow: none; }
+.network .atlas-atlas .atlas-search:focus-within { border-bottom-color: #b1bfd4; }
+.network .atlas-atlas .atlas-overview-tools { grid-column: -2 / -1; margin-inline-start: auto; justify-self: end; }
+.network .atlas-atlas .atlas-complete-controls { justify-content: flex-end; }
